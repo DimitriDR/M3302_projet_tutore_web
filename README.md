@@ -10,7 +10,8 @@ Dépôt contenant le code source du projet tutoré du troisième semestre.
 * [Modoco](http://mocodo.wingi.net/) pour la modélisation de la base de données.
 
 # Présentation
-Dans le cadre du projet tutoré de S3, nous vous proposons de réaliser une application reposant sur les connaissances (en IHM, BD, Programmation web...) et les technologies vues au cours du semestre et des semestres précédents (HTML, JavaScript, PHP, SQL) permettant de créer une application web pour s’initier à la démocratie participative en groupe.
+Dans le cadre du projet tutoré de S3, nous vous proposons de réaliser une application reposant sur les connaissances (en IHM, BD, Programmation web...) et les technologies vues au cours du semestre et des semestres précédents (HTML, JavaScript, PHP, SQL) permettant de créer une application web.
+
 La conception et réalisation sera séparée en deux sous-parties, durant les modules de base de Bases de Données Avancée, puis de Programmation Web et avec différents rendus/livrables (rapport, codes, démo, ...) qui feront l'objet d'évaluations spécifiques dans chaque module. Les notes dans chaque matière seront ensuite agrégées (moyenne) pour donner la note finale de projet tutoré de S3.  Le projet devra s’effectuer en binômes, identiques dans les deux modules concernés. Les membres du binôme doivent appartenir au même TP. Par ailleurs, les étudiants au départ pour effectuer leur S4 à l’étranger doivent se binômer entre eux. Cette application devra répondre à toutes les exigences d’une application professionnelle, tant en termes de fonctionnement, d’ergonomie, que de qualité de développement ou de finition.
 
 ## Description de la problématique
