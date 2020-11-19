@@ -8,7 +8,7 @@ Dépôt contenant le code source du projet tutoré du troisième semestre.
 * [MariaDB](https://fr.wikipedia.org/wiki/MariaDB) sera le SGBD utilisé car ce SGBD est 100% open-source, plus performant et moins buggé que [MySQL](https://fr.wikipedia.org/wiki/MySQL).
 * Git, pour le *versionning*, notamment par l'intermédiaire du GitLab hébergé sur les serveurs de l'IUT.
 * [Modoco](http://mocodo.wingi.net/) pour la modélisation de la base de données.
-
+* Si on a le droit d'utiliser des frameworks CSS, on utilisera probablement le [framework CSS halfmoon](https://gethalfmoon.com).
 # Présentation
 Dans le cadre du projet tutoré de S3, nous vous proposons de réaliser une application reposant sur les connaissances (en IHM, BD, Programmation web...) et les technologies vues au cours du semestre et des semestres précédents (HTML, JavaScript, PHP, SQL) permettant de créer une application web.
 
