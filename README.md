@@ -57,3 +57,6 @@ Pour les aspects bases de données, il faut donc réfléchir à :
 Et probablement à d’autres aspects que vous pourrez proposer ! Par exemple proposer un mode de transport pour les livraisons (si pas trop lourd, en vélo ?).
 
 Pour la partie programmation web, il faudra faire l’interface pour les clients.
+
+# Sources des images
+Image de la carotte : https://dribbble.com/shots/4405311-Logo-idea-for-vegetable-delivery-app/attachments/4405311-Logo-idea-for-vegetable-delivery-app?mode=media

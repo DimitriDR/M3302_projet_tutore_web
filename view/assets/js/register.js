@@ -14,8 +14,8 @@ let mobileNumberInput = document.getElementById("mobile_number")
  * @param input Le nom du champ à modifier
  */
 function setError(input) {
-    input.classList.remove("is-success")
-    input.classList.add("is-danger")
+    input.classList.remove("is-valid")
+    input.classList.add("is-invalid")
 }
 
 /**
@@ -23,8 +23,8 @@ function setError(input) {
  * @param input Le nom du champ à modifier
  */
 function setSuccess(input) {
-    input.classList.remove("is-danger")
-    input.classList.add("is-success")
+    input.classList.remove("is-invalid")
+    input.classList.add("is-valid")
 }
 
 // On ajoute pour tous un écouteur à chaque saisie d'une lettre
