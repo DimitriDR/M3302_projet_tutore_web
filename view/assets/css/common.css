@@ -1,3 +1,9 @@
+@charset "UTF-8";
+
+.container {
+    margin-top: 25px;
+}
+
 /* Pour réduire la taille des icônes Feather */
 svg.feather {
     max-width: 16px;

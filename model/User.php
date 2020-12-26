@@ -37,7 +37,7 @@ class User {
      * @param string $email_address Son adresse e-mail
      * @return bool Vrai si l'inscription s'est bien enregistrée dans la base de données, faux sinon
      */
-    public function register(string $last_name, string $first_name, string $password, string $street_name, int $zip_code, string $district, string $city, int $mobile_number, string $email_address) : bool {
+    public function register(string $last_name, string $first_name, string $password, string $street_name, int $zip_code, string $district, string $city, int $mobile_number, string $email_address): bool {
         // Connexion à la base de données
         $database_link = new DatabaseLink();
 
@@ -45,7 +45,7 @@ class User {
         $secure_password = password_hash($password, PASSWORD_ARGON2ID);
 
         // Une requête préparée car on doit insérer des informations données par l'utilisateur
-       $register = $database_link->make_query("INSERT INTO `users` (last_name, first_name, password, street_name, zip_code, district, city, mobile_number, email_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        $register = $database_link->make_query("INSERT INTO `users` (last_name, first_name, password, street_name, zip_code, district, city, mobile_number, email_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [
             $last_name,
             $first_name,
             $secure_password,
@@ -57,21 +57,21 @@ class User {
             $email_address
         ]);
 
-       // Si on n'a pas un retour égal à false, la requête s'est bien passée
-       if($register) {
-          return true;
-       } else {
-           return false;
-       }
+        // Si on n'a pas un retour égal à false, la requête s'est bien passée
+        if ($register) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Méthode pour vérifier les identifiants
      * @param string $email_address L'adresse e-mail de l'utilisateur
-     * @param string $password  Le mot de passe de l'utilisateur
+     * @param string $password Le mot de passe de l'utilisateur
      * @return bool Vrai si les identifiant sont bons, faux sinon
      */
-    public function check_login(string $email_address, string $password) : bool {
+    public function check_login(string $email_address, string $password): bool {
         // Connexion à la base de données
         $database_link = new DatabaseLink();
 
@@ -84,13 +84,13 @@ class User {
         */
         $user_information = $database_link->make_query("SELECT * FROM `users` WHERE `email_address` = ?", [$email_address]);
 
-        if($database_link->number_of_returned_rows($user_information)) {
+        if ($database_link->number_of_returned_rows($user_information)) {
             $user_fetch = $user_information->fetch();
             $password_in_database = $user_fetch->password;
             $password_verify_result = password_verify($password, $password_in_database);
         }
 
-        if($password_verify_result) {
+        if ($password_verify_result) {
             $this->id_user = $user_fetch->id_user;
             $this->last_name = $user_fetch->last_name;
             $this->first_name = $user_fetch->first_name;
@@ -106,7 +106,65 @@ class User {
         }
     }
 
+    /**
+     * Méthode pour connecter un utilisateur
+     */
     public function login() {
-        $_SESSION["user"] = $this;
+        $_SESSION["user"] = new ArrayObject(array(
+            "id_user" => $this->id_user,
+            "last_name" => $this->last_name,
+            "first_name" => $this->first_name,
+            "street_name" => $this->street_name,
+            "zip_code" => $this->zip_code,
+            "district" => $this->district,
+            "city" => $this->city,
+            "mobile_number" => $this->mobile_number,
+            "email_address" => $this->email_address
+        ), ArrayObject::ARRAY_AS_PROPS);
+
+        // Génération du token anti-CSRF
+        try {
+            $_SESSION["user_token"] = bin2hex(random_bytes(32));
+        } catch (Exception) {
+            die("Une erreur s'est produite lors de la génération du token");
+        }
+    }
+
+    /**
+     * Méthode permettant de vérifier le mot de passe d'un utilisateur donné en paramètre
+     * @param int $user_id Identifiant unique de l'utilisateur
+     * @param string $password Le mot de passe à vérifier
+     * @return bool Vrai s'il est correct, faux sinon.
+     */
+    public function check_password(int $user_id, string $password): bool {
+        $database_link = new DatabaseLink();
+        $query = $database_link->make_query("SELECT `password` FROM `users` WHERE `id_user` = ?", [$user_id]);
+
+        $password_in_database = $query->fetchColumn();
+
+        if (password_verify($password, $password_in_database)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Méthode permettant de modifier le mot de passe d'un utilisateur
+     * @param int $user_id Identifiant unique de l'utilisateur
+     * @param string $new_password Le nouveau mot de passe
+     */
+    public function change_password(int $user_id, string $new_password) {
+        $database_link = new DatabaseLink();
+        $secure_password = password_hash($new_password, PASSWORD_ARGON2ID);
+        $database_link->make_query("UPDATE `users` SET `password` = ? WHERE `id_user` = ?", [$secure_password, $user_id]);
+    }
+    
+    /**
+     * Méthode pour déconnecter un utilisateur
+     */
+    public function logout() {
+        unset($_SESSION["user"]);
+        unset($_SESSION["user_token"]);
     }
 }

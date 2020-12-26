@@ -1,6 +1,10 @@
 <?php
-$page_title = "Inscription – Simple";
+$page_title = "Charles&Co. – Inscription";
 require_once "includes/header.php";
+if(isset($_SESSION["user"])) {
+    $_SESSION["flash"]["warning"] = "Vous avez déjà un compte chez nous, car vous êtes connecté en ce moment même. <i data-feather='smile'></i>";
+    header("Location: index.php");
+}
 ?>
     <main class="container">
         <div class="card shadow-sm">

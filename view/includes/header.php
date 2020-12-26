@@ -16,8 +16,10 @@ session_start();
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
     <!-- CSS personnalisé -->
     <link rel="stylesheet" type="text/css" href="assets/css/common.css">
+    <!-- Icônes FontAwesome  -->
+    <script type="text/javascript" crossorigin="anonymous" src="https://kit.fontawesome.com/0c78b9b1e7.js"></script>
 </head>
-<body>
+<body class="bg-light">
 <!-- Barre de navigation -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
@@ -43,8 +45,14 @@ session_start();
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
-                    <li class="nav-item"><a href="login.php" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
+                    <li class="nav-item"><a href="cart.php" class="nav-link"><i data-feather="shopping-cart"></i> Panier (n)</a></li>
+                    <?php if (!isset($_SESSION["user"])): ?>
+                        <li class="nav-item"><a href="register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
+                        <li class="nav-item"><a href="login.php" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
+                    <?php else: ?>
+                        <li class="nav-item"><a href="dashboard.php" class="nav-link"><i data-feather="trello"></i> Tableau de bord</a></li>
+                        <li class="nav-item"><a href="logout.php?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i data-feather="unlock"></i> Déconnexion</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -54,13 +62,13 @@ session_start();
     <?php foreach ($_SESSION["flash"] as $type => $message): ?>
         <div class="alert alert-<?= $type ?>">
             <?php
-            if(is_string($message)) {
-                echo htmlspecialchars($message);
+            if (is_string($message)) {
+                echo $message;
             } else {
                 echo "<strong>Le formulaire comporte les erreurs suivantes :</strong><br />";
                 echo "<ul>";
                 foreach ($message as $item) {
-                   echo "<li>".htmlspecialchars($item)."</li>";
+                    echo "<li>" . htmlspecialchars($item) . "</li>";
                 }
                 echo "</ul>";
             }

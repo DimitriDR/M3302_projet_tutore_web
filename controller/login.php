@@ -25,10 +25,10 @@ if(isset($_POST["submit"])) {
             $user->login();
 
             $_SESSION["flash"]["success"] = "Vous avez été connecté avec succès.";
-            // header("Location: ../view/index.php");
+            header("Location: ../view/index.php");
         } else {
             $_SESSION["flash"]["warning"] = "Adresse e-mail ou mot de passe incorrects.";
-            // header("Location: ../view/login.php");
+            header("Location: ../view/login.php");
         }
     }
 }
