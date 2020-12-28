@@ -14,7 +14,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Encodage en UTF-8 pour éviter les problèmes d'accents -->
     <meta charset="UTF-8">
     <!-- Titre de la page -->
-    <title>Charles Productions — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
+    <title>Charles Productions — Administration — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
     <!-- CSS de Bootstrap -->
     <link rel="stylesheet" type="text/css" href="views/assets/css/bootstrap.css">
     <!-- CSS personnalisée -->
@@ -39,21 +39,15 @@ if (session_status() == PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="topbar">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a href="browse.php" class="nav-link">Parcourir les articles</a>
+                <li class="nav-item"><a href="backoffice_add_product" class="nav-link"><i class="fas fa-plus fa-xs"></i> Ajouter un produit</a></li>
+                <li class="nav-item"><a href="backoffice_list_products" class="nav-link"><i class="fas fa-list-ul fa-xs"></i> Liste des produits</a></li>
                 </li>
             </ul>
 
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="cart" class="nav-link"><i class="fas fa-shopping-basket fa-xs"></i> Panier <?php if(isset($_SESSION["cart"])): echo "(" . $_SESSION["cart_item_number"] . ")"; endif; ?></a></li>
-                    <?php if (!isset($_SESSION["user_information"])): ?>
-                        <li class="nav-item"><a href="register" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
-                        <li class="nav-item"><a href="login" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
-                    <?php else: ?>
-                        <li class="nav-item"><a href="dashboard" class="nav-link"><i class="fas fa-columns fa-xs"></i> Tableau de bord</a></li>
                         <li class="nav-item"><a href="logout?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i class="fas fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
-                    <?php endif; ?>
                 </ul>
             </div>
         </div>

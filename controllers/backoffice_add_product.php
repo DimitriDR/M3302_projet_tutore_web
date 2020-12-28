@@ -3,6 +3,12 @@ session_start();
 
 require_once dirname(__DIR__) . "/models/product.php";
 
+if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
+    $_SESSION["flash"]["warning"] = "Vous devez être connecté en tant qu'administrateur pour accéder à cet espace";
+    header("Location: ../index");
+    exit;
+}
+
 /***********************************/
 /**** Soumissions du formulaire ****/
 /***********************************/
@@ -84,11 +90,11 @@ if (isset($_POST["submit"])) {
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès";
-        header("Location: ../add_product.php");
+        header("Location: ../backoffice_add_product.php");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ../add_product.php");
+        header("Location: ../backoffice_add_product.php");
         exit;
     }
 }

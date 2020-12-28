@@ -2,6 +2,12 @@
 // Démarrage d'une session
 session_start();
 
+if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
+    $_SESSION["flash"]["warning"] = "Vous devez être connecté en tant qu'administrateur pour accéder à cet espace";
+    header("Location: ../index");
+    exit;
+}
+
 require_once dirname(__DIR__) . "/models/product.php";
 
 // On vérifie qu'un ID soit donné et que ce soit un nombre, sinon, une erreur
@@ -105,7 +111,7 @@ if (isset($_POST["submit"])) {
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ../edit_product.php?id=".$_GET["id"]);
+        header("Location: ../backoffice_edit_product.php?id=".$_GET["id"]);
         exit;
     }
 }

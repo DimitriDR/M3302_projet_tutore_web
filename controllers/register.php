@@ -78,7 +78,7 @@ if (isset($_POST["submit"])) {
         $database_link = new DatabaseLink();
         $user = new User();
 
-        $user->register($last_name, $first_name, $password, $street_name, $zip_code, $district, $city, $mobile_number, $email_address);
+        $user->register(strtoupper($last_name), ucfirst(strtolower($first_name)), $password, ucwords($street_name), $zip_code, ucwords($district), strtoupper($city), $mobile_number, strtolower($email_address));
 
         // On confirme que le compte a bien été créé
         $_SESSION["flash"]["success"] = "Merci. Un e-mail de confirmation a été envoyé afin de valider votre compte";

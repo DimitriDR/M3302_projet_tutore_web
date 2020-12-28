@@ -17,6 +17,13 @@ class User {
     private int $mobile_number;
     private string $email_address;
 
+    /**
+     * @return int
+     */
+    public function get_id_user(): int {
+        return $this->id_user;
+    }
+
     public function register(string $last_name, string $first_name, string $password, string $street_name, int $zip_code, string $district, string $city, int $mobile_number, string $email_address) : bool {
         // Connexion à la base de données
         $database_link = new DatabaseLink();
@@ -75,7 +82,7 @@ class User {
             $this->district = $user_information->district;
             $this->city = $user_information->city;
             $this->mobile_number = $user_information->mobile_number;
-            $this->mobile_number = $user_information->mobile_number;
+            $this->email_address = $user_information->email_address;
         }
     }
 

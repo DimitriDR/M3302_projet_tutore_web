@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__DIR__) . "/controllers/edit_product.php";
-require_once dirname(__DIR__) . "/views/assets/includes/header.php";
+require_once dirname(__DIR__) . "/controllers/backoffice_edit_product.php";
+require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
 ?>
     <main class="container">
         <div class="card shadow-sm p-2">

@@ -1,12 +1,12 @@
 <?php
-require_once dirname(__DIR__) . "/controllers/list_products.php";
-require_once dirname(__DIR__) . "/views/assets/includes/header.php";
+require_once dirname(__DIR__) . "/controllers/backoffice_list_products.php";
+require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
 ?>
 <main class="container">
     <div class="card shadow-sm p-2">
         <div class="card-body">
             <h1 class="card-title">Liste des produits</h1>
-            <p>Envie d'ajouter des produits ? C'est <a href="add_product.php">ici</a>.</p>
+            <p>Envie d'ajouter des produits ? C'est <a href="backoffice_add_product.php">ici</a>.</p>
             <table class="table table-bordered table-striped text-center">
                 <thead>
                 <tr>
