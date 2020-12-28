@@ -1,13 +1,13 @@
 <?php
-require_once "/controllers/add_product.php";
-require_once "/views/assets/includes/header.php";
+require_once dirname(__DIR__) . "/controllers/add_product.php";
+require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 ?>
     <main class="container">
         <div class="card shadow-sm p-2">
             <div class="card-body">
                 <h1 class="card-title">Ajout d'un produit</h1>
 
-                <form method="POST" action="/controllers/add_product.php" class="row">
+                <form method="POST" action="controllers/add_product.php" class="row">
 
                     <!-- Champ pour le libellé -->
                     <div class="col-10 my-2">

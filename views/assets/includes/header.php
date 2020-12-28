@@ -1,6 +1,12 @@
 <?php
+// Pour éviter les bugs avec les redirections
+ob_start();
+
 // Démarrage de la session sur toutes les pages
-session_start();
+// On vérifie qu'une session soit ouverte
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -10,9 +16,9 @@ session_start();
     <!-- Titre de la page -->
     <title>Charles Productions — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
     <!-- CSS de Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="/views/assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="views/assets/css/bootstrap.css">
     <!-- CSS personnalisée -->
-    <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="views/assets/css/common.css">
 </head>
 <body class="bg-light">
 <!-- Barre de navigation -->
@@ -42,7 +48,7 @@ session_start();
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="cart.php" class="nav-link"><i data-feather="shopping-cart"></i> Panier (n)</a></li>
                     <?php if (!isset($_SESSION["user"])): ?>
-                        <li class="nav-item"><a href="/register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
+                        <li class="nav-item"><a href="register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
                         <li class="nav-item"><a href="login.php" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a href="dashboard.php" class="nav-link"><i data-feather="trello"></i> Tableau de bord</a></li>
@@ -56,21 +62,20 @@ session_start();
 </nav>
 <?php if (isset($_SESSION["flash"])): ?>
     <?php foreach ($_SESSION["flash"] as $type => $message): ?>
-        <div class="alert alert-<?= $type ?>">
-            <?php
-            if (is_string($message)) {
-                echo $message;
-            } else {
-                echo "<strong>Le formulaire comporte les erreurs suivantes :</strong><br />";
-                echo "<ul>";
-                foreach ($message as $item) {
-                    echo "<li>" . htmlspecialchars($item) . "</li>";
+            <div class="alert alert-<?= $type ?> px-2">
+                <?php
+                if (is_string($message)) {
+                    echo $message;
+                } else {
+                    echo "<strong>Le formulaire comporte les erreurs suivantes :</strong><br />";
+                    echo "<ul>";
+                    foreach ($message as $item) {
+                        echo "<li>" . htmlspecialchars($item) . "</li>";
+                    }
+                    echo "</ul>";
                 }
-                echo "</ul>";
-            }
-            ?>
-        </div>
+                ?>
+            </div>
     <?php endforeach; ?>
     <?php unset($_SESSION["flash"]); ?>
 <?php endif; ?>
-<?php // print_r($_SESSION); ?>
