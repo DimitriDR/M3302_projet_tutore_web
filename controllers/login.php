@@ -3,6 +3,7 @@
 session_start();
 
 // Fichiers nécessaires
+require_once "../models/cart.php";
 require_once "../models/databaselink.php";
 require_once "../models/user.php";
 
@@ -39,7 +40,7 @@ if (isset($_POST["submit"])) {
 
             // On met cet objet dans la session
             $_SESSION["user_information"] = serialize($user);
-            $_SESSION["user_token"] = $user->create_token();
+            $_SESSION["cart"] = serialize(new Cart());
 
             // On termine
             $_SESSION["flash"]["success"] = "Vous êtes désormais connecté";

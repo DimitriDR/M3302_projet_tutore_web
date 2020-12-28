@@ -16,12 +16,22 @@ class User {
     private string $city;
     private int $mobile_number;
     private string $email_address;
+    private string $token;
 
     /**
+     * Retourne l'ID de l'utilisateur
      * @return int
      */
-    public function get_id_user(): int {
+    public function get_id_user() : int {
         return $this->id_user;
+    }
+
+    /**
+     * Retourne le token de l'utilisateur
+     * @return string
+     */
+    public function get_token() : string {
+        return $this->token;
     }
 
     public function register(string $last_name, string $first_name, string $password, string $street_name, int $zip_code, string $district, string $city, int $mobile_number, string $email_address) : bool {
@@ -67,6 +77,18 @@ class User {
         }
     }
 
+    /**
+     * Méthode pour générer un token anti-CSRF
+     * @return string Le token
+     */
+    public function create_token() : string {
+        try {
+            return bin2hex(random_bytes(32));
+        } catch (Exception $e) {
+            die("Une erreur s'est produite lors de la génération du token :<br />".$e->getMessage());
+        }
+    }
+
     public function login(string $email) : void {
         $databaselink = new DatabaseLink();
         $get_user_information = $databaselink->make_query("SELECT * FROM users WHERE `email_address` = ?", [$email]);
@@ -83,18 +105,7 @@ class User {
             $this->city = $user_information->city;
             $this->mobile_number = $user_information->mobile_number;
             $this->email_address = $user_information->email_address;
-        }
-    }
-
-    /**
-     * Méthode pour générer un token anti-CSRF
-     * @return string Le token
-     */
-    public function create_token() : string {
-        try {
-            return bin2hex(random_bytes(32));
-        } catch (Exception $e) {
-            die("Une erreur s'est produite lors de la génération du token :<br />".$e->getMessage());
+            $this->token = $this->create_token();
         }
     }
 }
