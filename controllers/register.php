@@ -1,7 +1,4 @@
 <?php
-session_start();
-
-// Si l'utilisateur clique sur le bouton Envoyer
 if (isset($_POST["submit"])) {
     // On initialise un tableau contenant les erreurs
     $errors = array();
@@ -67,8 +64,11 @@ if (isset($_POST["submit"])) {
 
     // Si le tableau des erreurs est vide, alors on peut commencer l'insertion
     if (empty($errors)) {
-        require_once "../model/DatabaseLink.php";
-        require_once "../model/User.php";
+        require_once "../models/databaselink.php";
+        require_once "../models/user.php";
+
+        echo "ok";
+        exit;
 
         $database_link = new DatabaseLink();
         $user = new User();
@@ -77,9 +77,10 @@ if (isset($_POST["submit"])) {
 
         // On confirme que le compte a bien été créé
         $_SESSION["flash"]["success"] = "Merci. Un e-mail de confirmation a été envoyé afin de valider votre compte";
-        header("location: ../view/index.php");
+        header("location: /index.php");
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: ../view/register.php");
+        header("location: /register.php");
     }
 }
+

@@ -1,31 +1,26 @@
 <?php
-// Pour éviter de faire planter les redirections
-ob_start();
-
-// Démarrage de la session
+// Démarrage de la session sur toutes les pages
 session_start();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Encodage en UTF-8 pour éviter les problèmes avec les accents -->
+    <!-- Encodage en UTF-8 pour éviter les problèmes d'accents -->
     <meta charset="UTF-8">
     <!-- Titre de la page -->
-    <title><?php echo isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
-    <!-- CSS Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-    <!-- CSS personnalisé -->
-    <link rel="stylesheet" type="text/css" href="assets/css/common.css">
-    <!-- Icônes FontAwesome  -->
-    <script type="text/javascript" crossorigin="anonymous" src="https://kit.fontawesome.com/0c78b9b1e7.js"></script>
+    <title>Charles Productions — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
+    <!-- CSS de Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/views/assets/css/bootstrap.css">
+    <!-- CSS personnalisée -->
+    <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
 </head>
 <body class="bg-light">
 <!-- Barre de navigation -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid">
+    <div class="container-md">
         <!-- Logo -->
         <a class="navbar-brand" href="/">
-            <img src="assets/images/carrot_logo.png" alt="Logo" height="30" width="17" class="d-inline-block">
+            <!-- test <img src="" alt="Logo" height="30" width="17" class="d-inline-block"> -->
         </a>
 
         <!-- Le bouton pour activer le menu sur mobile -->
@@ -47,11 +42,12 @@ session_start();
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="cart.php" class="nav-link"><i data-feather="shopping-cart"></i> Panier (n)</a></li>
                     <?php if (!isset($_SESSION["user"])): ?>
-                        <li class="nav-item"><a href="register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
+                        <li class="nav-item"><a href="/register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
                         <li class="nav-item"><a href="login.php" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a href="dashboard.php" class="nav-link"><i data-feather="trello"></i> Tableau de bord</a></li>
-                        <li class="nav-item"><a href="logout.php?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i data-feather="unlock"></i> Déconnexion</a></li>
+                        <li class="nav-item"><a href="logout.php?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i data-feather="unlock"></i>
+                                Déconnexion</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -77,3 +73,4 @@ session_start();
     <?php endforeach; ?>
     <?php unset($_SESSION["flash"]); ?>
 <?php endif; ?>
+<?php // print_r($_SESSION); ?>

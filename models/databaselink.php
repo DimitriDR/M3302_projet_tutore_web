@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Classe DatabaseLink
+ * Classe olddatabaselink
  * Permet de faire la liaison avec la base de données et notamment en faisant des requêtes simples ou préparées
  */
 class DatabaseLink {
@@ -19,7 +19,7 @@ class DatabaseLink {
     /* Méthodes */
 
     /**
-     * Constructeur de DatabaseLink
+     * Constructeur de olddatabaselink
      */
     public function __construct() {
         $this->PDO = new PDO("mysql:host=" . $this::HOST . ";dbname=" . $this::DB_NAME . ";charset=UTF8", $this::USERNAME, $this::PASSWORD, $this::OPTIONS);
@@ -32,7 +32,7 @@ class DatabaseLink {
      * @param array|null $variables Les variables qui doivent être mises dans la requête si requête préparées
      * @return false|PDOStatement Faux si la requête ne s'est pas déroulée avec succès, sinon, renvoie un PDOStatement
      */
-    public function make_query(string $query, array $variables = null) : false|PDOStatement {
+    public function make_query(string $query, array $variables = null) {
         if(is_null($variables)) {
             $request = $this->PDO->query($query);
             $request->execute();
