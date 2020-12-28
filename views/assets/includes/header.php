@@ -47,7 +47,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <div class="d-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="cart.php" class="nav-link"><i data-feather="shopping-cart"></i> Panier (n)</a></li>
-                    <?php if (!isset($_SESSION["user"])): ?>
+                    <?php if (!isset($_SESSION["user_information"])): ?>
                         <li class="nav-item"><a href="register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
                         <li class="nav-item"><a href="login.php" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
                     <?php else: ?>

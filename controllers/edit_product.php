@@ -5,10 +5,10 @@ session_start();
 require_once dirname(__DIR__) . "/models/product.php";
 
 // On vérifie qu'un ID soit donné et que ce soit un nombre, sinon, une erreur
-/*if(!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+if(!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
     $_SESSION["flash"]["warning"] = "Le paramètre est vide ou invalide.";
     header("Location: ../index.php");
-}*/
+}
 
 // Si tout est bon, on créé un nouveau produit
 $product = new Product();

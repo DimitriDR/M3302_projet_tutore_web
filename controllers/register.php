@@ -1,4 +1,8 @@
 <?php
+// Démarrage de la session
+session_start();
+
+// Traitement du formulaire d'inscription
 if (isset($_POST["submit"])) {
     // On initialise un tableau contenant les erreurs
     $errors = array();
@@ -39,10 +43,12 @@ if (isset($_POST["submit"])) {
         $errors["empty_or_too_short_password"] = "Le mot de passe est vide ou fait moins de 8 caractères";
     }
 
+    // On vérifie que le nom de la rue ne soit pas vide
     if (empty($street_name)) {
         $errors["empty_street_name"] = "Le nom de la rue doit être renseigné";
     }
 
+    // On vérifie que la ville ne soit pas vide
     if (empty($city)) {
         $errors["empty_city"] = "Le nom de la ville doit être renseigné";
     }
@@ -54,10 +60,12 @@ if (isset($_POST["submit"])) {
         $errors["empty_zip_code_or_not_valid"] = "Le code postal est vide ou ne respecte pas la norme (5 chiffres)";
     }
 
+    // On vérifie que le quartier ne soit pas vide
     if (empty($district)) {
         $errors["empty_district"] = "Le quartier / arrondissement doit être renseigné";
     }
 
+    // On vérifie que le numéro de portable ne soit pas vide et qu'il soit uniquement composé de 10 chiffres commençant par un 0
     if (empty($mobile_number) || !preg_match("/^0{1}([[:digit:]]){9}/", $mobile_number)) {
         $errors["empty_mobile_number_or_invalid"] = "Le numéro de téléphone est vide ou ne fait pas 10 caractères";
     }
@@ -67,9 +75,6 @@ if (isset($_POST["submit"])) {
         require_once "../models/databaselink.php";
         require_once "../models/user.php";
 
-        echo "ok";
-        exit;
-
         $database_link = new DatabaseLink();
         $user = new User();
 
@@ -78,9 +83,10 @@ if (isset($_POST["submit"])) {
         // On confirme que le compte a bien été créé
         $_SESSION["flash"]["success"] = "Merci. Un e-mail de confirmation a été envoyé afin de valider votre compte";
         header("location: /index.php");
+        exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
         header("location: /register.php");
+        exit;
     }
 }
-
