@@ -1,7 +1,26 @@
 <?php
+// Démarrage d'une session
 session_start();
 
 require_once dirname(__DIR__) . "/models/product.php";
+
+// On vérifie qu'un ID soit donné et que ce soit un nombre, sinon, une erreur
+/*if(!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+    $_SESSION["flash"]["warning"] = "Le paramètre est vide ou invalide.";
+    header("Location: ../index.php");
+}*/
+
+// Si tout est bon, on créé un nouveau produit
+$product = new Product();
+$successfully_hydrate = $product->hydrate($_GET["id"]);
+
+// Si on s'aperçoit que notre produit n'existe pas, ou qu'il y a eu une erreur quelconque
+if(!$successfully_hydrate) {
+    unset($product);
+    $_SESSION["flash"]["danger"] = "Le produit n'a pas pû être récupéré (peut-être parce-que l'ID correspond à un produit qui n'existe pas...).";
+    header("Location: ../index.php");
+    exit;
+}
 
 /***********************************/
 /**** Soumissions du formulaire ****/
@@ -78,17 +97,15 @@ if (isset($_POST["submit"])) {
 
     // Si on n'a aucune erreur, on peut enregister
     if (empty($errors)) {
-        // On créé un nouveau produit afin d'utiliser la méthode d'ajout intégrée
-        $product = new Product();
-        $product->add($label, $season, $classification, $description, $price);
+        $product->update($_GET["id"], $label, $season, $classification, $description, $price);
 
         // On finalise
-        $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès";
-        header("Location: ../add_product.php");
+        $_SESSION["flash"]["success"] = "Le produit a été mis à jour avec succès";
+        header("Location: ../index.php");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ../add_product.php");
+        header("Location: ../edit_product.php?id=".$_GET["id"]);
         exit;
     }
 }

@@ -60,21 +60,33 @@ class Product {
     /**
      * Se charge d'hydrater l'objet.
      * @param int $product_id Identifiant unique d'un produit.
+     * @return bool Vrai si la requête a fonctionné, faux sinon.
      */
-    public function hydrate(int $product_id) {
+    public function hydrate(int $product_id) : bool {
         $database_link = new DatabaseLink();
         $results = $database_link->make_query("SELECT * FROM products WHERE id_product = ?", [$product_id])->fetch();
 
-        $this->id_product = $results->id_product;
-        $this->label = $results->label;
-        $this->season = $results->season;
-        $this->classification = $results->classification;
-        $this->description = $results->description;
-        $this->price = $results->price;
+        // Si la requête n'aboutit pas, elle renvoie un false, donc ça veut dire qu'elle n'a pas marché, on renvoie alors false de notre côté également
+        if($results == false) {
+            return false;
+        } else {
+            $this->id_product = $results->id_product;
+            $this->label = $results->label;
+            $this->season = $results->season;
+            $this->classification = $results->classification;
+            $this->description = $results->description;
+            $this->price = $results->price;
+            return true;
+        }
     }
 
     public function add(string $label, string $season, string $classification, string $description, float $price) {
         $database_link = new DatabaseLink();
         $database_link->make_query("INSERT INTO `products` (label, season, classification, description, price) VALUES(?, ?, ?, ?, ?)", [$label, $season, $classification, $description, $price]);
+    }
+
+    public function update(int $id_product, string $label, string $season, string $classification, string $description, float $price) {
+        $database_link = new DatabaseLink();
+        $database_link->make_query("UPDATE `products` SET `label` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ? WHERE `id_product` = ?", [$label, $season, $classification, $description, $price, $id_product]);
     }
 }
