@@ -46,14 +46,13 @@ if (session_status() == PHP_SESSION_NONE) {
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="cart.php" class="nav-link"><i data-feather="shopping-cart"></i> Panier (n)</a></li>
+                    <li class="nav-item"><a href="cart.php" class="nav-link"><i class="fas fa-shopping-basket fa-xs"></i> Panier (<?= $_SESSION["cart_item_number"]; ?>)</a></li>
                     <?php if (!isset($_SESSION["user_information"])): ?>
                         <li class="nav-item"><a href="register.php" class="nav-link"><i data-feather="user-plus"></i> Inscription</a></li>
                         <li class="nav-item"><a href="login.php" class="nav-link"><i data-feather="unlock"></i> Connexion</a></li>
                     <?php else: ?>
-                        <li class="nav-item"><a href="dashboard.php" class="nav-link"><i data-feather="trello"></i> Tableau de bord</a></li>
-                        <li class="nav-item"><a href="logout.php?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i data-feather="unlock"></i>
-                                Déconnexion</a></li>
+                        <li class="nav-item"><a href="dashboard.php" class="nav-link"><i class="fas fa-columns fa-xs"></i> Tableau de bord</a></li>
+                        <li class="nav-item"><a href="logout.php?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i class="fas fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
