@@ -21,7 +21,7 @@ require_once "views/assets/includes/header.php";
                 <h2 class="text-muted"><?= (float) $product->get_price(); ?> / kg</h2>
                 <form method="POST" action="../controllers/add_product_to_cart.php">
                     <input type="hidden" id="id" name="id" value="<?= $_GET['id'] ?>">
-                    <button id="add" name="add" class="btn btn-primary w-100">Ajouter au panier</button>
+                    <button id="add" name="add" class="btn btn-primary"><i class="fad fa-cart-plus fa-xs"></i> Ajouter au panier</button>
                 </form>
             </aside>
         </div>

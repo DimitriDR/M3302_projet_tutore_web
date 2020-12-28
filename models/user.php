@@ -27,6 +27,63 @@ class User {
     }
 
     /**
+     * @return string
+     */
+    public function get_last_name() : string {
+        return $this->last_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_first_name() : string {
+        return $this->first_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_street_name(): string {
+        return $this->street_name;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_zip_code(): int {
+        return $this->zip_code;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_district(): string {
+        return $this->district;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_city(): string {
+        return $this->city;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_mobile_number(): int {
+        return $this->mobile_number;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_email_address(): string {
+        return $this->email_address;
+    }
+
+
+    /**
      * Retourne le token de l'utilisateur
      * @return string
      */
