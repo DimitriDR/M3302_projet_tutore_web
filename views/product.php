@@ -7,18 +7,18 @@ require_once "views/assets/includes/header.php";
         <div class="row">
             <article class="col-10 card shadow-sm m-2">
                 <div class="card-body">
-                    <h1 class="card-title"><?= htmlspecialchars($order->get_label()); ?></h1>
+                    <h1 class="card-title"><?= htmlspecialchars($product->get_label()); ?></h1>
                     <h2 class="py-2">Description de notre produit</h2>
-                    <p><?= htmlspecialchars($order->get_description()); ?></p>
+                    <p><?= htmlspecialchars($product->get_description()); ?></p>
                     <h2 class="py-2">Autres informations</h2>
                     <ul>
-                        <li><strong>Peut-être consommé de préférence en</strong> : <?= htmlspecialchars($order->get_season()); ?></li>
-                        <li><strong>Classification</strong> : <?= htmlspecialchars($order->get_classification()); ?></li>
+                        <li><strong>Peut-être consommé de préférence en</strong> : <?= htmlspecialchars($product->get_season()); ?></li>
+                        <li><strong>Classification</strong> : <?= htmlspecialchars($product->get_classification()); ?></li>
                     </ul>
                 </div>
             </article>
             <aside class="col-auto card card-body shadow-sm m-2">
-                <h2 class="text-muted"><?= (float) $order->get_price(); ?> / kg</h2>
+                <h2 class="text-muted"><?= (float) $product->get_price(); ?> / kg</h2>
                 <form method="POST" action="../controllers/add_product_to_cart.php">
                     <input type="hidden" id="id" name="id" value="<?= $_GET['id'] ?>">
                     <button id="add" name="add" class="btn btn-primary"><i class="fad fa-cart-plus fa-xs"></i> Ajouter au panier</button>
