@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$page_title = "Connexion à l'interface d'administration";
+
 // Il faut d'abord être connecté globalement avant de s'authentifier en tant qu'administrateur
 if(!isset($_SESSION["user_information"])) {
     $_SESSION["flash"]["info"] = "Vous devez d'abord vous connecter globalement avant d'effectuer cette action";

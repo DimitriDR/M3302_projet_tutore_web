@@ -16,9 +16,9 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Titre de la page -->
     <title>Charles Productions — Administration — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
     <!-- CSS de Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="views/assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/views/assets/css/bootstrap.css">
     <!-- CSS personnalisée -->
-    <link rel="stylesheet" type="text/css" href="views/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
 </head>
 <body class="bg-light">
 <!-- Barre de navigation -->
@@ -53,22 +53,4 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
     </div>
 </nav>
-<?php if (isset($_SESSION["flash"])): ?>
-    <?php foreach ($_SESSION["flash"] as $type => $message): ?>
-            <div class="alert alert-<?= $type ?> px-2">
-                <?php
-                if (is_string($message)) {
-                    echo $message;
-                } else {
-                    echo "<strong>Le formulaire comporte les erreurs suivantes :</strong><br />";
-                    echo "<ul>";
-                    foreach ($message as $item) {
-                        echo "<li>" . htmlspecialchars($item) . "</li>";
-                    }
-                    echo "</ul>";
-                }
-                ?>
-            </div>
-    <?php endforeach; ?>
-    <?php unset($_SESSION["flash"]); ?>
-<?php endif; ?>
+<?php require_once "common_header.php"; ?>

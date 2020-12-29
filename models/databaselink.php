@@ -52,4 +52,13 @@ class DatabaseLink {
     public function number_of_returned_rows(PDOStatement $PDOStatement) : int {
         return $PDOStatement->rowCount();
     }
+
+    /**
+     * Méthode permettant de récupérer le dernier ID d'une instruction avec PDO
+     * @see PDO::lastInsertId();
+     * @return string Le dernier ID
+     */
+    public function get_last_id() : string {
+        return $this->PDO->lastInsertId();
+    }
 }

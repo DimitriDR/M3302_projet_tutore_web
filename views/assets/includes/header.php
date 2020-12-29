@@ -43,9 +43,10 @@ require_once "models/user.php";
         <div class="collapse navbar-collapse" id="topbar">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a href="browse.php" class="nav-link">Parcourir les articles</a>
+                    <a href="browse/" class="nav-link">Parcourir les articles</a>
                 </li>
             </ul>
+
 
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
@@ -63,22 +64,4 @@ require_once "models/user.php";
         </div>
     </div>
 </nav>
-<?php if (isset($_SESSION["flash"])): ?>
-    <?php foreach ($_SESSION["flash"] as $type => $message): ?>
-            <div class="alert alert-<?= $type ?> px-2">
-                <?php
-                if (is_string($message)) {
-                    echo $message;
-                } else {
-                    echo "<strong>Le formulaire comporte les erreurs suivantes :</strong><br />";
-                    echo "<ul>";
-                    foreach ($message as $item) {
-                        echo "<li>" . htmlspecialchars($item) . "</li>";
-                    }
-                    echo "</ul>";
-                }
-                ?>
-            </div>
-    <?php endforeach; ?>
-    <?php unset($_SESSION["flash"]); ?>
-<?php endif; ?>
+<?php require_once "common_header.php"; ?>
