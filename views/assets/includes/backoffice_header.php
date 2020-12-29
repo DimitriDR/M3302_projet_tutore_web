@@ -7,6 +7,15 @@ ob_start();
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+// Accès uniqueent aux administrateurs connectés
+if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
+    $_SESSION["flash"]["warning"] = "Vous devez être connecté en tant qu'administrateur pour accéder à cet espace";
+    header("Location: ../index");
+    exit;
+}
+
+require_once "models/user.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,15 +48,15 @@ if (session_status() == PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="topbar">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                <li class="nav-item"><a href="backoffice_add_product" class="nav-link"><i class="fas fa-plus fa-xs"></i> Ajouter un produit</a></li>
-                <li class="nav-item"><a href="backoffice_list_products" class="nav-link"><i class="fas fa-list-ul fa-xs"></i> Liste des produits</a></li>
-                </li>
+                <li class="nav-item"><a href="backoffice_add_product" class="nav-link"><i class="fad fa-plus fa-xs"></i> Ajouter un produit</a></li>
+                <li class="nav-item"><a href="backoffice_list_products" class="nav-link"><i class="fad fa-list-ul fa-xs"></i> Liste des produits</a></li>
+                <li class="nav-item"><a href="backoffice_list_orders" class="nav-link"><i class="fad fa-truck fa-xs"></i> Liste des commandes</a></li>
             </ul>
 
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
                 <ul class="navbar-nav">
-                        <li class="nav-item"><a href="logout?token=<?= $_SESSION["user_token"] ?>" class="nav-link"><i class="fas fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
+                    <li class="nav-item"><a href="/logout?token=<?= unserialize($_SESSION["user_information"])->get_token(); ?>" class="nav-link"><i class="fad fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
                 </ul>
             </div>
         </div>

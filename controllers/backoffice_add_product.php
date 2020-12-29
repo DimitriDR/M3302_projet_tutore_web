@@ -2,13 +2,6 @@
 session_start();
 
 require_once dirname(__DIR__) . "/models/product.php";
-
-if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
-    $_SESSION["flash"]["warning"] = "Vous devez être connecté en tant qu'administrateur pour accéder à cet espace";
-    header("Location: ../index");
-    exit;
-}
-
 /***********************************/
 /**** Soumissions du formulaire ****/
 /***********************************/
