@@ -1,11 +1,20 @@
 <?php
 require_once dirname(__DIR__) . "/controllers/product.php";
-$page_title = "Connexion";
+if (!empty($product)) {
+    $page_title = "Produit : ". $product->get_label();
+}
 require_once "views/assets/includes/header.php";
 ?>
     <main class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="/browse">Produits</a></li>
+                <li class="breadcrumb-item active"><?= htmlspecialchars($product->get_label()) ?></li>
+            </ol>
+        </nav>
         <div class="row">
-            <article class="col-10 card shadow-sm m-2">
+            <article class="col-10 card shadow-sm">
                 <div class="card-body">
                     <h1 class="card-title"><?= htmlspecialchars($product->get_label()); ?></h1>
                     <h2 class="py-2">Description de notre produit</h2>

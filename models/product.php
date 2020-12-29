@@ -4,6 +4,7 @@ require_once "databaselink.php";
 class Product {
     private int $id_product;
     private string $label;
+    private string $type;
     private string $season;
     private string $classification;
     private string $description;
@@ -42,6 +43,13 @@ class Product {
     }
 
     /**
+     * @return string Type du produit (légumes, fruits, etc.)
+     */
+    public function get_type() : string {
+        return $this->type;
+    }
+
+    /**
      * Getter permettant de récupérer la description
      * @return string Description
      */
@@ -72,6 +80,7 @@ class Product {
         } else {
             $this->id_product = $results->id_product;
             $this->label = $results->label;
+            $this->type = $results->type;
             $this->season = $results->season;
             $this->classification = $results->classification;
             $this->description = $results->description;
@@ -80,13 +89,13 @@ class Product {
         }
     }
 
-    public function add(string $label, string $season, string $classification, string $description, float $price) {
+    public function add(string $label, string $type, string $season, string $classification, string $description, float $price) {
         $database_link = new DatabaseLink();
-        $database_link->make_query("INSERT INTO `products` (label, season, classification, description, price) VALUES(?, ?, ?, ?, ?)", [$label, $season, $classification, $description, $price]);
+        $database_link->make_query("INSERT INTO `products` (label, type, season, classification, description, price) VALUES(?, ?, ?, ?, ?, ?)", [$label, $type, $season, $classification, $description, $price]);
     }
 
-    public function update(int $id_product, string $label, string $season, string $classification, string $description, float $price) {
+    public function update(int $id_product, string $label, string $type, string $season, string $classification, string $description, float $price) {
         $database_link = new DatabaseLink();
-        $database_link->make_query("UPDATE `products` SET `label` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ? WHERE `id_product` = ?", [$label, $season, $classification, $description, $price, $id_product]);
+        $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $id_product]);
     }
 }

@@ -7,13 +7,13 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
             <div class="card-body">
                 <h1 class="card-title">Ajout d'un produit</h1>
 
-                <form method="POST" action="controllers/add_product.php" class="row">
+                <form method="POST" action="/controllers/backoffice_add_product.php" class="row">
 
                     <!-- Champ pour le libellé -->
                     <div class="col-10 my-2">
                         <label for="label" class="form-label">Libellé</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-heading fs-xs"></i></span>
+                            <span class="input-group-text"><i class="far fa-heading fs-xs"></i></span>
                             <input type="text" id="label" name="label" class="form-control">
                         </div>
                     </div>
@@ -21,16 +21,16 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                     <div class="col-2 my-2">
                         <label for="price" class="form-label">Prix au kg</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-euro-sign fs-xs"></i></span>
+                            <span class="input-group-text"><i class="far fa-euro-sign fs-xs"></i></span>
                             <input type="number" id="price" name="price" min="0" step="0.01" class="form-control">
                         </div>
                     </div>
 
                     <!-- Champ pour la saison -->
-                    <div class="col-6 my-2">
+                    <div class="col-4 my-2">
                         <label for="season" class="form-label">Saison</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-cloud-sun-rain fs-xs"></i></span>
+                            <span class="input-group-text"><i class="far fa-cloud-sun-rain fs-xs"></i></span>
                             <select id="season" name="season" class="form-select">
                                 <option value="Hiver">Hiver</option>
                                 <option value="Printemps">Printemps</option>
@@ -41,10 +41,10 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                     </div>
 
                     <!-- Champ pour la classification -->
-                    <div class="col-6 my-2">
+                    <div class="col-4 my-2">
                         <label for="classification" class="form-label">Classification</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-tags fs-xs"></i></span>
+                            <span class="input-group-text"><i class="far fa-tags fs-xs"></i></span>
                             <select id="classification" name="classification" class="form-select">
                                 <option value="Composées">Composées</option>
                                 <option value="Ombellifères">Ombellifères</option>
@@ -60,18 +60,30 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         </div>
                     </div>
 
+                    <!-- Champ pour le type -->
+                    <div class="col-4 my-2">
+                        <label for="type" class="form-label">Type</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-leaf fs-xs"></i></span>
+                            <select id="type" name="type" class="form-select">
+                                <option value="Légumes">Légumes</option>
+                                <option value="Fruits">Fruits</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Champ pour la description -->
                     <div class="col-12 my-2">
                         <label for="description" class="form-label">Description</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-newspaper fs-xs"></i></span>
+                            <span class="input-group-text"><i class="far fa-newspaper fs-xs"></i></span>
                             <textarea id="description" name="description" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
 
                     <!-- Bouton de validation -->
                     <div class="col-12 my-2">
-                        <button id="submit" name="submit" class="btn btn-primary"><i class="fas fa-plus-circle fa-xs"></i> Ajouter un produit</button>
+                        <button id="submit" name="submit" class="btn btn-primary"><i class="far fa-plus-circle fa-xs"></i> Ajouter un produit</button>
                     </div>
                 </form>
             </div>

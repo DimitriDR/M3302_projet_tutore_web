@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
             <div class="card-body">
                 <h1 class="card-title">Édition d'un produit</h1>
 
-                <form method="POST" action="controllers/edit_product.php?id=<?= $_GET["id"]; ?>" class="row">
+                <form method="POST" action="/controllers/backoffice_edit_product.php?id=<?= $_GET["id"]; ?>" class="row">
 
                     <!-- Champ pour le libellé -->
                     <div class="col-10 my-2">

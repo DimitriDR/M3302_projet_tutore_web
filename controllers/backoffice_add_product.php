@@ -12,6 +12,7 @@ if (isset($_POST["submit"])) {
 
     // On récupère toutes les variables du formulaire
     $label = trim($_POST["label"]);
+    $type = trim($_POST["type"]);
     $season = trim($_POST["season"]);
     $classification = trim($_POST["classification"]);
     $description = trim($_POST["description"]);
@@ -50,25 +51,35 @@ if (isset($_POST["submit"])) {
 
     // Traitement de la classification
     $classification_list = array(
-        "composées",
-        "ombellifères",
-        "liliacées",
-        "légumineuses",
-        "chénopodiacées",
-        "cucurbitacées",
-        "solanacées",
-        "labiées",
-        "crucifères",
-        "autres"
+        "Autres",
+        "Chénopodiacées",
+        "Composées",
+        "Crucifères",
+        "Cucurbitacées",
+        "Labiées",
+        "Liliacées",
+        "Légumineuses",
+        "Ombellifères",
+        "Solanacées"
     );
 
     if (empty($classification)) {
         // Ne devrait pas arriver car c'est une liste, mais on ne sait jamais...
-        $errors["empty_classificaiton"] = "Il faut renseigner une classification";
-    } else if (!in_array(strtolower($classification), $classification_list)) {
+        $errors["empty_classification"] = "Il faut renseigner une classification";
+    } else if (!in_array($classification, $classification_list)) {
         // On évite que des modifications dans le HTML ne donne lieu à des incohérentes dans la BD
         $errors["not_valid_classification"] = "La classification choisie n'est pas valide";
     }
+
+    // Traitement du type
+    if (empty($type)) {
+        // Ne devrait pas arriver car c'est une liste, mais on ne sait jamais...
+        $errors["empty_type"] = "Il faut renseigner un type";
+    }
+//    } else if ($type != "Légumes" || $type != "Fruits") {
+//        // On évite que des modifications dans le HTML ne donne lieu à des incohérentes dans la BD
+//        $errors["not_valid_type"] = "Le type choisi n'est pas valide";
+//    }
 
     // Traitement de la description
     if (empty($description)) {
@@ -79,15 +90,15 @@ if (isset($_POST["submit"])) {
     if (empty($errors)) {
         // On créé un nouveau produit afin d'utiliser la méthode d'ajout intégrée
         $product = new Product();
-        $product->add($label, $season, $classification, $description, $price);
+        $product->add($label, $type, $season, $classification, $description, $price);
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès";
-        header("Location: ../backoffice_add_product.php");
+        header("Location: ../backoffice_index");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ../backoffice_add_product.php");
+        header("Location: ". $_SERVER["HTTP_REFERER"]);
         exit;
     }
 }

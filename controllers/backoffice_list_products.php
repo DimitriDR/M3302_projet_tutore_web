@@ -17,12 +17,12 @@ function display_all_products() : void {
         $product->hydrate($product_line->id_product);
 
         echo "<tr>";
-        echo "<td>". $product->get_id_product() ."</td>";
         echo "<td>". $product->get_label() ."</td>";
+        echo "<td>". $product->get_type() ."</td>";
         echo "<td>". $product->get_season() ."</td>";
         echo "<td>". $product->get_classification() ."</td>";
         echo "<td>". $product->get_price() ."</td>";
-        echo "<td><a href='backoffice_edit_product.php?id=".$product->get_id_product()."' class='btn btn-outline-success'><i class='fas fa-pen fa-xs'></i></a><a href='delete_product.php?id=".$product->get_id_product()."' class='btn btn-outline-danger'><i class='fas fa-trash-alt fa-xs'></i></a></td>";
+        echo "<td><a href='backoffice_edit_product.php?id=".$product->get_id_product()."' class='btn btn-outline-success'><i class='far fa-pen fa-xs'></i></a><a href='delete_product.php?id=".$product->get_id_product()."' class='btn btn-outline-danger'><i class='far fa-trash-alt fa-xs'></i></a></td>";
         echo "</tr>";
     }
 }

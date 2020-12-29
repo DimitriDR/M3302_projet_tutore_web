@@ -97,7 +97,7 @@ if (isset($_POST["submit"])) {
 
     // Si on n'a aucune erreur, on peut enregister
     if (empty($errors)) {
-        $product->update($_GET["id"], $label, $season, $classification, $description, $price);
+        $product->update($_GET["id"], $label, $type, $season, $classification, $description, $price);
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été mis à jour avec succès";

@@ -12,8 +12,8 @@ if (isset($_SESSION["flash"])):
                     <li><?= htmlspecialchars($item) ?></li>
                 <?php endforeach; ?>
                 </ul>
-        </div>
             <?php endif ?>
+        </div>
     <?php endforeach ?>
 <?php endif ?>
 <?php unset($_SESSION["flash"]) ?>

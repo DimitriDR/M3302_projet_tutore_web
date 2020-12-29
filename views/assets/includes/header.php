@@ -43,7 +43,7 @@ require_once "models/user.php";
         <div class="collapse navbar-collapse" id="topbar">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a href="browse/" class="nav-link">Parcourir les articles</a>
+                    <a href="/browse" class="nav-link">Parcourir les articles</a>
                 </li>
             </ul>
 

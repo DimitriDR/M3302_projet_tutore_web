@@ -10,8 +10,8 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
             <table class="table table-bordered table-striped text-center">
                 <thead>
                 <tr>
-                    <th class="col">ID</th>
                     <th class="col">Libellé</th>
+                    <th class="col">Type</th>
                     <th class="col">Saison</th>
                     <th class="col">Classification</th>
                     <th class="col">Prix</th>
