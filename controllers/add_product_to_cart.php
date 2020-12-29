@@ -21,13 +21,10 @@ if (isset($_POST["add"])) {
     $this_product = new Product();
     $this_product->hydrate($_POST["id"]);
 
-    if($cart->add_item($this_product)) {
-        // On doit résérialiser l'objet
-        $_SESSION["cart"] = serialize($cart);
-        $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès.";
-        header("Location: ". $_SERVER["HTTP_REFERER"]);
-    } else {
-        $_SESSION["flash"]["danger"] = "Une erreur s'est produite lors de l'ajout au panier.";
-        header("Location: ". $_SERVER["HTTP_REFERER"]);
-    }
+    $cart->add_item($this_product);
+
+     // On doit résérialiser l'objet
+     $_SESSION["cart"] = serialize($cart);
+     $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès.";
+     header("Location: ". $_SERVER["HTTP_REFERER"]);
 }

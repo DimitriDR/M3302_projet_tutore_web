@@ -12,9 +12,13 @@ if(!isset($_SESSION["user_information"])) {
 require_once dirname(__DIR__) . "/models/cart.php";
 require_once dirname(__DIR__) . "/models/product.php";
 
+
 function display_all_items() : void {
-    foreach (unserialize($_SESSION["cart"])->get_items() as $item) {
-        echo "<li class='list-group-item'>". $item->get_label() ."</li>";
+    foreach (unserialize($_SESSION["cart"])->get_items() as $item => $quantity) {
+        echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
+        echo unserialize($item)->get_label() . " (". $quantity . ")";
+        echo "<span>" . unserialize($item)->get_price() * $quantity .  "€ (unit. " . unserialize($item)->get_price() . " €)</span>";
+        echo "</li>";
     }
 }
 

@@ -50,13 +50,13 @@ require_once "models/user.php";
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="/cart" class="nav-link"><i class="fas fa-shopping-basket fa-xs"></i> Panier <?php if(isset($_SESSION["user_information"])): echo "(" . unserialize($_SESSION["cart"])->get_number_of_items() . ")"; endif; ?></a></li>
+                    <li class="nav-item"><a href="/cart" class="nav-link"><i class="fad fa-shopping-basket fa-xs"></i> Panier <?php if(isset($_SESSION["user_information"])): echo "(" . unserialize($_SESSION["cart"])->get_number_of_items() . ")"; endif; ?></a></li>
                     <?php if (!isset($_SESSION["user_information"])): ?>
-                        <li class="nav-item"><a href="/register" class="nav-link"><i class="fas fa-user-plus fa-xs"></i> Inscription</a></li>
-                        <li class="nav-item"><a href="/login" class="nav-link"><i class="fas fa-user fa-xs"></i> Connexion</a></li>
+                        <li class="nav-item"><a href="/register" class="nav-link"><i class="fad fa-user-plus fa-xs"></i> Inscription</a></li>
+                        <li class="nav-item"><a href="/login" class="nav-link"><i class="fad fa-user fa-xs"></i> Connexion</a></li>
                     <?php else: ?>
-                        <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="fas fa-columns fa-xs"></i> Tableau de bord</a></li>
-                        <li class="nav-item"><a href="/logout?token=<?= unserialize($_SESSION["user_information"])->get_token(); ?>" class="nav-link"><i class="fas fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
+                        <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="fad fa-columns fa-xs"></i> Tableau de bord</a></li>
+                        <li class="nav-item"><a href="/logout?token=<?= unserialize($_SESSION["user_information"])->get_token(); ?>" class="nav-link"><i class="fad fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
