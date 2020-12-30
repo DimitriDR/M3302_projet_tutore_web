@@ -105,4 +105,3 @@ SELECT `projet_tutore_web`.`orders`.`id_order`   AS `id_order`,
 FROM (`projet_tutore_web`.`orders`
          JOIN `projet_tutore_web`.`users`
               ON (`projet_tutore_web`.`orders`.`id_user` = `projet_tutore_web`.`users`.`id_user`));
-

@@ -17,10 +17,10 @@ class User {
     private int $mobile_number;
     private string $email_address;
     private string $token;
-    private string $credit_card_name;
-    private string $credit_card_number;
-    private string $credit_card_security_number;
-    private string $credit_card_expiration_date;
+    private ?string $credit_card_name;
+    private ?string $credit_card_number;
+    private ?string $credit_card_security_number;
+    private ?string $credit_card_expiration_date;
 
     /**
      * Retourne l'ID de l'utilisateur
