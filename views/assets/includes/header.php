@@ -72,4 +72,3 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     </div>
 </nav>
 <?php require_once "common_header.php"; ?>
-<?php echo "<pre>"; print_r(unserialize($_SESSION["user_information"])); ?>

@@ -51,7 +51,7 @@ if (isset($_POST["submit"])) {
         require_once "../models/user.php";
 
         // La valeur du CCV dépend s'il est déjà stocké en BDD (donc dans la session)
-        if(!empty(unserialize($_SESSION["user_information"])->get_credit_card_security_number())) {
+        if(!empty(unserialize($_SESSION["user_information"])->get_credit_card_security_number()) && empty($credit_card_security_number)) {
             $credit_card_security_number = unserialize($_SESSION["user_information"])->get_credit_card_security_number();
         }
 
