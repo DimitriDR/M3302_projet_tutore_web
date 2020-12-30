@@ -84,13 +84,15 @@ if (isset($_POST["submit"])) {
     }
 
     if (empty($errors)) {
-        require_once "../models/databaselink.php";
-        require_once "../models/user.php";
-
-        $database_link = new DatabaseLink();
+        // Fichiers nécessaires
+        require_once dirname(__DIR__) . "/models/databaselink.php";
+        require_once dirname(__DIR__) . "/models/order.php";
+        require_once dirname(__DIR__) . "/models/user.php";
 
         // On récupère l'id de l'utilisateur pour être plus facile dans les requêtes
         $id_user = unserialize($_SESSION["user_information"])->get_id_user();
+
+        $database_link = new DatabaseLink();
 
         // On va d'abord insérer les données bancaires
         $payment_query = $database_link->make_query("INSERT INTO `users.payment` (id_user, name, number, ccv, expiration_date) VALUES(?, ?, ?, ?, ?)", [
@@ -101,25 +103,13 @@ if (isset($_POST["submit"])) {
             $credit_card_expiration_date
         ]);
 
-        // On insère maintenant la commande en elle-même
-        $insert_order = $database_link->make_query("INSERT INTO `orders` (id_user, date, status) VALUES (?, ?, ?)", [
-            $id_user,
-            date("Y-m-d H:i:s"),
-            0
-        ]);
+        $order = new Order();
 
-        // On va récupérer l'ID de la commande créée
-        $last_id_order = $database_link->get_last_id();
+        // On enregistre la commande avec l'ID de l'utilisateur donné et en retour, cela nous donne l'ID de la commande
+        $last_id_order = $order->register($id_user);
 
-        // On va parcourir le panier pour récupérer l'ID des produits et leur quantité
-        foreach (unserialize($_SESSION["cart"])->get_items() as $item => $quantity) {
-            $insert_product = $database_link->make_query("INSERT INTO `products_orders` (id_product, id_order, quantity) VALUES (?, ?, ?)", [
-                    unserialize($item)->get_id_product(),
-                    $last_id_order,
-                    $quantity
-                ]
-            );
-        }
+        $cart = new Cart();
+        $cart->save_products_in_DB($_SESSION["cart"], $last_id_order);
 
         // On détruit le panier car il est traité
         unset($_SESSION["cart"]);
