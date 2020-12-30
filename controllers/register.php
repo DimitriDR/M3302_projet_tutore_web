@@ -81,12 +81,12 @@ if (isset($_POST["submit"])) {
         $user->register(strtoupper($last_name), ucfirst(strtolower($first_name)), $password, ucwords($street_name), $zip_code, ucwords($district), strtoupper($city), $mobile_number, strtolower($email_address));
 
         // On confirme que le compte a bien été créé
-        $_SESSION["flash"]["success"] = "Merci. Un e-mail de confirmation a été envoyé afin de valider votre compte";
-        header("location: /index.php");
+        $_SESSION["flash"]["success"] = "Merci. Un e-mail de confirmation a été envoyé afin de valider votre compte.";
+        header("location: /");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: /register.php");
+        header("location: ". $_SERVER["HTTP_REFERER"]);
         exit;
     }
 }

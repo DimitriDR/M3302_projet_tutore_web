@@ -9,3 +9,11 @@ svg.feather {
     max-width: 16px;
     max-height: 16px;
 }
+
+#background {
+    background: url("/views/assets/images/background.jpg") center no-repeat fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}

@@ -3,7 +3,7 @@
 require_once "databaselink.php";
 
 /**
- * Class User
+ * Classe User
  * Représente un utilisateur
  */
 class User {

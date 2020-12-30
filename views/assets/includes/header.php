@@ -9,8 +9,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Fichiers nécessaires
-require_once "models/cart.php";
-require_once "models/user.php";
+require_once dirname(dirname(dirname(__DIR__))) ."/models/cart.php";
+require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,7 +30,8 @@ require_once "models/user.php";
     <div class="container-md">
         <!-- Logo -->
         <a class="navbar-brand" href="/">
-            <!-- test <img src="" alt="Logo" height="30" width="17" class="d-inline-block"> -->
+                Charles Production
+<!--           <img src="" alt="Logo" height="30" width="17" class="d-inline-block">-->
         </a>
 
         <!-- Le bouton pour activer le menu sur mobile -->
@@ -43,10 +44,9 @@ require_once "models/user.php";
         <div class="collapse navbar-collapse" id="topbar">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a href="/browse" class="nav-link">Parcourir les articles</a>
+                    <a href="/browse" class="nav-link"><i class="fad fa-th-list fa-xs"></i> Parcourir les articles</a>
                 </li>
             </ul>
-
 
             <!-- Liens situés tout à droite -->
             <div class="d-flex">
@@ -56,8 +56,8 @@ require_once "models/user.php";
                         <li class="nav-item"><a href="/register" class="nav-link"><i class="fad fa-user-plus fa-xs"></i> Inscription</a></li>
                         <li class="nav-item"><a href="/login" class="nav-link"><i class="fad fa-user fa-xs"></i> Connexion</a></li>
                     <?php else: ?>
-                        <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="fad fa-columns fa-xs"></i> Tableau de bord</a></li>
-                        <li class="nav-item"><a href="/logout?token=<?= unserialize($_SESSION["user_information"])->get_token(); ?>" class="nav-link"><i class="fad fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
+<!--                        <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="fad fa-columns fa-xs"></i> Tableau de bord</a></li>-->
+                        <li class="nav-item"><a href="/logout.php?token=<?= unserialize($_SESSION["user_information"])->get_token(); ?>" class="nav-link"><i class="fad fa-sign-out-alt fa-xs"></i> Déconnexion</a></li>
                     <?php endif; ?>
                 </ul>
             </div>

@@ -1,8 +1,14 @@
 <?php
 require_once dirname(__DIR__) . "/controllers/product.php";
-if (!empty($product)) {
+
+if (!isset($product) || empty($product)) {
+    $_SESSION["flash"]["danger"] = "Une erreur s'est produite lors de la génération de la fiche produit";
+    header("Location: ". $_SERVER["HTTP_REFERER"]);
+    exit;
+} else {
     $page_title = "Produit : ". $product->get_label();
 }
+
 require_once "views/assets/includes/header.php";
 ?>
     <main class="container">

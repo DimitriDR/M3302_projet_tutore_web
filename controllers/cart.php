@@ -1,5 +1,12 @@
 <?php
-session_start();
+// On démarre sur session, sauf si une est déjà ouverte
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Fichiers nécessaires
+require_once dirname(__DIR__) . "/models/cart.php";
+require_once dirname(__DIR__) . "/models/product.php";
 
 // On s'assure que l'utilisateur soit connecté pour accéder au panier
 if (!isset($_SESSION["user_information"])) {
@@ -8,9 +15,12 @@ if (!isset($_SESSION["user_information"])) {
     exit;
 }
 
-// Fichiers nécessaires
-require_once dirname(__DIR__) . "/models/cart.php";
-require_once dirname(__DIR__) . "/models/product.php";
+// On vérifie également que le panier ne soit pas vide
+if(unserialize($_SESSION["cart"])->get_number_of_items() === 0) {
+    $_SESSION["flash"]["dark"] = "Le panier ne peut être affiché si vous n'avez ajouté aucun article.";
+    header("Location: ". $_SERVER["HTTP_REFERER"]);
+    exit;
+}
 
 /**
  * Fonction pour afficher l'ensemble des articles du panier sous la forme d'une liste

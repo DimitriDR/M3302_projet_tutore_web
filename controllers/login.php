@@ -1,11 +1,13 @@
 <?php
-// Démarrage de la session
-session_start();
+// On vérifie qu'une session soit ouverte
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Fichiers nécessaires
-require_once "../models/cart.php";
-require_once "../models/databaselink.php";
-require_once "../models/user.php";
+require_once dirname(__DIR__) ."/models/cart.php";
+require_once dirname(__DIR__) ."/models/databaselink.php";
+require_once dirname(__DIR__) ."/models/user.php";
 
 // Traitement du formulaire d'inscription
 if (isset($_POST["submit"])) {
@@ -21,34 +23,34 @@ if (isset($_POST["submit"])) {
         $errors["email_address_empty"] = "L'adresse e-mail est vide";
     }
 
+    $user = new User();
+
     // On vérifie que le mot de passe ne soit pas vide et composé d'au moins 8 caractères
     if (empty($password)) {
         $errors["empty_or_too_short_password"] = "Le mot de passe est vide";
-    }
-
-    $database_link = new DatabaseLink();
-    $user = new User();
-
-    if(!empty($password) && !$user->check_credentials($email_address, $password)) {
+    } else if(!$user->check_credentials($email_address, $password)) {
         $errors["wrong_credentials"] = "L'adresse ou le mot de passe sont incorrects";
     }
 
     // Si le tableau des erreurs est vide, alors on peut commencer l'insertion
     if (empty($errors)) {
+            $database_link = new DatabaseLink();
+
             // On hydrate l'objet User
             $user->login($email_address);
 
             // On met cet objet dans la session
             $_SESSION["user_information"] = serialize($user);
+            // Et on créé aussi un nouveau panier
             $_SESSION["cart"] = serialize(new Cart());
 
             // On termine
-            $_SESSION["flash"]["success"] = "Vous êtes désormais connecté";
-            header("location: /index.php");
+            $_SESSION["flash"]["success"] = "Vous êtes désormais connecté.";
+            header("location: /");
             exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: /login.php");
+        header("location: ". $_SERVER["HTTP_REFERER"]);
         exit;
     }
 }

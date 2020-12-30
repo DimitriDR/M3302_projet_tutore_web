@@ -4,10 +4,10 @@ require_once dirname(__DIR__) . "/controllers/cart.php";
 require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 ?>
     <main class="container">
-        <h1 class="text-center">Votre commande <?php display_number_of_items() ?></h1>
+        <h1 class="text-center">Résumé de votre commande <?php display_number_of_items() ?></h1>
 
         <section class="g-3">
-            <h2>Vos articles</h2>
+            <h2><i class="fad fa-shopping-bag fa-xs"></i> Vos articles</h2>
             <ul class="list-group">
                 <?php display_all_items() ?>
                 <li class="list-group-item active"><strong><i class="fad fa-money-bill-wave fa-xs"></i> Prix total</strong><span
@@ -16,7 +16,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
         </section>
 
         <section class="row py-3 my-3">
-            <h2>Vos informations</h2>
+            <h2><i class="fad fa-info-circle fa-xs"></i> Vos informations</h2>
             <h3>Informations de livraison et de facturation</h3>
             <p class="text-muted">Pour modifier ces informations, veuillez vous rendre sur cette page <a href="">LIEN</a>.</p>
 

@@ -6,7 +6,7 @@ require_once "views/assets/includes/header.php";
     <div class="card shadow-sm">
         <div class="card-body">
             <h1 class="card-title">Inscription chez Charles</h1>
-            <p>Vous avez déjà un compte ? <a href="login.php">Connectez-vous</a>.</p>
+            <p>Vous avez déjà un compte ? <a href="login">Connectez-vous</a>.</p>
             <form method="POST" action="/controllers/register.php" class="row g-3">
 
                 <div class="col-6">
