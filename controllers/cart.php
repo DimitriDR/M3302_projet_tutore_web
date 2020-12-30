@@ -119,7 +119,7 @@ if (isset($_POST["submit"])) {
 
         // On confirme que le compte a bien été créé
         $_SESSION["flash"]["success"] = "Merci pour votre commande, nous allons la traiter dès que possible !";
-        header("location: /index");
+        header("location: /");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;

@@ -8,11 +8,11 @@ if (isset($_SESSION["flash"])):
 ?>
     <div class="alert alert-<?= $type ?> p-2 m-0 text-center">
         <?php if($type == "danger" || $type == "warning"): ?>
-            <i class="fad fa-exclamation-triangle"></i> <?= htmlspecialchars(trim($message)) ?>
+            <i class="fad fa-exclamation-triangle"></i> <?= trim($message) ?>
         <?php elseif($type == "success"): ?>
-            <i class="fad fa-check-circle"></i> <?= htmlspecialchars(trim($message)) ?>
+            <i class="fad fa-check-circle"></i> <?= trim($message) ?>
         <?php else: ?>
-            <i class="fad fa-bell"></i> <?= htmlspecialchars(trim($message)) ?>
+            <i class="fad fa-bell"></i> <?= trim($message) ?>
         <?php endif ?>
     </div>
 <?php

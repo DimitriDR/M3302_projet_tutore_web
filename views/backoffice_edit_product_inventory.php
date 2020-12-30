@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . "/controllers/backoffice_edit_product.php";
+require_once dirname(__DIR__) . "/controllers/backoffice_edit_product_inventory.php";
 require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
 
 if(!isset($product) || empty($product)) {
@@ -11,17 +11,16 @@ if(!isset($product) || empty($product)) {
     <main class="container">
         <div class="card shadow-sm p-2">
             <div class="card-body">
-                <h1 class="card-title">Édition d'un produit</h1>
-                <p class="text-muted">Pour modifier l'inventaire du produit, veuillez vous rendre sur <a href="backoffice_edit_product_inventory?id=<?= $_GET["id"]; ?>">cette page</a>.</p>
-
-                <form method="POST" action="/controllers/backoffice_edit_product.php?id=<?= $_GET["id"]; ?>" class="row">
+                <h1 class="card-title">Gestion des stocks du produit : <?= $product->get_label() ?></h1>
+                <p class="text-muted">Pour modifier les champs grisés, veuillez vous rendre sur <a href="backoffice_edit_product?id=<?= $_GET["id"]; ?>">cette page</a>.</p>
+                <form method="POST" action="/controllers/backoffice_edit_product_inventory.php?id=<?= $_GET["id"]; ?>" class="row">
 
                     <!-- Champ pour le libellé -->
                     <div class="col-10 my-2">
                         <label for="label" class="form-label">Libellé</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-heading fs-xs"></i></span>
-                            <input type="text" id="label" name="label" class="form-control" value="<?= htmlspecialchars($product->get_label()) ?>">
+                            <input type="text" id="label" name="label" class="form-control" value="<?= htmlspecialchars($product->get_label()) ?>" disabled>
                         </div>
                     </div>
 
@@ -29,7 +28,7 @@ if(!isset($product) || empty($product)) {
                         <label for="price" class="form-label">Prix au kg</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-euro-sign fs-xs"></i></span>
-                            <input type="number" id="price" name="price" min="0" step="0.01" class="form-control" value="<?= htmlspecialchars($product->get_price()) ?>">
+                            <input type="number" id="price" name="price" min="0" step="0.01" class="form-control" value="<?= htmlspecialchars($product->get_price()) ?>" disabled>
                         </div>
                     </div>
 
@@ -38,7 +37,7 @@ if(!isset($product) || empty($product)) {
                         <label for="season" class="form-label">Saison</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-cloud-sun-rain fs-xs"></i></span>
-                            <select id="season" name="season" class="form-select">
+                            <select id="season" name="season" class="form-select" disabled>
                                 <option value="Hiver" <?php if(isset($product) && $product->get_season() == "Hiver"): echo "selected"; endif; ?>>Hiver</option>
                                 <option value="Printemps" <?php if(isset($product) && $product->get_season() == "Printemps"): echo "selected"; endif; ?>>Printemps</option>
                                 <option value="Été" <?php if(isset($product) && $product->get_season() == "Été"): echo "selected"; endif; ?>>Été</option>
@@ -52,7 +51,7 @@ if(!isset($product) || empty($product)) {
                         <label for="classification" class="form-label">Classification</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-tags fs-xs"></i></span>
-                            <select id="classification" name="classification" class="form-select">
+                            <select id="classification" name="classification" class="form-select" disabled>
                                 <option value="Composées" <?php if(isset($product) && $product->get_classification() == "Composées"): echo "selected"; endif; ?>>Composées</option>
                                 <option value="Ombellifères" <?php if(isset($product) && $product->get_classification() == "Ombellifères"): echo "selected"; endif; ?>>Ombellifères</option>
                                 <option value="Liliacées" <?php if(isset($product) && $product->get_classification() == "Liliacées"): echo "selected"; endif; ?>>Liliacées</option>
@@ -72,7 +71,7 @@ if(!isset($product) || empty($product)) {
                         <label for="type" class="form-label">Type</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="far fa-leaf fs-xs"></i></span>
-                            <select id="type" name="type" class="form-select">
+                            <select id="type" name="type" class="form-select" disabled>
                                 <option value="Légumes" <?php if(isset($product) && $product->get_type() == "Légumes"): echo "selected"; endif; ?>>Légumes</option>
                                 <option value="Fruits" <?php if(isset($product) && $product->get_type() == "Fruits"): echo "selected"; endif; ?>>Fruits</option>
                             </select>
@@ -84,13 +83,30 @@ if(!isset($product) || empty($product)) {
                         <label for="description" class="form-label">Description</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-newspaper fs-xs"></i></span>
-                            <textarea id="description" name="description" rows="5" class="form-control"><?= htmlspecialchars($product->get_description()) ?></textarea>
+                            <textarea id="description" name="description" rows="5" class="form-control" disabled><?= htmlspecialchars($product->get_description()) ?></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="col-6 my-2">
+                        <label for="quantity" class="form-label">Quantité disponible immédiatement</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-boxes fs-xs"></i></span>
+                            <input type="number" id="quantity" name="quantity" min="0" step="1" class="form-control" value="<?= htmlspecialchars($product->get_number_in_inventory()) ?>">
+                        </div>
+                    </div>
+
+                    <div class="col-6 my-2">
+                        <label for="discount_rate" class="form-label">Promotion</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-percent fs-xs"></i></span>
+                            <input type="number" id="discount_rate" name="discount_rate" min="0" class="form-control" value="<?= htmlspecialchars($product->get_discount_rate()) ?>">
                         </div>
                     </div>
 
                     <!-- Bouton de validation -->
                     <div class="col-12 my-2">
-                        <button id="submit" name="submit" class="btn btn-primary"><i class="fas fa-pen-alt fa-xs"></i> Éditer un produit</button>
+                        <button id="submit" name="submit" class="btn btn-primary"><i class="fas fa-truck-loading fa-xs"></i> Modifier l'inventaire</button>
                     </div>
                 </form>
             </div>

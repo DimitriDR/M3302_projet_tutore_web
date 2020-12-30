@@ -18,6 +18,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         </div>
                     </div>
 
+                    <!-- Champ pour le prix -->
                     <div class="col-2 my-2">
                         <label for="price" class="form-label">Prix au kg</label>
                         <div class="input-group">
@@ -32,6 +33,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         <div class="input-group">
                             <span class="input-group-text"><i class="far fa-cloud-sun-rain fs-xs"></i></span>
                             <select id="season" name="season" class="form-select">
+                                <option value="Toute l'année">Toute l'année</option>
                                 <option value="Hiver">Hiver</option>
                                 <option value="Printemps">Printemps</option>
                                 <option value="Été">Été</option>

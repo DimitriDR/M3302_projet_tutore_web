@@ -2,13 +2,25 @@ CREATE OR REPLACE TABLE projet_tutore_web.products
 (
     id_product     int AUTO_INCREMENT PRIMARY KEY,
     label          varchar(100) NOT NULL,
-    season         varchar(9)   NULL,
+    type           varchar(7)   NULL,
     classification varchar(200) NULL,
     description    text         NULL,
     price          double       NULL,
-    category       varchar(7)   NULL
+    season         varchar(13)  NULL
 )
     COMMENT 'Table contenant tous les produits';
+
+CREATE OR REPLACE TABLE projet_tutore_web.`products.inventory`
+(
+    id_product_inventory int AUTO_INCREMENT,
+    id_product           int   NOT NULL,
+    quantity             int   NULL,
+    discount_rate        float NULL,
+    PRIMARY KEY (id_product_inventory, id_product),
+    CONSTRAINT `products.inventory_products_id_product_fk`
+        FOREIGN KEY (id_product) REFERENCES projet_tutore_web.products (id_product)
+)
+    COMMENT 'Table contenant le nombre d''articles en stock';
 
 CREATE OR REPLACE TABLE projet_tutore_web.users
 (
@@ -72,3 +84,25 @@ CREATE OR REPLACE TABLE projet_tutore_web.`users.rights`
         FOREIGN KEY (id_user) REFERENCES projet_tutore_web.users (id_user)
 )
     COMMENT 'Table contenant les droits des utilisateurs';
+
+/* Les vues utilisées pour l'administration */
+CREATE OR REPLACE DEFINER = root@localhost VIEW projet_tutore_web.`backoffice.products` AS
+SELECT `projet_tutore_web`.`products`.`id_product`              AS `id_product`,
+       `projet_tutore_web`.`products.inventory`.`quantity`      AS `quantity`,
+       `projet_tutore_web`.`products.inventory`.`discount_rate` AS `discount_rate`
+FROM (`projet_tutore_web`.`products`
+         JOIN `projet_tutore_web`.`products.inventory`
+              ON (`projet_tutore_web`.`products`.`id_product` = `projet_tutore_web`.`products.inventory`.`id_product`));
+
+CREATE OR REPLACE DEFINER = root@localhost VIEW projet_tutore_web.backoffice_orders AS
+SELECT `projet_tutore_web`.`orders`.`id_order`   AS `id_order`,
+       `projet_tutore_web`.`orders`.`date`       AS `date`,
+       `projet_tutore_web`.`orders`.`status`     AS `status`,
+       `projet_tutore_web`.`users`.`last_name`   AS `last_name`,
+       `projet_tutore_web`.`users`.`first_name`  AS `first_name`,
+       `projet_tutore_web`.`users`.`street_name` AS `street_name`,
+       `projet_tutore_web`.`users`.`city`        AS `city`
+FROM (`projet_tutore_web`.`orders`
+         JOIN `projet_tutore_web`.`users`
+              ON (`projet_tutore_web`.`orders`.`id_user` = `projet_tutore_web`.`users`.`id_user`));
+

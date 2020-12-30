@@ -6,7 +6,7 @@ require_once dirname(__DIR__) . "/models/user.php";
 
 if (isset($_POST["submit"])) {
     if(!isset($_POST["password"]) || empty($_POST["password"])) {
-        $_SESSION["flash"]["danger"] = "Veuillez saisir le mot de passe";
+        $_SESSION["flash"]["danger"] = "Veuillez saisir le mot de passe.";
         header("Location: ../backoffice_login");
         exit;
     }
@@ -21,10 +21,11 @@ if (isset($_POST["submit"])) {
 
     if(password_verify($_POST["password"], $get_password->fetchColumn())) {
         $_SESSION["administrator"] = true;
+        $_SESSION["flash"]["success"] = "Vous êtes désormais connecté en tant qu'administrateur";
         header("Location: ../backoffice_index");
         exit;
     } else {
-        $_SESSION["flash"]["danger"] = "Le mot de passe saisie est incorrect";
+        $_SESSION["flash"]["danger"] = "Le mot de passe saisie est incorrect.";
         header("Location: ../backoffice_login");
         exit;
     }

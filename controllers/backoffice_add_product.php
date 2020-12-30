@@ -39,6 +39,7 @@ if (isset($_POST["submit"])) {
         "Printemps",
         "Été",
         "Automne",
+        "Toute l'année",
     );
 
     if (empty($season)) {
@@ -90,10 +91,10 @@ if (isset($_POST["submit"])) {
     if (empty($errors)) {
         // On créé un nouveau produit afin d'utiliser la méthode d'ajout intégrée
         $product = new Product();
-        $product->add($label, $type, $season, $classification, $description, $price);
+        $product_id = $product->add($label, $type, $season, $classification, $description, $price);
 
         // On finalise
-        $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès";
+        $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès. <strong>Néanmoins, il faut aller sur <a href='../backoffice_edit_product_inventory?id=". $product_id ."'>cette page</a> pour saisir le stock, sans quoi, votre produit sera caché.</strong>";
         header("Location: ../backoffice_index");
         exit;
     } else {

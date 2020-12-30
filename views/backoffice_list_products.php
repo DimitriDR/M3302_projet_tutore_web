@@ -15,6 +15,8 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                     <th class="col">Saison</th>
                     <th class="col">Classification</th>
                     <th class="col">Prix</th>
+                    <th class="col">Stock</th>
+                    <th class="col">Promotion</th>
                     <th class="col">Actions</th>
                 </tr>
                 </thead>

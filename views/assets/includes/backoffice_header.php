@@ -10,11 +10,10 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Accès uniqueent aux administrateurs connectés
 if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
-    $_SESSION["flash"]["warning"] = "Vous devez être connecté en tant qu'administrateur pour accéder à cet espace";
-    header("Location: ../index");
+    $_SESSION["flash"]["warning"] = "Vous devez être connecté en tant qu'administrateur pour accéder à cet espace.";
+    header("Location: ../");
     exit;
 }
-
 require_once "models/user.php";
 ?>
 <!DOCTYPE html>
@@ -35,6 +34,7 @@ require_once "models/user.php";
     <div class="container-md">
         <!-- Logo -->
         <a class="navbar-brand" href="/">
+            Administration
             <!-- test <img src="" alt="Logo" height="30" width="17" class="d-inline-block"> -->
         </a>
 
@@ -51,6 +51,7 @@ require_once "models/user.php";
                 <li class="nav-item"><a href="backoffice_add_product" class="nav-link"><i class="fad fa-plus fa-xs"></i> Ajouter un produit</a></li>
                 <li class="nav-item"><a href="backoffice_list_products" class="nav-link"><i class="fad fa-list-ul fa-xs"></i> Liste des produits</a></li>
                 <li class="nav-item"><a href="backoffice_list_orders" class="nav-link"><i class="fad fa-truck fa-xs"></i> Liste des commandes</a></li>
+                <li class="nav-item"><a href="backoffice_manage_inventory" class="nav-link"><i class="fad fa-warehouse fa-xs"></i> Gestion du stock</a></li>
             </ul>
 
             <!-- Liens situés tout à droite -->

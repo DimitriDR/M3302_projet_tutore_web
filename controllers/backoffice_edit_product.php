@@ -18,7 +18,7 @@ $successfully_hydrate = $product->hydrate($_GET["id"]);
 if(!$successfully_hydrate) {
     unset($product);
     $_SESSION["flash"]["danger"] = "Le produit n'a pas pû être récupéré (peut-être parce-que l'ID correspond à un produit qui n'existe pas...).";
-    header("Location: ../index.php");
+    header("Location: ../backoffice_index");
     exit;
 }
 
@@ -33,6 +33,7 @@ if (isset($_POST["submit"])) {
     // On récupère toutes les variables du formulaire
     $label = trim($_POST["label"]);
     $season = trim($_POST["season"]);
+    $type = trim($_POST["type"]);
     $classification = trim($_POST["classification"]);
     $description = trim($_POST["description"]);
     $price = (float)$_POST["price"];
@@ -101,11 +102,11 @@ if (isset($_POST["submit"])) {
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été mis à jour avec succès";
-        header("Location: ../index.php");
+        header("Location: ../backoffice_list_products");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ../backoffice_edit_product.php?id=".$_GET["id"]);
+        header("Location: ../backoffice_edit_product?id=".$_GET["id"]);
         exit;
     }
 }

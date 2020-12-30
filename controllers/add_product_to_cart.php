@@ -8,7 +8,12 @@ require_once dirname(__DIR__) . "/models/product.php";
 
 if (!isset($_POST["add"]) && !isset($_GET["id"])) {
     $_SESSION["flash"]["danger"] = "Une erreur est survenue lors de l'ajout au panier.";
-    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    if(isset($_SERVER["HTTP_REFERER"])) {
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+    } else {
+        header("Location: /");
+    }
+    exit;
 }
 
 $id = 0;
@@ -17,7 +22,7 @@ $id = 0;
 if(!empty($_POST)) {
     if (empty($_POST["id"]) || !is_numeric($_POST["id"])) {
         $_SESSION["flash"]["danger"] = "L'ID du produit est vide ou invalide.";
-        header("Location: ../index.php");
+        header("Location: /");
         exit;
     }
 
@@ -25,7 +30,7 @@ if(!empty($_POST)) {
 } else {
     if(!is_numeric($_GET["id"])) {
         $_SESSION["flash"]["danger"] = "L'ID du produit est vide ou invalide.";
-        header("Location: ../index.php");
+        header("Location: /");
         exit;
     }
 
