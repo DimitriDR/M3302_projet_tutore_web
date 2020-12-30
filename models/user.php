@@ -17,6 +17,10 @@ class User {
     private int $mobile_number;
     private string $email_address;
     private string $token;
+    private string $credit_card_name;
+    private string $credit_card_number;
+    private string $credit_card_security_number;
+    private string $credit_card_expiration_date;
 
     /**
      * Retourne l'ID de l'utilisateur
@@ -43,45 +47,72 @@ class User {
     /**
      * @return string
      */
-    public function get_street_name(): string {
+    public function get_street_name() : string {
         return $this->street_name;
     }
 
     /**
      * @return int
      */
-    public function get_zip_code(): int {
+    public function get_zip_code() : int {
         return $this->zip_code;
     }
 
     /**
      * @return string
      */
-    public function get_district(): string {
+    public function get_district() : string {
         return $this->district;
     }
 
     /**
      * @return string
      */
-    public function get_city(): string {
+    public function get_city() : string {
         return $this->city;
     }
 
     /**
      * @return int
      */
-    public function get_mobile_number(): int {
+    public function get_mobile_number() : int {
         return $this->mobile_number;
     }
 
     /**
      * @return string
      */
-    public function get_email_address(): string {
+    public function get_email_address() : string {
         return $this->email_address;
     }
 
+    /**
+     * @return string
+     */
+    public function get_credit_card_name() : string {
+        return $this->credit_card_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_credit_card_number() : string {
+        return $this->credit_card_number;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_credit_card_security_number() : string {
+        return $this->credit_card_security_number;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_credit_card_expiration_date() : string {
+        return $this->credit_card_expiration_date;
+    }
 
     /**
      * Retourne le token de l'utilisateur
@@ -110,6 +141,11 @@ class User {
             $mobile_number,
             $email_address
         ]);
+
+        $user_id = $database_link->get_last_id();
+
+        // On fait une requête pour créer une ligne dans les informations de paiement
+        $database_link->make_query("INSERT INTO `users.payment` (id_user, name, number, ccv, expiration_date) VALUES (?, NULL, NULL, NULL, NULL)", [$user_id]);
 
         // Si on n'a pas un retour égal à false, la requête s'est bien passée
         if ($register) {
@@ -149,8 +185,10 @@ class User {
     public function login(string $email) : void {
         $databaselink = new DatabaseLink();
         $get_user_information = $databaselink->make_query("SELECT * FROM users WHERE `email_address` = ?", [$email]);
-
         $user_information = $get_user_information->fetch();
+
+        $get_user_banking_information = $databaselink->make_query("SELECT * FROM `users.payment` WHERE `id_user` = ?", [$user_information->id_user]);
+        $user_banking_information = $get_user_banking_information->fetch();
 
         if($databaselink->number_of_returned_rows($get_user_information)) {
             $this->id_user = $user_information->id_user;
@@ -163,6 +201,40 @@ class User {
             $this->mobile_number = $user_information->mobile_number;
             $this->email_address = $user_information->email_address;
             $this->token = $this->create_token();
+            $this->credit_card_name = $user_banking_information->name;
+            $this->credit_card_number = $user_banking_information->number;
+            $this->credit_card_security_number = $user_banking_information->ccv;
+            $this->credit_card_expiration_date = $user_banking_information->expiration_date;
         }
+    }
+
+    /**
+     * Méthode pour mettre à jour les informations de l'utilisateur
+     * @param int $user_id
+     * @param string $last_name
+     * @param string $first_name
+     * @param string $street_name
+     * @param string $zip_code
+     * @param string $district
+     * @param string $city
+     * @param string $mobile_number
+     * @param string $email_address
+     */
+    public function update(int $user_id, string $last_name, string $first_name, string $street_name, string $zip_code, string $district, string $city, string $mobile_number, string $email_address) : void {
+        $databaselink = new DatabaseLink();
+        $databaselink->make_query("UPDATE `users` SET `last_name` = ?, `first_name` = ?, `street_name` = ?, `zip_code` = ?, `district` = ?, `city` = ?, `mobile_number` = ?, `email_address` = ? WHERE `id_user` = ?", [$last_name, $first_name, $street_name, $zip_code, $district, $city, $mobile_number, $email_address, $user_id]);
+    }
+
+    /**
+     * Méthode pour mettre à jour les données de paiment
+     * @param int $user_id L'ID de l'utilisateur auquel on doit racheter les informations de la carte
+     * @param string $credit_card_name Le nom sur la carte de crédit
+     * @param string $credit_card_number Le numéro de la carte de crédit
+     * @param string $credit_card_security_number Le CCV de la carte
+     * @param string $credit_card_expiration_date La date d'expiration de la carte
+     */
+    public function update_banking_information(int $user_id, string $credit_card_name, string $credit_card_number, string $credit_card_security_number, string $credit_card_expiration_date) : void {
+        $databaselink = new DatabaseLink();
+        $databaselink->make_query("UPDATE `users.payment` SET `name` = ?, `number` = ?, `ccv` = ?, `expiration_date` = ? WHERE `id_user` = ?", [$credit_card_name, $credit_card_number, $credit_card_security_number, $credit_card_expiration_date, $user_id]);
     }
 }

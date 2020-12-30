@@ -13,7 +13,7 @@ require_once "views/assets/includes/header.php";
                     <label for="last_name" class="form-label">Nom</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-user fs-xs"></i></span>
-                        <input type="text" id="last_name" name="last_name" class="form-control">
+                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="DUPONT">
                     </div>
                 </div>
 
@@ -21,7 +21,7 @@ require_once "views/assets/includes/header.php";
                     <label for="first_name" class="form-label">Prénom</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-user fs-xs"></i></span>
-                        <input type="text" id="first_name" name="first_name" class="form-control">
+                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Jean">
                     </div>
                 </div>
 
@@ -29,7 +29,7 @@ require_once "views/assets/includes/header.php";
                     <label for="email_address" class="form-label">Adresse e-mail</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-at fs-xs"></i></span>
-                        <input type="email" id="email_address" name="email_address" class="form-control">
+                        <input type="email" id="email_address" name="email_address" class="form-control" placeholder="dupont@google.com">
                     </div>
                     <span class="form-text">Un e-mail de confirmation vous sera envoyé pour valider votre compte.</span>
                 </div>
@@ -38,7 +38,7 @@ require_once "views/assets/includes/header.php";
                     <label for="mobile_number" class="form-label">Numéro de téléphone</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-mobile-alt fs-xs"></i></span>
-                        <input type="tel" id="mobile_number" name="mobile_number" class="form-control">
+                        <input type="tel" id="mobile_number" name="mobile_number" class="form-control" placeholder="612345678">
                     </div>
                     <span class="form-text">Ce numéro ne sert uniquement à vous contacter si nous avons un soucis avec votre commande.</span>
                 </div>
@@ -56,7 +56,7 @@ require_once "views/assets/includes/header.php";
                     <label for="street_name" class="form-label">Adresse postale</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-home fs-xs"></i></span>
-                        <input type="text" id="street_name" name="street_name" class="form-control">
+                        <input type="text" id="street_name" name="street_name" class="form-control" placeholder="1, rue Charles de Gaulle">
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@ require_once "views/assets/includes/header.php";
                     <label for="city" class="form-label">Ville</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-globe-europe fs-xs"></i></span>
-                        <input type="text" id="city" name="city" class="form-control">
+                        <input type="text" id="city" name="city" class="form-control" placeholder="Orsay">
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@ require_once "views/assets/includes/header.php";
                     <label for="zip_code" class="form-label">Code postal</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-map-pin fs-xs"></i></span>
-                        <input type="text" id="zip_code" name="zip_code" class="form-control">
+                        <input type="text" id="zip_code" name="zip_code" class="form-control" placeholder="91100">
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@ require_once "views/assets/includes/header.php";
                     <label for="district" class="form-label">Nom du quartier / Arrondissement</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-city fs-xs"></i></span>
-                        <input type="text" id="district" name="district" class="form-control">
+                        <input type="text" id="district" name="district" class="form-control" placeholder="Centre">
                     </div>
                 </div>
 
