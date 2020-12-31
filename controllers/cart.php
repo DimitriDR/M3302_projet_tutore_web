@@ -1,8 +1,5 @@
 <?php
-// On démarre sur session, sauf si une est déjà ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once "common.start.session.php";
 
 // Fichiers nécessaires
 require_once dirname(__DIR__) . "/models/cart.php";
@@ -15,7 +12,7 @@ if (!isset($_SESSION["user_information"])) {
     exit;
 }
 
-// On vérifie également que le panier ne soit pas vide
+// On vérifie que le panier ne soit pas vide
 if(unserialize($_SESSION["cart"])->get_number_of_items() === 0) {
     $_SESSION["flash"]["dark"] = "Le panier ne peut être affiché si vous n'avez ajouté aucun article.";
     header("Location: ". $_SERVER["HTTP_REFERER"]);
@@ -55,32 +52,9 @@ if (isset($_POST["submit"])) {
     // Tableau contenant les erreurs
     $errors = array();
 
-    // Récupération de tous les champs
-    $credit_card_name = trim($_POST["credit_card_name"]);
-    $credit_card_number = trim($_POST["credit_card_number"]);
-    $credit_card_ccv = trim($_POST["credit_card_security_number"]);
-    $credit_card_expiration_date = trim($_POST["credit_card_expiration_date"]);
-
-    // Vérification du nom de la carte
-    if (empty($credit_card_name)) {
-        $errors["empty_credit_card_name"] = "Le nom de la carte n'a pas été saisi";
-    }
-
-    // Vérification du numéro de la carte
-    if (empty($credit_card_number)) {
-        $errors["empty_credit_card_number"] = "Le numéro de la carte n'a pas été saisi";
-    }
-
-    // Vérification du code de la carte
-    if (empty($credit_card_ccv)) {
-        $errors["empty_credit_card_"] = "Le code de la carte n'a pas été saisi";
-    } else if (!preg_match("/^[0-9]{3}$/", $credit_card_ccv)) {
-        $errors["wrong_card_number"] = "Le code doit uniquement être composé de 3 chiffres";
-    }
-
-    // Vérification de la date de la carte
-    if (empty($credit_card_expiration_date)) {
-        $errors["empty_credit_card_expiration_date"] = "La date d'expiration de la carte n'est pas valide";
+    // Si une information de la session est vide, alors les informations demandées sont manquantes
+    if(empty($_SESSION["user_information"])) {
+        $errors["missing_information"] = "Le panier ne peut être validé. Assurez-vous d'avoir rempli tous les champs sur <a href='../edit_my_banking_information' target='_blank'><i class='fad fa-external-link-square-alt fa-xs'></i> cette page</a> et <a href='../edit_my_information' target='_blank'><i class='fad fa-external-link-square-alt fa-xs'></i> cette page</a>";
     }
 
     if (empty($errors)) {
@@ -89,23 +63,14 @@ if (isset($_POST["submit"])) {
         require_once dirname(__DIR__) . "/models/order.php";
         require_once dirname(__DIR__) . "/models/user.php";
 
-        // On récupère l'id de l'utilisateur pour être plus facile dans les requêtes
+        // On récupère l'ID de l'utilisateur pour être plus facile dans les requêtes
         $id_user = unserialize($_SESSION["user_information"])->get_id_user();
 
+        // Création des nouveaux objets nécessaires
         $database_link = new DatabaseLink();
-
-        // On va d'abord insérer les données bancaires
-        $payment_query = $database_link->make_query("INSERT INTO `users.payment` (id_user, name, number, ccv, expiration_date) VALUES(?, ?, ?, ?, ?)", [
-            $id_user,
-            $credit_card_name,
-            $credit_card_number,
-            $credit_card_ccv,
-            $credit_card_expiration_date
-        ]);
-
         $order = new Order();
 
-        // On enregistre la commande avec l'ID de l'utilisateur donné et en retour, cela nous donne l'ID de la commande
+        // On enregistre la commande avec l'ID de l'utilisateur donné et en retour, cela nous donne l'ID de la commande qui vient d'être inséré
         $last_id_order = $order->register($id_user);
 
         $cart = new Cart();

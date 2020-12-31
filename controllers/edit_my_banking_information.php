@@ -35,9 +35,9 @@ if (isset($_POST["submit"])) {
     // Traitement du CCV
     if(empty(unserialize($_SESSION["user_information"])->get_credit_card_security_number())) {
         if(empty($credit_card_security_number)) {
-            $errors["empty_credit_card_ccv"] = "Le code de sécurité de la carte n'a pas été saisi";
+            $errors["empty_credit_card_cvv"] = "Le code de sécurité de la carte n'a pas été saisi";
         } else if(!preg_match("/^[[:digit:]]{3}$/", $credit_card_security_number)) {
-            $errors["not_valid_ccv"] = "Le code de sécurité de la carte doit être uniquement composé de 3 chiffres";
+            $errors["not_valid_cvv"] = "Le code de sécurité de la carte doit être uniquement composé de 3 chiffres";
         }
     }
 
