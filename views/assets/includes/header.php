@@ -56,6 +56,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
                                 <li><a href="/login" class="dropdown-item"><i class="fas fa-user fa-xs"></i> Connexion</a></li>
                             <?php else: ?>
                                 <li><a href="/my_orders" class="dropdown-item"><i class="fad fa-file-invoice fa-xs"></i> Mes commandes</a></li>
+                                <li><a href="/track_my_order" class="dropdown-item"><i class="fad fa-truck fa-xs"></i> Suivre ma dernière commande</a></li>
                                 <li><a href="/edit_my_information" class="dropdown-item"><i class="fad fa-user fa-xs"></i> Éditer mes informations</a></li>
                                 <li><a href="/edit_my_banking_information" class="dropdown-item"><i class="fad fa-credit-card fa-xs"></i> Éditer mes informations de paiement</a></li>
                                 <li><hr class="dropdown-divider"></li>
