@@ -1,6 +1,12 @@
 <?php
-// Démarrage de la session
-session_start();
+require_once "common.start.session.php";
+require_once "common.forwarding.php";
+
+if(!empty($_SESSION["user_information"])) {
+    $_SESSION["flash"]["info"] = "Vous avez déjà un compte chez nous car vous êtes actuellement connecté. <i class='fal fa-laugh-wink'></i>";
+    header("Location: /");
+    exit;
+}
 
 // Traitement du formulaire d'inscription
 if (isset($_POST["submit"])) {
@@ -72,8 +78,8 @@ if (isset($_POST["submit"])) {
 
     // Si le tableau des erreurs est vide, alors on peut commencer l'insertion
     if (empty($errors)) {
-        require_once "../models/databaselink.php";
-        require_once "../models/user.php";
+        require_once dirname(__DIR__) . "/models/databaselink.php";
+        require_once dirname(__DIR__) . "/models/user.php";
 
         $database_link = new DatabaseLink();
         $user = new User();
@@ -86,7 +92,7 @@ if (isset($_POST["submit"])) {
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: ". $_SERVER["HTTP_REFERER"]);
+        header("location: ". $GLOBALS["forwarding"]);
         exit;
     }
 }

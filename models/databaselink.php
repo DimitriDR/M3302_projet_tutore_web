@@ -22,7 +22,7 @@ class DatabaseLink {
      * Constructeur de olddatabaselink
      */
     public function __construct() {
-        $this->PDO = new PDO("mysql:host=" . $this::HOST . ";dbname=" . $this::DB_NAME . ";charset=UTF8", $this::USERNAME, $this::PASSWORD, $this::OPTIONS);
+        $this->PDO = new PDO("mysql:host=" . DatabaseLink::HOST . ";dbname=" . DatabaseLink::DB_NAME . ";charset=UTF8", DatabaseLink::USERNAME, DatabaseLink::PASSWORD, DatabaseLink::OPTIONS);
     }
 
     /**

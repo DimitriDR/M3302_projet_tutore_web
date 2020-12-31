@@ -4,6 +4,12 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+if(empty($_SESSION["user_information"])) {
+    $_SESSION["flash"]["warning"] = "Vous devez être connecté pour accéder à cette page.";
+    header("Location: /");
+    exit;
+}
+
 // Traitement du formulaire d'inscription
 if (isset($_POST["submit"])) {
     // On initialise un tableau contenant les erreurs

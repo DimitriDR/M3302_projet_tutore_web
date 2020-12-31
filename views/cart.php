@@ -6,19 +6,14 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 $user_info = unserialize($_SESSION["user_information"]);
 
 ?>
-    <main class="container">
-        <h1 class="text-center">Résumé de votre commande <?php display_number_of_items() ?></h1>
+<main class="container">
+    <h1 class="text-center mb-5">Votre panier <?= htmlspecialchars(display_number_of_items()) ?></h1>
 
-        <section class="g-3">
-            <h2><i class="fad fa-shopping-bag fa-xs"></i> Vos articles</h2>
-            <ul class="list-group">
-                <?php display_all_items() ?>
-                <li class="list-group-item active"><strong><i class="fad fa-money-bill-wave fa-xs"></i> Prix total</strong><span
-                            class="d-flex justify-content-between"><?= unserialize($_SESSION["cart"])->get_total_price(); ?> €</span></li>
-            </ul>
-        </section>
+    <article class="row mt-5">
+        <section class="row col-8">
+<!--            <h2>Votre commande</h2>-->
+<!--            <div class="card shadow-sm d-flex align-content-center">-->
 
-        <section class="row py-3 my-3">
             <h2><i class="fad fa-info-circle fa-xs"></i> Vos informations</h2>
             <h3>Informations de livraison et de facturation</h3>
             <p class="text-muted">Pour modifier ces informations, veuillez vous rendre sur <a href="/edit_my_information">cette page</a>.</p>
@@ -134,5 +129,35 @@ $user_info = unserialize($_SESSION["user_information"]);
                 </form>
             </div>
         </section>
-    </main>
+
+        <section class="col">
+            <h2><i class="fad fa-shopping-bag fa-xs"></i> Vos articles</h2>
+            <p>Frais de livraison gratuits si le montant des articles est supérieur à 29 €. Pensez donc à la livraison groupée. <i class="far fa-smile-wink"></i></p>
+
+            <!-- Le résumé de la commande -->
+            <ul class="list-group">
+                <?php display_all_items() ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Total des articles</strong>
+                    <span><?= unserialize($_SESSION["cart"])->get_all_article_cost(); ?> €</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Frais de livraison</strong>
+                    <span><?= unserialize($_SESSION["cart"])->get_delivery_fees(); ?> €</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>TVA</strong>
+                    <span><?= unserialize($_SESSION["cart"])->get_vat(); ?> €</span>
+                </li>
+                <li class="list-group-item active d-flex justify-content-between align-items-center">
+                    <strong><i class="fad fa-money-bill-wave fa-xs"></i> Prix total</strong>
+                    <span class="d-flex justify-content-between"><?= unserialize($_SESSION["cart"])->get_final_amount(); ?> €</span>
+                </li>
+            </ul>
+
+            <!-- Action sur le panier -->
+            <a href="/controllers/serve_cart.php" class="btn btn-danger mt-3"><i class="far fa-trash-alt fa-xs"></i> Vider mon panier</a>
+        </section>
+    </article>
+</main>
 <?php require_once "views/assets/includes/footer.php"; ?>

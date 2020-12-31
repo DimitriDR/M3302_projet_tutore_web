@@ -35,13 +35,13 @@ function display_all_items(): void {
 /**
  * Fonction affichant le nombre total d'articles dans le panier et affiche ou non un "s" ;)
  */
-function display_number_of_items(): void {
+function display_number_of_items(): string {
     $number_of_items = unserialize($_SESSION["cart"])->get_number_of_items();
 
     if ($number_of_items <= 1) {
-        echo "(" . $number_of_items . " article)";
+        return "(" . $number_of_items . " article)";
     } else {
-        echo "(" . $number_of_items . " articles)";
+        return "(" . $number_of_items . " articles)";
     }
 }
 

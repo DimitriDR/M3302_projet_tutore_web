@@ -1,6 +1,8 @@
 <?php
 $page_title = "Connexion";
-require_once "views/assets/includes/header.php";
+
+require_once dirname(__DIR__) . "/controllers/login.php";
+require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 ?>
 <main class="container">
     <div class="card shadow-sm">

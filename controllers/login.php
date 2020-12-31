@@ -1,13 +1,17 @@
 <?php
-// On vérifie qu'une session soit ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once "common.start.session.php";
+require_once "common.forwarding.php";
 
 // Fichiers nécessaires
 require_once dirname(__DIR__) ."/models/cart.php";
 require_once dirname(__DIR__) ."/models/databaselink.php";
 require_once dirname(__DIR__) ."/models/user.php";
+
+if(!empty($_SESSION["user_information"])) {
+    $_SESSION["flash"]["info"] = "Vous êtes déjà connecté";
+    header("Location: /");
+    exit;
+}
 
 // Traitement du formulaire d'inscription
 if (isset($_POST["submit"])) {
@@ -50,7 +54,7 @@ if (isset($_POST["submit"])) {
             exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: ". $_SERVER["HTTP_REFERER"]);
+        header("location: ". $GLOBALS["forwarding"]);
         exit;
     }
 }

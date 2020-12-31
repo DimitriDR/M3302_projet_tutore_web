@@ -1,6 +1,6 @@
 <?php
 $page_title = "Modification de mes informations de paiement";
-require_once "controllers/edit_my_information.php";
+require_once "controllers/edit_my_banking_information.php";
 require_once "views/assets/includes/header.php";
 ?>
 <main class="container">

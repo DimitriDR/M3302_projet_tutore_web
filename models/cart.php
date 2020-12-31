@@ -4,8 +4,14 @@ class Cart {
     private array $items = array();
     private int $number_of_items;
 
+    /** @var float Les frais d'une commande représente sont de 24,75% de son total */
+    private const SHIPPING_PERCENTAGE = 24.75;
+    /** @var int Taux de TVA, pour l'alimentaire, il est de 10% */
+    private const VAT_PERCENTAGE = 10;
+
     /**
-     * Cart constructor.
+     * Constructeur de Cart
+     * Initialise simplement le nombre d'articles à zéro
      */
     public function __construct() {
         $this->number_of_items = count($this->items);
@@ -48,10 +54,23 @@ class Cart {
     }
 
     /**
+     * Méthode permettant d'enregistrer tous les produits d'un panier donné dans la base de données
+     * @param string $cart SESSION d'un panier
+     * @param int $last_id_order L'ID de la dernière commande enregistrée (donc le numéro de commande auxquels les produits du panier sont liés)
+     */
+    public function save_products_in_DB(string $cart, int $last_id_order) : void {
+        $database_link = new DatabaseLink();
+
+        foreach (unserialize($cart)->get_items() as $item => $quantity) {
+           $database_link->make_query("INSERT INTO `products_orders` (id_product, id_order, quantity) VALUES (?, ?, ?)", [unserialize($item)->get_id_product(), $last_id_order, $quantity]);
+        }
+    }
+
+    /**
      * Méthode permettant de calculer le prix total d'un panier
      * @return float Le prix total des produits
      */
-    public function get_total_price() : float {
+    public function get_all_article_cost() : float {
         // On déclare la variable qui contiendra la somme totale
         $total = 0;
 
@@ -64,15 +83,38 @@ class Cart {
     }
 
     /**
-     * Méthode permettant d'enregistrer tous les produits d'un panier donné dans la base de données
-     * @param string $cart SESSION d'un panier
-     * @param int $last_id_order L'ID de la dernière commande enregistrée (donc le numéro de commande auxquels les produits du panier sont liés)
+     * Méthode permettant d'obtenir le coût de la livraison, si elle est inférieure à 29 euros
+     * @return float Le coût de livraison
      */
-    public function save_products_in_DB(string $cart, int $last_id_order) : void {
-        $database_link = new DatabaseLink();
-
-        foreach (unserialize($cart)->get_items() as $item => $quantity) {
-           $database_link->make_query("INSERT INTO `products_orders` (id_product, id_order, quantity) VALUES (?, ?, ?)", [unserialize($item)->get_id_product(), $last_id_order, $quantity]);
+    public function get_delivery_fees() : float {
+        if($this->get_all_article_cost() < 29.0) {
+            return round($this->get_all_article_cost() * (Cart::SHIPPING_PERCENTAGE/100), 2);
+        } else {
+            return 0;
         }
+    }
+
+    /**
+     * Méthode permettant de calculer la TVA.
+     * Il faut inclure l'ensemble des articles, ainsi que la livraison selon la loi (aux mêmes taux).
+     * @return float TVA applicable sur une commande.
+     */
+    public function get_vat() : float {
+        return round($this->get_all_article_cost() * (Cart::VAT_PERCENTAGE/100), 2) + (round($this->get_delivery_fees() * (Cart::VAT_PERCENTAGE/100), 2));
+    }
+
+    /**
+     * Méthode permettant d'avoir le total d'une commande.
+     * Ce qui comprend le total des articles, les frais de livraison et la TVA sur les deux produits.
+     * @return float Total d'une commande.
+     */
+    public function get_final_amount() : float {
+        $amount = 0;
+
+        $amount += $this->get_all_article_cost();
+        $amount += $this->get_delivery_fees();
+        $amount += $this->get_vat();
+
+        return $amount;
     }
 }

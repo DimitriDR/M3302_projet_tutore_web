@@ -1,8 +1,5 @@
 <?php
-// On vérifie qu'une session soit ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once "common.start.session.php";
 
 // Fichiers nécessaires
 require_once dirname(__DIR__) . "/models/user.php";
