@@ -21,9 +21,9 @@ else:
 ?>
     <div class="alert alert-<?= $type ?> py-4 m-0">
         <div class="container-md">
-            <strong>Le formulaire comporte les erreurs suivantes :</strong><br />
+            <strong>Le formulaire comporte la ou les erreur(s) suivante(s) :</strong><br />
             <?php foreach ($message as $single_error): ?>
-                <li><?= htmlspecialchars($single_error) ?></li>
+                <li><?= trim($single_error) ?></li>
             <?php endforeach; ?>
         </div>
     </div>

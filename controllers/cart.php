@@ -4,6 +4,7 @@ require_once "common.start.session.php";
 // Fichiers nécessaires
 require_once dirname(__DIR__) . "/models/cart.php";
 require_once dirname(__DIR__) . "/models/product.php";
+require_once dirname(__DIR__) . "/models/user.php";
 
 // On s'assure que l'utilisateur soit connecté pour accéder au panier
 if (!isset($_SESSION["user_information"])) {
@@ -53,7 +54,7 @@ if (isset($_POST["submit"])) {
     $errors = array();
 
     // Si une information de la session est vide, alors les informations demandées sont manquantes
-    if(empty($_SESSION["user_information"])) {
+    if(unserialize($_SESSION["user_information"])->are_attributes_empty()) {
         $errors["missing_information"] = "Le panier ne peut être validé. Assurez-vous d'avoir rempli tous les champs sur <a href='../edit_my_banking_information' target='_blank'><i class='fad fa-external-link-square-alt fa-xs'></i> cette page</a> et <a href='../edit_my_information' target='_blank'><i class='fad fa-external-link-square-alt fa-xs'></i> cette page</a>";
     }
 

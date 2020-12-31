@@ -2,11 +2,7 @@
 // Pour éviter les bugs avec les redirections
 ob_start();
 
-// Démarrage de la session sur toutes les pages
-// On vérifie qu'une session soit ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once dirname(dirname(dirname(__DIR__))) ."/controllers/common.start.session.php";
 
 // Fichiers nécessaires
 require_once dirname(dirname(dirname(__DIR__))) ."/models/cart.php";
@@ -72,3 +68,4 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     </div>
 </nav>
 <?php require_once "common_header.php"; ?>
+<!-- <?php // echo "<pre>"; print_r(unserialize($_SESSION["user_information"])); echo "</pre>"; ?> -->
