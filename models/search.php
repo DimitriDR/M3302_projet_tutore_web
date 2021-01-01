@@ -23,13 +23,20 @@ class Search {
     }
 
     /**
-     * Méthode permettant de faire la recherche dans la base de données.
-     * @return array Le résultat de la recherche sous la forme d'un PDOStatement ou false si la requête a échoué.
+     * @return array
      */
-    public function request_db() : array {
+    public function get_results() : array {
+        return $this->results;
+    }
+
+    /**
+     * Méthode permettant de faire la recherche dans la base de données.
+     * @return void Le résultat de la recherche sous la forme d'un PDOStatement ou false si la requête a échoué.
+     */
+    public function request_db() : void {
         $database = new DatabaseLink();
         $results = $database->make_query("SELECT `id_product` FROM products WHERE label LIKE ?", ["%$this->query%"]);
-        return $this->results = $results->fetchAll();
+        $this->results = $results->fetchAll();
     }
 
     /**

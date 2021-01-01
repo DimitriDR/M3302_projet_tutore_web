@@ -1,7 +1,4 @@
 <?php
-// Démarrage d'une session
-// session_start();
-
 // On inclut le fichier contenant le modèle du produit
 require_once dirname(__DIR__) . "/models/product.php";
 
@@ -26,8 +23,7 @@ function display_all_products() : void {
         echo "<td>". $product_line->discount_rate ." %</td>";
         echo "<td>
                 <a href='backoffice_edit_product?id=".$product->get_id_product()."' class='btn btn-outline-primary'><i class='fad fa-edit fa-xs'></i> Édit. fiche prod.</a>
-                <!-- <a href='delete_product.php?id=".$product->get_id_product()."' class='btn btn-outline-danger'><i class='far fa-trash-alt fa-xs'></i></a> -->
-                <a href='backoffice_edit_product_inventory?id=".$product->get_id_product()."' class='btn btn-outline-secondary'><i class='fad fa-pallet fa-xs'></i> Mod. stock</a>
+                <a href='backoffice_edit_product_inventory?id=".$product->get_id_product()."' class='btn btn-outline-secondary'><i class='fad fa-pallet fa-xs'></i> Modifier qtt.</a>
               </td>";
         echo "</tr>";
     }

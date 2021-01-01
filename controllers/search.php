@@ -12,8 +12,5 @@ if (!isset($_GET["search"]) || empty($_GET["search"])) {
     exit;
 }
 
-// On récupère la recherche
-$search_terms = trim($_GET["search"]);
-
-$search = new Search($search_terms);
-$results = $search->request_db();
+$search = new Search(trim($_GET["search"]));
+$search->request_db();

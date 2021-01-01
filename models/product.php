@@ -1,8 +1,15 @@
 <?php
+// Fichiers nécessaires
 require_once "databaselink.php";
 
+/**
+ * Classe Product
+ * Représente un article à vendre. Un produit est représenté par divers attributs situés ci-dessous.
+ */
 class Product {
+    /** @var int  Identifiant unique d'un produit. Correspond à celui situé en BDD */
     private int $id_product;
+    /** @var string Libellé d'un produit */
     private string $label;
     private string $type;
     private string $season;
@@ -154,6 +161,5 @@ class Product {
     public function update_inventory(int $id_product, int $quantity, int $discount_rate) {
         $database_link = new DatabaseLink();
         $database_link->make_query("UPDATE `products.inventory` SET `quantity` = ?, `discount_rate` = ? WHERE `id_product` = ?", [$quantity, $discount_rate, $id_product]);
-
     }
 }

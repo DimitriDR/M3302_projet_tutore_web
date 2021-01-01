@@ -2,11 +2,7 @@
 // Pour éviter les bugs avec les redirections
 ob_start();
 
-// Démarrage de la session sur toutes les pages
-// On vérifie qu'une session soit ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once dirname(dirname(dirname(__DIR__))) . "/controllers/common.start.session.php";
 
 // Accès uniqueent aux administrateurs connectés
 if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
@@ -14,7 +10,8 @@ if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
     header("Location: ../");
     exit;
 }
-require_once "models/user.php";
+
+require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,10 +45,16 @@ require_once "models/user.php";
         <div class="collapse navbar-collapse" id="topbar">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                <li class="nav-item"><a href="backoffice_add_product" class="nav-link"><i class="fad fa-plus fa-xs"></i> Ajouter un produit</a></li>
-                <li class="nav-item"><a href="backoffice_list_products" class="nav-link"><i class="fad fa-list-ul fa-xs"></i> Liste des produits</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toogle" id="product_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fal fa-seedling fa-xs"></i> Gestion des produits
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="product_dropdown">
+                        <li><a href="backoffice_add_product" class="dropdown-item"><i class="fal fa-plus fa-xs"></i> Ajouter un produit</a></li>
+                        <li><a href="backoffice_list_products" class="dropdown-item"><i class="fal fa-list-ul fa-xs"></i> Liste des produits</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a href="backoffice_list_orders" class="nav-link"><i class="fad fa-truck fa-xs"></i> Liste des commandes</a></li>
-                <li class="nav-item"><a href="backoffice_manage_inventory" class="nav-link"><i class="fad fa-warehouse fa-xs"></i> Gestion du stock</a></li>
             </ul>
 
             <!-- Liens situés tout à droite -->
