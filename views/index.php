@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 ?>
 <main class="vh-100">
     <section id="background" class="h-50 d-flex justify-content-center align-items-center">
-        <form method="GET" action="/controllers/index.php" class="w-50">
+        <form method="GET" action="/search" class="w-50">
             <div class="input-group input-group-lg">
                 <span class="input-group-text"><i class="fad fa-search fs-xs"></i></span>
                 <label for="search"></label>

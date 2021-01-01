@@ -15,6 +15,8 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     <meta charset="UTF-8">
     <!-- Titre de la page -->
     <title>Charles Productions — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
+    <!-- Pour adapter le site au mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS de Bootstrap -->
     <link rel="stylesheet" type="text/css" href="/views/assets/css/bootstrap.css">
     <!-- CSS personnalisée -->
