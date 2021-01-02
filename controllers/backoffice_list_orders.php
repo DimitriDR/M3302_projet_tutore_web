@@ -11,7 +11,7 @@ require_once dirname(__DIR__) . "/models/order.php";
 function display_all_orders() : void {
     $databaselink = new DatabaseLink();
 
-    $query = $databaselink->make_query("SELECT * FROM `backoffice_orders`");
+    $query = $databaselink->make_query("SELECT * FROM `backoffice.orders`");
     $fetch_order = $query->fetchAll();
 
     foreach ($fetch_order as $order_line) {

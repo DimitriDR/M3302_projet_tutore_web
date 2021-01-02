@@ -10,7 +10,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                 <form method="POST" action="/controllers/backoffice_add_product.php" class="row">
 
                     <!-- Champ pour le libellé -->
-                    <div class="col-10 my-2">
+                    <div class="col-8 my-2">
                         <label for="label" class="form-label">Libellé</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="far fa-heading fs-xs"></i></span>
@@ -20,10 +20,22 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
 
                     <!-- Champ pour le prix -->
                     <div class="col-2 my-2">
-                        <label for="price" class="form-label">Prix au kg</label>
+                        <label for="price" class="form-label">Prix</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="far fa-euro-sign fs-xs"></i></span>
                             <input type="number" id="price" name="price" min="0" step="0.01" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Champ pour l'unité -->
+                    <div class="col-2 my-2">
+                        <label for="unit" class="form-label">Unité</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-weight-hanging fs-xs"></i></span>
+                            <select id="unit" name="unit" class="form-select">
+                                <option value="Le kilo">Au kilogr.</option>
+                                <option value="À la pièce">À la pièce</option>
+                            </select>
                         </div>
                     </div>
 

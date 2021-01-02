@@ -1,8 +1,10 @@
 <?php
 require_once "common.start.session.php";
+require_once "common.forwarding.php";
 
 // Fichiers nécessaires
 require_once dirname(__DIR__) . "/models/cart.php";
+require_once dirname(__DIR__) . "/models/order.php";
 require_once dirname(__DIR__) . "/models/product.php";
 require_once dirname(__DIR__) . "/models/user.php";
 
@@ -14,9 +16,9 @@ if (!isset($_SESSION["user_information"])) {
 }
 
 // On vérifie que le panier ne soit pas vide
-if(unserialize($_SESSION["cart"])->get_number_of_items() === 0) {
+if (unserialize($_SESSION["cart"])->get_number_of_items() === 0) {
     $_SESSION["flash"]["dark"] = "Le panier ne peut être affiché si vous n'avez ajouté aucun article.";
-    header("Location: ". $_SERVER["HTTP_REFERER"]);
+    header("Location: " . $GLOBALS["forwarding"]);
     exit;
 }
 
@@ -53,33 +55,41 @@ if (isset($_POST["submit"])) {
     // Tableau contenant les erreurs
     $errors = array();
 
+    // On récupère l'utilisateur courant contenu dans la session pour être réutilisé plus facilement
+    $user = unserialize($_SESSION["user_information"]);
+
     // Si une information de la session est vide, alors les informations demandées sont manquantes
-    if(unserialize($_SESSION["user_information"])->are_attributes_empty()) {
+    if ($user->are_attributes_empty()) {
         $errors["missing_information"] = "Le panier ne peut être validé. Assurez-vous d'avoir rempli tous les champs sur <a href='../edit_my_banking_information' target='_blank'><i class='fad fa-external-link-square-alt fa-xs'></i> cette page</a> et <a href='../edit_my_information' target='_blank'><i class='fad fa-external-link-square-alt fa-xs'></i> cette page</a>";
     }
 
-    if (empty($errors)) {
-        // Fichiers nécessaires
-        require_once dirname(__DIR__) . "/models/databaselink.php";
-        require_once dirname(__DIR__) . "/models/order.php";
-        require_once dirname(__DIR__) . "/models/user.php";
+    // On peut commencer par créer un nouvel objet Order
+    $order = new Order();
 
-        // On récupère l'ID de l'utilisateur pour être plus facile dans les requêtes
-        $id_user = unserialize($_SESSION["user_information"])->get_id_user();
+    // On vérifie qu'il soit possible d'enregistrer une nouvelle commande.
+    // C'est impossible si une commande est en attente avec le même numéro utilisateur
+    if (!$order->is_possible($user->get_id_user())) {
+        $errors["unconfirmed_order_exists"] = "Il semblerait que vous ayez déjà une commande encore non validée par le producteur.";
+    }
 
-        // Création des nouveaux objets nécessaires
-        $database_link = new DatabaseLink();
-        $order = new Order();
+    // Une fois cette étape passée, on peut créer un nouvel objet Cart
+    $cart = new Cart();
 
+    // On doit vérifier s'il y a assez de stock
+    if(!$cart->enough_supply()) {
+        $errors["not_enough"] = "Il semblerait que l'un des articles que vous souhaitez n'ait pas assez de stock. Veuillez ajuster la quantité.";
+    }
+
+    // Si on n'a aucune erreur, alors on peut enregistrer la commande.
+    if(empty($errors)) {
         // On enregistre la commande avec l'ID de l'utilisateur donné et en retour, cela nous donne l'ID de la commande qui vient d'être inséré
-        $last_id_order = $order->register($id_user);
+        $last_id_order = $order->register($user->get_id_user());
 
-        $cart = new Cart();
+        // On enregistre tous les produits
         $cart->save_products_in_DB($_SESSION["cart"], $last_id_order);
 
         // On détruit le panier car il est traité
         unset($_SESSION["cart"]);
-
         // Mais on en reconstruit un vide si le client veut recommander sur la même session
         $_SESSION["cart"] = serialize(new Cart());
 
@@ -88,8 +98,8 @@ if (isset($_POST["submit"])) {
         header("location: /");
         exit;
     } else {
-        $_SESSION["flash"]["danger"] = $errors;
-        header("location: " . $_SERVER["HTTP_REFERER"]);
+        $_SESSION["flash"]["warning"] = $errors;
+        header("location: ". $GLOBALS["forwarding"]);
         exit;
     }
 }

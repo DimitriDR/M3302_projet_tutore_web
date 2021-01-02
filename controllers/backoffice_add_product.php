@@ -1,7 +1,8 @@
 <?php
-session_start();
-
+require_once "common.start.session.php";
+require_once "common.forwarding.php";
 require_once dirname(__DIR__) . "/models/product.php";
+
 /***********************************/
 /**** Soumissions du formulaire ****/
 /***********************************/
@@ -12,11 +13,12 @@ if (isset($_POST["submit"])) {
 
     // On récupère toutes les variables du formulaire
     $label = trim($_POST["label"]);
-    $type = trim($_POST["type"]);
+    $price = floatval($_POST["price"]);
+    $unit = trim($_POST["unit"]);
     $season = trim($_POST["season"]);
     $classification = trim($_POST["classification"]);
+    $type = trim($_POST["type"]);
     $description = trim($_POST["description"]);
-    $price = (float)$_POST["price"];
 
     // Traitement du libellé
     if (empty($label)) {
@@ -28,9 +30,23 @@ if (isset($_POST["submit"])) {
     // Traitement du prix
     if (empty($price)) {
         $errors["empty_price"] = "Il faut renseigner un prix";
-    } else if (!preg_match("/^[0-9\.]+$/", $price)) {
+    } else if (!preg_match("/^[0-9.]+$/", $price)) {
         // On accepte des chiffres suivi, faculativement d'une virgule puis de nombres
         $errors["not_valid_price"] = "Le prix doit uniquement être composé de nombres et d'une virgule";
+    }
+
+    // Traitement de l'unité
+    $unit_list = array(
+        "Le kilo",
+        "À la pièce",
+    );
+
+    if (empty($unit)) {
+        // Ne devrait pas arriver car c'est une liste, mais on ne sait jamais...
+        $errors["empty_unit"] = "Il faut renseigner une unité";
+    } else if (!in_array($unit, $unit_list)) {
+        // On évite que des modifications dans le HTML ne donne lieu à des incohérentes dans la BD
+        $errors["not_valid_unit"] = "L'unité choisie n'est pas valide";
     }
 
     // Traitement de la saison
@@ -76,11 +92,10 @@ if (isset($_POST["submit"])) {
     if (empty($type)) {
         // Ne devrait pas arriver car c'est une liste, mais on ne sait jamais...
         $errors["empty_type"] = "Il faut renseigner un type";
+    } else if ($type != "Légumes" && $type != "Fruits") {
+        // On évite que des modifications dans le HTML ne donne lieu à des incohérentes dans la BD
+        $errors["not_valid_type"] = "Le type choisi n'est pas valide";
     }
-//    } else if ($type != "Légumes" || $type != "Fruits") {
-//        // On évite que des modifications dans le HTML ne donne lieu à des incohérentes dans la BD
-//        $errors["not_valid_type"] = "Le type choisi n'est pas valide";
-//    }
 
     // Traitement de la description
     if (empty($description)) {
@@ -91,7 +106,7 @@ if (isset($_POST["submit"])) {
     if (empty($errors)) {
         // On créé un nouveau produit afin d'utiliser la méthode d'ajout intégrée
         $product = new Product();
-        $product_id = $product->add($label, $type, $season, $classification, $description, $price);
+        $product_id = $product->change($label, $type, $season, $classification, $description, $price, $unit);
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès. <strong>Néanmoins, il faut aller sur <a href='../backoffice_edit_product_inventory?id=". $product_id ."'>cette page</a> pour saisir le stock, sans quoi, votre produit sera caché.</strong>";
@@ -99,7 +114,7 @@ if (isset($_POST["submit"])) {
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ". $_SERVER["HTTP_REFERER"]);
+        header("Location: ". $GLOBALS["forwarding"]);
         exit;
     }
 }

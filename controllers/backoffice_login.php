@@ -1,32 +1,33 @@
 <?php
-session_start();
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
 
-require_once dirname(__DIR__) . "/models/databaselink.php";
+require_once "common.start.session.php";
+require_once "common.forwarding.php";
+
 require_once dirname(__DIR__) . "/models/user.php";
 
 if (isset($_POST["submit"])) {
-    if(!isset($_POST["password"]) || empty($_POST["password"])) {
+    if (!isset($_POST["password"]) || empty($_POST["password"])) {
         $_SESSION["flash"]["danger"] = "Veuillez saisir le mot de passe.";
-        header("Location: ../backoffice_login");
+        header("Location: " . $GLOBALS["forwarding"]);
         exit;
     }
 
-    $databaselink = new DatabaseLink();
-    $user_information = unserialize($_SESSION["user_information"]);
-
-    // On récupère le mot de passe d'administration pour vérifier qu'il soit correct
-    $get_password = $databaselink->make_query("SELECT `admin_password` FROM `users.rights` WHERE id_user = ?", [
-        $user_information->get_id_user()
-    ]);
-
-    if(password_verify($_POST["password"], $get_password->fetchColumn())) {
-        $_SESSION["administrator"] = true;
-        $_SESSION["flash"]["success"] = "Vous êtes désormais connecté en tant qu'administrateur";
-        header("Location: ../backoffice_index");
-        exit;
-    } else {
-        $_SESSION["flash"]["danger"] = "Le mot de passe saisie est incorrect.";
-        header("Location: ../backoffice_login");
-        exit;
+    switch (unserialize($_SESSION["user_information"])->admin_login($_POST["password"])) {
+        case -1:
+            $_SESSION["flash"]["danger"] = "Vous n'avez pas les droits pour vous connecter ici.";
+            header("Location: ../");
+            exit;
+        case 0:
+            $_SESSION["administrator"] = true;
+            $_SESSION["flash"]["success"] = "Vous êtes désormais connecté en tant qu'administrateur";
+            header("Location: ../backoffice_index");
+            break;
+        case 1:
+            $_SESSION["flash"]["warning"] = "Le mot de passe saisie est incorrect.";
+            header("Location: ../backoffice_login");
+            exit;
     }
 }

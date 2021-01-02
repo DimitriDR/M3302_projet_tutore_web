@@ -42,6 +42,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         <?php $product->hydrate($product_row->id_product); ?>
                             <li class="list-group-item"><?= $product->get_label() ?> (<strong>quantité :</strong> <?= $product_row->quantity ?>)</li>
                 <?php endforeach; ?>
+                    <li class="list-group-item active">Total de la commande : <?= round($order->get_amount() / 1.20, 2) ?> € HT</li>
                 </ul>
         </section>
     </main>

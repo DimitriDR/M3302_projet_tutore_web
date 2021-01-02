@@ -279,4 +279,31 @@ class User {
         $databaselink = new DatabaseLink();
         $databaselink->make_query("UPDATE `users.payment` SET `name` = ?, `number` = ?, `cvv` = ?, `expiration_date` = ? WHERE `id_user` = ?", [$credit_card_name, $credit_card_number, $credit_card_security_number, $credit_card_expiration_date, $user_id]);
     }
+
+    /**
+     * Méthode qui vérifie que les informations fournies pour se connecter à l'espace d'administration sont bonnes.
+     * @param string $password_inputted Le mot de passe saisi dans le formulaire
+     * @return int Code d'erreur correspondant au succès ou à l'échec :
+     *             -1 : accès non autorisé car l'identifiant ne correspond pas à un utilisateur autorisé
+     *              0 : succès, connexion autorisée
+     *              1 : mauvais mot de passe
+     */
+    public function admin_login(string $password_inputted) : int {
+        $database_link = new DatabaseLink();
+
+        $query = $database_link->make_query("SELECT `password` FROM `users.rights` WHERE id_user = ?", [$this->id_user]);
+        $password_in_db = $query->fetchColumn();
+
+        // Si on récupère un résultat vide, alors ça signifie que l'utilisateur actuellement connecté n'a pas les droits d'accéder à l'interface d'administration
+        if(empty($password_in_db)) {
+            return -1;
+        }
+
+        // S'il a accès, on vérifie le mot de passe
+        if(password_verify($password_inputted, $password_in_db)) {
+            return 0; // C'est bon, la connexion est autorisée
+        } else {
+            return 1; // Le mot de passe est incorrect
+        }
+    }
 }

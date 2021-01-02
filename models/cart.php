@@ -117,4 +117,8 @@ class Cart {
 
         return $amount;
     }
+
+    public function enough_supply() {
+        return true;
+    }
 }

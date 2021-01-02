@@ -16,7 +16,7 @@ if(!isset($product) || empty($product)) {
                 <form method="POST" action="/controllers/backoffice_edit_product_inventory.php?id=<?= $_GET["id"]; ?>" class="row">
 
                     <!-- Champ pour le libellé -->
-                    <div class="col-10 my-2">
+                    <div class="col-8 my-2">
                         <label for="label" class="form-label">Libellé</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-heading fs-xs"></i></span>
@@ -25,10 +25,22 @@ if(!isset($product) || empty($product)) {
                     </div>
 
                     <div class="col-2 my-2">
-                        <label for="price" class="form-label">Prix au kg</label>
+                        <label for="price" class="form-label">Prix</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-euro-sign fs-xs"></i></span>
                             <input type="number" id="price" name="price" min="0" step="0.01" class="form-control" value="<?= htmlspecialchars($product->get_price()) ?>" disabled>
+                        </div>
+                    </div>
+
+                    <!-- Champ pour l'unité -->
+                    <div class="col-2 my-2">
+                        <label for="unit" class="form-label">Unité</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-weight-hanging fs-xs"></i></span>
+                            <select id="unit" name="unit" class="form-select" disabled>
+                                <option value="Le kilo" <?php if($product->get_unit() == "Le kilo"): echo "selected"; endif; ?>>Au kilogr.</option>
+                                <option value="À la pièce" <?php if($product->get_unit() == ""): echo "selected"; endif; ?>>À la pièce</option>
+                            </select>
                         </div>
                     </div>
 
@@ -38,10 +50,10 @@ if(!isset($product) || empty($product)) {
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-cloud-sun-rain fs-xs"></i></span>
                             <select id="season" name="season" class="form-select" disabled>
-                                <option value="Hiver" <?php if(isset($product) && $product->get_season() == "Hiver"): echo "selected"; endif; ?>>Hiver</option>
-                                <option value="Printemps" <?php if(isset($product) && $product->get_season() == "Printemps"): echo "selected"; endif; ?>>Printemps</option>
-                                <option value="Été" <?php if(isset($product) && $product->get_season() == "Été"): echo "selected"; endif; ?>>Été</option>
-                                <option value="Automne" <?php if(isset($product) && $product->get_season() == "Automne"): echo "selected"; endif; ?>>Automne</option>
+                                <option value="Hiver" <?php if($product->get_season() == "Hiver"): echo "selected"; endif; ?>>Hiver</option>
+                                <option value="Printemps" <?php if($product->get_season() == "Printemps"): echo "selected"; endif; ?>>Printemps</option>
+                                <option value="Été" <?php if($product->get_season() == "Été"): echo "selected"; endif; ?>>Été</option>
+                                <option value="Automne" <?php if($product->get_season() == "Automne"): echo "selected"; endif; ?>>Automne</option>
                             </select>
                         </div>
                     </div>

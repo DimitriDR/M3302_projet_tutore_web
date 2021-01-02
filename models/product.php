@@ -16,6 +16,7 @@ class Product {
     private string $classification;
     private string $description;
     private float $price;
+    private string $unit;
     private int $number_in_inventory;
     private float $discount_rate;
 
@@ -88,6 +89,13 @@ class Product {
         return $this->discount_rate;
     }
 
+    /**
+     * @return string
+     */
+    public function get_unit(): string {
+        return $this->unit;
+    }
+
 
     /**
      * Se charge d'hydrater l'objet.
@@ -110,6 +118,7 @@ class Product {
             $this->classification = $result_table->classification;
             $this->description = $result_table->description;
             $this->price = $result_table->price;
+            $this->unit = $result_table->unit;
             $this->number_in_inventory = $result_view->quantity;
             $this->discount_rate = $result_view->discount_rate;
             return true;
@@ -117,39 +126,39 @@ class Product {
     }
 
     /**
-     * Méthode pour ajouter un produit dans la base de données
+     * Méthode permettant soit d'ajouter, soit de mettre à jour un produit.
      * @param string $label Libellé du produit
      * @param string $type Type du produit (Légumes, Fruits, etc.)
      * @param string $season Saison du produit
      * @param string $classification Classification du produit
      * @param string $description Description du produit
      * @param float $price Prix du produit
-     * @return string L'ID du produit qui vient d'être entré
+     * @param string $unit L'unité du produit
+     * @param bool $is_update Mettre "true" si c'est une mise à jour d'un produit, valeur par défaut à "false"
+     * @param int|null $id_product ID du produit à mettre à jour si mise à jour
+     * @return int L'ID du produit qui vient d'être entré
      */
-    public function add(string $label, string $type, string $season, string $classification, string $description, float $price) : string {
+    public function change(string $label, string $type, string $season, string $classification, string $description, float $price, string $unit, bool $is_update = false, int $id_product = null) : int {
         $database_link = new DatabaseLink();
-        $database_link->make_query("INSERT INTO `products` (label, type, season, classification, description, price) VALUES(?, ?, ?, ?, ?, ?)", [$label, $type, $season, $classification, $description, $price]);
 
-        $product_id = $database_link->get_last_id();
-        // Par défaut, on dit que le stock est à 0, et la promotion à 0 également.
-        $database_link->make_query("INSERT INTO `products.inventory` (`id_product`, `quantity`, `discount_rate`) VALUES ($product_id, 0, 0)");
+//        // Si c'est une simple mise à jour ...
+//        if($is_update === true) {
+//            $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ?, `unit` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $unit, $id_product]);
+//        } else {
+            // Si on veut ajouter un nouveau produit, il faut faire plus de choses
+            $database_link->make_query("INSERT INTO `products` (label, type, season, classification, description, price, unit) VALUES(?, ?, ?, ?, ?, ?, ?)", [$label, $type, $season, $classification, $description, $price, $unit]);
 
-        return $product_id;
-    }
+            // On récupère l'ID du produit qui vient d'être saisi
+            $just_entered_product_id = $database_link->get_last_id();
 
-    /**
-     * Méthode pour mettre à jour un produit dans la base de données
-     * @param int $id_product ID du produit à mettre à jour
-     * @param string $label Libellé du produit
-     * @param string $type Type du produit (Légumes, Fruits, etc.)
-     * @param string $season Saison du produit
-     * @param string $classification Classification du produit
-     * @param string $description Description du produit
-     * @param float $price Prix du produit
-     */
-    public function update(int $id_product, string $label, string $type, string $season, string $classification, string $description, float $price) {
-        $database_link = new DatabaseLink();
-        $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $id_product]);
+            // Par défaut, on dit que le stock est à 0, et la promotion à 0 également.
+            $database_link->make_query("INSERT INTO `products.inventory` (`id_product`, `quantity`, `discount_rate`) VALUES ($just_entered_product_id, 0, 0)");
+
+            // On convertit la valeur en entier car tous nos clés primaires sont des entiers
+            return intval($just_entered_product_id);
+        // }
+
+        // return 0;
     }
 
     /**

@@ -32,11 +32,12 @@ if (isset($_POST["submit"])) {
 
     // On récupère toutes les variables du formulaire
     $label = trim($_POST["label"]);
+    $price = floatval($_POST["price"]);
+    $unit = $_POST["unit"];
     $season = trim($_POST["season"]);
     $type = trim($_POST["type"]);
     $classification = trim($_POST["classification"]);
     $description = trim($_POST["description"]);
-    $price = (float)$_POST["price"];
 
     // Traitement du libellé
     if (empty($label)) {
@@ -48,7 +49,7 @@ if (isset($_POST["submit"])) {
     // Traitement du prix
     if (empty($price)) {
         $errors["empty_price"] = "Il faut renseigner un prix";
-    } else if (!preg_match("/^[0-9\.]+$/", $price)) {
+    } else if (!preg_match("/^[0-9.]+$/", $price)) {
         // On accepte des chiffres suivi, faculativement d'une virgule puis de nombres
         $errors["not_valid_price"] = "Le prix doit uniquement être composé de nombres et d'une virgule";
     }
@@ -91,6 +92,15 @@ if (isset($_POST["submit"])) {
         $errors["not_valid_classification"] = "La classification choisie n'est pas valide";
     }
 
+    // Traitement du type
+    if (empty($type)) {
+        // Ne devrait pas arriver car c'est une liste, mais on ne sait jamais...
+        $errors["empty_type"] = "Il faut renseigner un type";
+    } else if ($type != "Légumes" && $type != "Fruits") {
+        // On évite que des modifications dans le HTML ne donne lieu à des incohérentes dans la BD
+        $errors["not_valid_type"] = "Le type choisi n'est pas valide";
+    }
+
     // Traitement de la description
     if (empty($description)) {
         $errors["empty_description"] = "Il faut renseigner une description";
@@ -98,7 +108,7 @@ if (isset($_POST["submit"])) {
 
     // Si on n'a aucune erreur, on peut enregister
     if (empty($errors)) {
-        $product->update($_GET["id"], $label, $type, $season, $classification, $description, $price);
+        $product->change($label, $type, $season, $classification, $description, $price, $unit, true, $_GET["id"]);
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été mis à jour avec succès";

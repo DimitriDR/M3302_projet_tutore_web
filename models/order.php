@@ -17,6 +17,8 @@ class Order {
      * 2 : en cours de livraison
      */
     private int $status;
+    /** @var float Total de la commande */
+    private float $amount;
 
     /**
      * @return int L'identifiant unique de la commande
@@ -52,6 +54,13 @@ class Order {
     }
 
     /**
+     * @return float
+     */
+    public function get_amount() : float {
+        return $this->amount;
+    }
+
+    /**
      * Fonction pour traduire les status de code en texte
      * @return string Le texte littéral du status
      */
@@ -83,6 +92,7 @@ class Order {
             $this->id_user = $results->id_user;
             $this->date = $results->date;
             $this->status = $results->status;
+            $this->amount = $results->amount;
             return true;
         }
     }
@@ -98,5 +108,24 @@ class Order {
         $database_link->make_query("INSERT INTO `orders` (id_user, date, status) VALUES (?, ?, ?)", [$id_user, date("Y-m-d H:i:s"), 0]);
 
         return $database_link->get_last_id();
+    }
+
+    /**
+     * Méthode permettant de vérifier qu'il est possible de faire une commande.
+     * C'est-à-dire si aucune commande n'est déjà en attente pour l'utilisateur courant.
+     * @param int $user_id
+     * @return bool
+     */
+    public function is_possible(int $user_id) : bool {
+        $database_link = new DatabaseLink();
+        $query = $database_link->make_query("SELECT `id_order` FROM orders WHERE id_user = ? AND status = 0", [$user_id]);
+        $fetch = $query->fetchAll();
+
+        // S'il y a déjà une commande encore non confirmée, on refuse d'en enregistrer une nouvelle
+        if(count($fetch) >= 1) {
+            return false;
+        }
+
+        return true;
     }
 }
