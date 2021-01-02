@@ -23,7 +23,7 @@ if (isset($_POST["submit"])) {
     // Traitement du libellé
     if (empty($label)) {
         $errors["empty_label"] = "Il faut renseigner un libellé";
-    } else if (!preg_match("/^([a-zA-Zéàè\s])*$/", $label)) { // Seul les lettres sont acceptés
+    } else if (!preg_match("/^([a-zA-ZéàèÉâ\s])*$/", $label)) { // Seul les lettres sont acceptés
         $errors["not_valid_label"] = "Le libellé ne peut être composé que de lettres et d'espaces";
     }
 

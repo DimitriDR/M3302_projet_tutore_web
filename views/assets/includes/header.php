@@ -28,13 +28,12 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     <div class="container-md">
         <!-- Logo -->
         <a class="navbar-brand" href="/">
-                Charles Production
+                Charles Productions
 <!--           <img src="" alt="Logo" height="30" width="17" class="d-inline-block">-->
         </a>
 
         <!-- Le bouton pour activer le menu sur mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="topbar"
-                aria-expanded="false" aria-label="Afficher le menu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbar" aria-controls="topbar" aria-expanded="false" aria-label="Afficher le menu">
             <span class="navbar-toggler-icon"></span>
         </button>
 
