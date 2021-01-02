@@ -141,24 +141,23 @@ class Product {
     public function change(string $label, string $type, string $season, string $classification, string $description, float $price, string $unit, bool $is_update = false, int $id_product = null) : int {
         $database_link = new DatabaseLink();
 
-//        // Si c'est une simple mise à jour ...
-//        if($is_update === true) {
-//            $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ?, `unit` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $unit, $id_product]);
-//        } else {
+        // Si c'est une simple mise à jour ...
+        if($is_update === true) {
+            $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ?, `unit` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $unit, $id_product]);
+        } else {
             // Si on veut ajouter un nouveau produit, il faut faire plus de choses
-            $database_link->make_query("INSERT INTO `products` (label, type, season, classification, description, price, unit) VALUES(?, ?, ?, ?, ?, ?, ?)", [$label, $type, $season, $classification, $description, $price, $unit]);
+            $database_link->make_query("INSERT INTO `products` (`label`, `type`, `classification`, `description`, `price`, `season`, `unit`) VALUES(?, ?, ?, ?, ?, ?, ?)", [$label, $type, $classification, $description, $price, $season, $unit]);
 
             // On récupère l'ID du produit qui vient d'être saisi
             $just_entered_product_id = $database_link->get_last_id();
 
             // Par défaut, on dit que le stock est à 0, et la promotion à 0 également.
-            $database_link->make_query("INSERT INTO `products.inventory` (`id_product`, `quantity`, `discount_rate`) VALUES ($just_entered_product_id, 0, 0)");
+            $database_link->make_query("INSERT INTO `products.inventory` (`id_product`, `quantity`, `discount_rate`) VALUES (?, 0, 0)", [$just_entered_product_id]);
 
             // On convertit la valeur en entier car tous nos clés primaires sont des entiers
             return intval($just_entered_product_id);
-        // }
-
-        // return 0;
+         }
+         return 0;
     }
 
     /**
