@@ -100,12 +100,13 @@ class Order {
     /**
      * Méthode pour enregister une commande (dans la table Orders)
      * @param string $id_user L'ID de l'utilisateur qui commande
+     * @param float $amount Le total de la commande
      * @return int L'ID de la commande qui vient d'être inséré
      */
-    public function register(string $id_user) : int {
+    public function register(string $id_user, float $amount) : int {
         $database_link = new DatabaseLink();
 
-        $database_link->make_query("INSERT INTO `orders` (id_user, date, status) VALUES (?, ?, ?)", [$id_user, date("Y-m-d H:i:s"), 0]);
+        $database_link->make_query("INSERT INTO `orders` (id_user, date, status, amount) VALUES (?, ?, ?, ?)", [$id_user, date("Y-m-d H:i:s"), 0, $amount]);
 
         return $database_link->get_last_id();
     }

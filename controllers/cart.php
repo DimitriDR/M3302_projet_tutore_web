@@ -83,7 +83,7 @@ if (isset($_POST["submit"])) {
     // Si on n'a aucune erreur, alors on peut enregistrer la commande.
     if(empty($errors)) {
         // On enregistre la commande avec l'ID de l'utilisateur donné et en retour, cela nous donne l'ID de la commande qui vient d'être inséré
-        $last_id_order = $order->register($user->get_id_user());
+        $last_id_order = $order->register($user->get_id_user(), unserialize($_SESSION["cart"])->get_final_amount());
 
         // On enregistre tous les produits
         $cart->save_products_in_DB($_SESSION["cart"], $last_id_order);
