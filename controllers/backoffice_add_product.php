@@ -13,6 +13,7 @@ if (isset($_POST["submit"])) {
 
     // On récupère toutes les variables du formulaire
     $label = trim($_POST["label"]);
+    $image = $_FILES["image"];
     $price = floatval($_POST["price"]);
     $unit = trim($_POST["unit"]);
     $season = trim($_POST["season"]);
@@ -26,6 +27,27 @@ if (isset($_POST["submit"])) {
     } else if (!preg_match("/^([a-zA-ZéàèÉâ\s])*$/", $label)) { // Seul les lettres sont acceptés
         $errors["not_valid_label"] = "Le libellé ne peut être composé que de lettres et d'espaces";
     }
+
+    // DÉBUT - Traitement de l'image
+    $authorized_image_types = array(
+        "png",
+        "jpg",
+        "jpeg",
+        "webp"
+    );
+
+    // Récupération de l'extension
+    $file_extension = pathinfo($image["name"], PATHINFO_EXTENSION);
+    // Récupération du VRAI type de l'image
+    $file_mime_type = mime_content_type($image["tmp_name"]);
+
+    if (!is_uploaded_file($image["tmp_name"])) {
+        $errors["empty_image"] = "Il faut mettre en ligne une image";
+    } else if (!in_array($file_extension, $authorized_image_types)) {
+        $errors["invalid_type"] = "Le format de l'image n'est pas autorisé (webp, jpg, jpeg, et png uniquement)";
+    }
+
+    // FIN - Traitement de l'image
 
     // Traitement du prix
     if (empty($price)) {
@@ -106,15 +128,19 @@ if (isset($_POST["submit"])) {
     if (empty($errors)) {
         // On créé un nouveau produit afin d'utiliser la méthode d'ajout intégrée
         $product = new Product();
-        $product_id = $product->change($label, $type, $season, $classification, $description, $price, $unit);
+
+        $product_id = $product->change($label, $type, $season, $classification, $description, $price, $unit, $image);
+
+        // On peut mettre l'image sur le serveur
+        move_uploaded_file($_FILES["image"]["tmp_name"], dirname(__DIR__) . "/views/assets/images/products/$label.$file_extension");
 
         // On finalise
-        $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès. <strong>Néanmoins, il faut aller sur <a href='../backoffice_edit_product_inventory?id=". $product_id ."'>cette page</a> pour saisir le stock, sans quoi, votre produit sera caché.</strong>";
+        $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès. <strong>Néanmoins, il faut aller sur <a href='../backoffice_edit_product_inventory?id=" . $product_id . "'>cette page</a> pour saisir le stock, sans quoi, votre produit sera caché.</strong>";
         header("Location: ../backoffice_index");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("Location: ". $GLOBALS["forwarding"]);
+        header("Location: " . $GLOBALS["forwarding"]);
         exit;
     }
 }

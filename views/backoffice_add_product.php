@@ -7,15 +7,25 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
             <div class="card-body">
                 <h1 class="card-title">Ajout d'un produit</h1>
 
-                <form method="POST" action="/controllers/backoffice_add_product.php" class="row">
+                <form method="POST" action="/controllers/backoffice_add_product.php" enctype="multipart/form-data" class="row">
 
                     <!-- Champ pour le libellé -->
-                    <div class="col-8 my-2">
+                    <div class="col-4 my-2">
                         <label for="label" class="form-label">Libellé</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="far fa-heading fs-xs"></i></span>
                             <input type="text" id="label" name="label" class="form-control">
                         </div>
+                    </div>
+
+                    <!-- Champ pour l'unité -->
+                    <div class="col-4 my-2">
+                        <label for="image" class="form-label">Image d'illustration</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-image fs-xs"></i></span>
+                            <input type="file" id="image" name="image" class="form-control">
+                        </div>
+                        <p class="text-muted">Seulement en .webp, .jpg, .jpeg, ou .png</p>
                     </div>
 
                     <!-- Champ pour le prix -->

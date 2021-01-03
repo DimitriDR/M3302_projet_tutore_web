@@ -19,6 +19,7 @@ class Product {
     private string $unit;
     private int $number_in_inventory;
     private float $discount_rate;
+    private string $file_name;
 
     /**
      * Getter permettant de récupérer l'ID
@@ -96,6 +97,13 @@ class Product {
         return $this->unit;
     }
 
+    /**
+     * @return string
+     */
+    public function get_file_name(): string {
+        return $this->file_name;
+    }
+
 
     /**
      * Se charge d'hydrater l'objet.
@@ -121,6 +129,7 @@ class Product {
             $this->unit = $result_table->unit;
             $this->number_in_inventory = $result_view->quantity;
             $this->discount_rate = $result_view->discount_rate;
+            $this->file_name = $result_table->file_name;
             return true;
         }
     }
@@ -134,19 +143,23 @@ class Product {
      * @param string $description Description du produit
      * @param float $price Prix du produit
      * @param string $unit L'unité du produit
+     * @param array $file
      * @param bool $is_update Mettre "true" si c'est une mise à jour d'un produit, valeur par défaut à "false"
      * @param int|null $id_product ID du produit à mettre à jour si mise à jour
      * @return int L'ID du produit qui vient d'être entré
      */
-    public function change(string $label, string $type, string $season, string $classification, string $description, float $price, string $unit, bool $is_update = false, int $id_product = null) : int {
+    public function change(string $label, string $type, string $season, string $classification, string $description, float $price, string $unit, array $file, bool $is_update = false, int $id_product = null) : int {
         $database_link = new DatabaseLink();
+
+        // Le nom du fichier à insérer dans la base de données
+        $file_name = strtolower($label) . "." . pathinfo($file["name"], PATHINFO_EXTENSION);
 
         // Si c'est une simple mise à jour ...
         if($is_update === true) {
-            $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ?, `unit` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $unit, $id_product]);
+            $database_link->make_query("UPDATE `products` SET `label` = ?, `type` = ?, `season` = ?, `classification` = ?, `description` = ?, `price` = ?, `unit` = ?, `file_name` = ? WHERE `id_product` = ?", [$label, $type, $season, $classification, $description, $price, $unit, $file_name, $id_product]);
         } else {
             // Si on veut ajouter un nouveau produit, il faut faire plus de choses
-            $database_link->make_query("INSERT INTO `products` (`label`, `type`, `classification`, `description`, `price`, `season`, `unit`) VALUES(?, ?, ?, ?, ?, ?, ?)", [$label, $type, $classification, $description, $price, $season, $unit]);
+            $database_link->make_query("INSERT INTO `products` (`label`, `type`, `classification`, `description`, `price`, `season`, `unit`, `file_name`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", [$label, $type, $classification, $description, $price, $season, $unit, $file_name]);
 
             // On récupère l'ID du produit qui vient d'être saisi
             $just_entered_product_id = $database_link->get_last_id();
@@ -157,6 +170,7 @@ class Product {
             // On convertit la valeur en entier car tous nos clés primaires sont des entiers
             return intval($just_entered_product_id);
          }
+
          return 0;
     }
 
@@ -169,5 +183,19 @@ class Product {
     public function update_inventory(int $id_product, int $quantity, int $discount_rate) {
         $database_link = new DatabaseLink();
         $database_link->make_query("UPDATE `products.inventory` SET `quantity` = ?, `discount_rate` = ? WHERE `id_product` = ?", [$quantity, $discount_rate, $id_product]);
+    }
+
+    /**
+     * @param array $file
+     * @param string $file_label
+     * @return bool
+     * @deprecated
+     */
+    private function upload_image_to_server(array $file, string $file_label) : bool {
+        // Le nom final du fichier
+        // Au format [label] (tout en minuscule).[extension]
+        $file_name = strtolower($file_label) . pathinfo($file["name"], PATHINFO_EXTENSION);
+
+        return move_uploaded_file($file["name"], dirname(__DIR__) . "/views/assets/images/products/$file_name");
     }
 }
