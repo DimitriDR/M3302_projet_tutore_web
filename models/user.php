@@ -162,6 +162,33 @@ class User {
         return false;
     }
 
+    /**
+     * Méthode pour vérifier qu'une adresse e-mail n'existe pas déjà dans la base de données.
+     * @param string $email_address
+     * @return bool Vrai si l'adresse e-mail donnée est déjà inscrite dans la base de données existe, faux sinon.
+     */
+    public function does_email_already_exist(string $email_address) : bool {
+        $database_link = new DatabaseLink();
+
+        $query = $database_link->make_query("SELECT `email_address` FROM users WHERE email_address = ?", [$email_address]);
+
+        // Si au moins une adresse existe déjà, on retourne faux
+        return $database_link->number_of_returned_rows($query) >= 1;
+    }
+
+    /**
+     * Méthode permettant à l'utilisateur d'être inscrit dans la base de données
+     * @param string $last_name Son nom.
+     * @param string $first_name Son prénom.
+     * @param string $password Son mot de passe.
+     * @param string $street_name Son adresse.
+     * @param int $zip_code Son code postal
+     * @param string $district Son quartier
+     * @param string $city Sa ville
+     * @param int $mobile_number Son numéro de téléphone
+     * @param string $email_address Son adresse e-mail
+     * @return bool Vrai si l'inscription a bien été enregistrée dans la base de données, faux sinon.
+     */
     public function register(string $last_name, string $first_name, string $password, string $street_name, int $zip_code, string $district, string $city, int $mobile_number, string $email_address): bool {
         // Connexion à la base de données
         $database_link = new DatabaseLink();
@@ -184,10 +211,10 @@ class User {
 
         $user_id = $database_link->get_last_id();
 
-        // On fait une requête pour créer une ligne dans les informations de paiement
+        // On fait une requête pour créer une ligne dans les informations de paiement avec les informations à NULL
         $database_link->make_query("INSERT INTO `users.payment` (id_user, name, number, cvv, expiration_date) VALUES (?, NULL, NULL, NULL, NULL)", [$user_id]);
 
-        // Si on n'a pas un retour égal à false, la requête s'est bien passée
+        // Si on n'a pas un retour égal à false, la requête s'est bien passée et on renvoie le résultat.
         if ($register) {
             return true;
         } else {
@@ -195,8 +222,15 @@ class User {
         }
     }
 
+    /**
+     * Méthode pour vérifier que le mot de passe associé à une adresse e-mail est bon.
+     * @param string $email Adresse e-mail associée au mot de passe.
+     * @param string $password Mot de passe que l'on cherche à vérifier.
+     * @return bool Vrai si cela correspond au hash dans la base de données, faux sinon.
+     */
     public function check_credentials(string $email, string $password): bool {
         $databaselink = new DatabaseLink();
+
         $get_user_password = $databaselink->make_query("SELECT `password` FROM users WHERE `email_address` = ?", [$email]);
 
         if ($databaselink->number_of_returned_rows($get_user_password)) {
@@ -212,7 +246,7 @@ class User {
 
     /**
      * Méthode pour générer un token anti-CSRF
-     * @return string Le token
+     * @return string Token généré
      */
     public function create_token(): string {
         try {

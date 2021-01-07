@@ -2,6 +2,9 @@
 require_once "common.start.session.php";
 require_once "common.forwarding.php";
 
+require_once dirname(__DIR__) . "/models/databaselink.php";
+require_once dirname(__DIR__) . "/models/user.php";
+
 if(!empty($_SESSION["user_information"])) {
     $_SESSION["flash"]["info"] = "Vous avez déjà un compte chez nous car vous êtes actuellement connecté. <i class='fal fa-laugh-wink'></i>";
     header("Location: /");
@@ -76,18 +79,29 @@ if (isset($_POST["submit"])) {
         $errors["empty_mobile_number_or_invalid"] = "Le numéro de téléphone est vide ou ne fait pas 9 caractères";
     }
 
+    $database_link = new DatabaseLink();
+    $user = new User();
+
+    if($user->does_email_already_exist($email_address)) {
+        $errors["email_address_already_exists"] = "Cette adresse e-mail est déjà utilisée";
+    }
+
     // Si le tableau des erreurs est vide, alors on peut commencer l'insertion
     if (empty($errors)) {
-        require_once dirname(__DIR__) . "/models/databaselink.php";
-        require_once dirname(__DIR__) . "/models/user.php";
 
-        $database_link = new DatabaseLink();
-        $user = new User();
-
-        $user->register(strtoupper($last_name), ucfirst(strtolower($first_name)), $password, ucwords($street_name), $zip_code, ucwords($district), strtoupper($city), $mobile_number, strtolower($email_address));
-
+        $user->register(strtoupper($last_name),
+            ucfirst(strtolower($first_name)),
+            $password,
+            ucwords($street_name),
+            $zip_code,
+            ucwords($district),
+            strtoupper($city),
+            $mobile_number,
+            strtolower($email_address)
+        );
+        
         // On confirme que le compte a bien été créé
-        $_SESSION["flash"]["success"] = "Merci. Un e-mail de confirmation a été envoyé afin de valider votre compte.";
+        $_SESSION["flash"]["success"] = "Merci, votre inscription a été validée. Vous pouvez désormais <a href='/login'>vous connecter</a>.";
         header("location: /");
         exit;
     } else {
