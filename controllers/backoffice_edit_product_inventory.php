@@ -40,6 +40,8 @@ if (isset($_POST["submit"])) {
         $quantity = 0;
     } else if(!is_numeric($quantity)) {
         $errors["not_numeric_quantity"] = "La quantité doit être une valeur numérique";
+    }  else if($quantity < 0) {
+        $errors["negative_quantity"] = "La quantité ne peut être négative";
     }
 
     // Traitement de la quantité
@@ -47,6 +49,10 @@ if (isset($_POST["submit"])) {
         $discount_rate = 0;
     } else if(!is_numeric($discount_rate)) {
         $errors["not_numeric_discout"] = "Le taux de promotion doit être une valeur numérique";
+    } else if($discount_rate < 0) {
+        $errors["negative_discount_rate"] = "Le taux de promotion ne peut être négatif";
+    } else if($discount_rate > 100) {
+        $errors["above_100_discount_rate"] = "Le taux de promotion ne peut être supérieur à 100 %";
     }
 
     // Si on n'a aucune erreur, on peut enregister

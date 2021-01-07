@@ -19,7 +19,7 @@ class Product {
     private string $unit;
     private int $number_in_inventory;
     private float $discount_rate;
-    private string $file_name;
+    private string $file;
 
     /**
      * Getter permettant de récupérer l'ID
@@ -100,18 +100,19 @@ class Product {
     /**
      * @return string
      */
-    public function get_file_name(): string {
-        return $this->file_name;
+    public function get_file_(): string {
+        return $this->file;
     }
 
 
     /**
-     * Se charge d'hydrater l'objet.
+     * Se charge d'hydrater l'objet, c'est-à-dire que l'on prend les données de la base de données et qu'on les met dans les attributs de l'objet
      * @param int $product_id Identifiant unique d'un produit.
      * @return bool Vrai si la requête a fonctionné, faux sinon.
      */
     public function hydrate(int $product_id) : bool {
         $database_link = new DatabaseLink();
+
         $result_view = $database_link->make_query("SELECT `quantity`, `discount_rate` FROM `products.inventory` WHERE `id_product` = ?", [$product_id])->fetch();
         $result_table = $database_link->make_query("SELECT * FROM products WHERE `id_product` = ?", [$product_id])->fetch();
 
@@ -129,7 +130,7 @@ class Product {
             $this->unit = $result_table->unit;
             $this->number_in_inventory = $result_view->quantity;
             $this->discount_rate = $result_view->discount_rate;
-            $this->file_name = $result_table->file_name;
+            $this->file = $result_table->file_name;
             return true;
         }
     }
@@ -148,7 +149,7 @@ class Product {
      * @param int|null $id_product ID du produit à mettre à jour si mise à jour
      * @return int L'ID du produit qui vient d'être entré
      */
-    public function change(string $label, string $type, string $season, string $classification, string $description, float $price, string $unit, array $file, bool $is_update = false, int $id_product = null) : int {
+    public function change(string $label, string $type, string $season, string $classification, string $description, float $price, string $unit, array $file = null, bool $is_update = false, int $id_product = null) : int {
         $database_link = new DatabaseLink();
 
         // Le nom du fichier à insérer dans la base de données
@@ -172,6 +173,56 @@ class Product {
          }
 
          return 0;
+    }
+
+    /**
+     * Méthode permettant de mettre à jour un produit
+     * @param int $id_product
+     * @param string $label
+     * @param string $type
+     * @param string $classification
+     * @param string $desription
+     * @param float $price
+     * @param string $season
+     * @param string $unit
+     * @param array|null $image_file
+     * @param string|null $image_file_extension
+     */
+    public function update_product(string $label, string $type, string $classification, string $desription, float $price, string $season, string $unit, array $image_file = null, string $image_file_extension = null) : void {
+        $database_link = new DatabaseLink();
+
+        // La requête va dépendre de s'il y a une nouvelle image à mettre
+        if(is_null($image_file)) {
+            $database_link->make_query("UPDATE `products` SET label = ?, type = ?, classification = ?, description = ?, price = ?, season = ?, unit = ? WHERE id_product = ?", [
+                $label,
+                $type,
+                $classification,
+                $desription,
+                $price,
+                $season,
+                $unit,
+                $this->id_product
+            ]);
+        } else {
+            // On effectue d'abord la requête
+            $database_link->make_query("UPDATE `products` SET label = ?, type = ?, classification = ?, description = ?, price = ?, season = ?, unit = ?, file_name = ? WHERE id_product = ?", [
+                $label,
+                $type,
+                $classification,
+                $desription,
+                $price,
+                $season,
+                $unit,
+                $label . "." . $image_file_extension,
+                $this->id_product
+            ]);
+
+            // Il faut maintenant mettre à jour dans le dossier
+            unlink(dirname(__DIR__) . "views/assets/images/products/$this->file");
+
+            // On peut mettre l'image sur le serveur
+            move_uploaded_file($image_file["tmp_name"], dirname(__DIR__) . "/views/assets/images/products/$label.$image_file_extension");
+        }
     }
 
     /**

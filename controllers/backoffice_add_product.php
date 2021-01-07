@@ -36,6 +36,12 @@ if (isset($_POST["submit"])) {
         "webp"
     );
 
+    $authorized_image_mine_types = array(
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+    );
+
     // Récupération de l'extension
     $file_extension = pathinfo($image["name"], PATHINFO_EXTENSION);
     // Récupération du VRAI type de l'image
@@ -43,7 +49,7 @@ if (isset($_POST["submit"])) {
 
     if (!is_uploaded_file($image["tmp_name"])) {
         $errors["empty_image"] = "Il faut mettre en ligne une image";
-    } else if (!in_array($file_extension, $authorized_image_types)) {
+    } else if ((!in_array($file_extension, $authorized_image_types)) || (!in_array($file_mime_type, $authorized_image_mine_types))) {
         $errors["invalid_type"] = "Le format de l'image n'est pas autorisé (webp, jpg, jpeg, et png uniquement)";
     }
 

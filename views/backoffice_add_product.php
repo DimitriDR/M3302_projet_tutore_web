@@ -18,7 +18,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         </div>
                     </div>
 
-                    <!-- Champ pour l'unité -->
+                    <!-- Champ pour l'image -->
                     <div class="col-4 my-2">
                         <label for="image" class="form-label">Image d'illustration</label>
                         <div class="input-group">

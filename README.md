@@ -57,3 +57,7 @@ Pour les aspects bases de données, il faut donc réfléchir à :
 Et probablement à d’autres aspects que vous pourrez proposer ! Par exemple proposer un mode de transport pour les livraisons (si pas trop lourd, en vélo ?).
 
 Pour la partie programmation web, il faudra faire l’interface pour les clients.
+
+# Crédits images récupérées
+* [Carottes](https://unsplash.com/photos/uidpH617Fb8)
+* [Épinards](https://unsplash.com/photos/hlC6OwRSQFs)

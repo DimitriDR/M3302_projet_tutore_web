@@ -16,12 +16,22 @@ if(!isset($product) || empty($product)) {
                 <form method="POST" action="/controllers/backoffice_edit_product_inventory.php?id=<?= $_GET["id"]; ?>" class="row">
 
                     <!-- Champ pour le libellé -->
-                    <div class="col-8 my-2">
+                    <div class="col-4 my-2">
                         <label for="label" class="form-label">Libellé</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-heading fs-xs"></i></span>
                             <input type="text" id="label" name="label" class="form-control" value="<?= htmlspecialchars($product->get_label()) ?>" disabled>
                         </div>
+                    </div>
+
+                    <!-- Champ pour l'image -->
+                    <div class="col-4 my-2">
+                        <label for="image" class="form-label">Image d'illustration</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-image fs-xs"></i></span>
+                            <input type="file" id="image" name="image" class="form-control" disabled>
+                        </div>
+                        <p class="text-muted">Seulement en .webp, .jpg, .jpeg, ou .png</p>
                     </div>
 
                     <div class="col-2 my-2">
