@@ -1,6 +1,6 @@
 <?php
-// Démarrage d'une session
-session_start();
+require_once "common.start.session.php";
+require_once "common.forwarding.php";
 
 require_once dirname(__DIR__) . "/models/product.php";
 
@@ -17,15 +17,15 @@ $successfully_hydrate = $product->hydrate($_GET["id"]);
 // Si on s'aperçoit que notre produit n'existe pas, ou qu'il y a eu une erreur quelconque
 if(!$successfully_hydrate) {
     unset($product);
-    $_SESSION["flash"]["danger"] = "Le produit n'a pas pû être récupéré (peut-être parce-que l'ID correspond à un produit qui n'existe pas...).";
+    $_SESSION["flash"]["danger"] = "Le produit n'a pas pû être récupéré (peut-être parce-que l'ID correspond au produit n'existe pas...).";
     header("Location: ../backoffice_index");
     exit;
 }
 
 
-/***********************************/
-/**** Soumissions du formulaire ****/
-/***********************************/
+/**********************************/
+/**** Traitement du formulaire ****/
+/**********************************/
 
 if (isset($_POST["submit"])) {
     // Création d'un tableau vide contenant toutes les erreurs
