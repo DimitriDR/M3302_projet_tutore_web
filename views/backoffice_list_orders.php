@@ -31,9 +31,10 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         <td>
                             <div class="btn-group" role="group">
                                 <a href="backoffice_see_order?id=<?= intval($result->id_order) ?>" class="btn btn-primary">Voir en détails</a>
-                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=1" class="btn btn-success">Confirmer la livraison</a>
-                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=2" class="btn btn-secondary">En route</a>
-                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=3" class="btn btn-danger">Annuler la livraison</a>
+                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=1" class="btn btn-success">Conf. commande</a>
+                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=2" class="btn btn-dark">En route</a>
+                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=2" class="btn btn-light">Conf. réception</a>
+                                <a href="backoffice_change_order_status?id=<?= intval($result->id_order) ?>&status=-1" class="btn btn-danger">Annul. livraison</a>
                             </div>
                         </td>
                     </tr>

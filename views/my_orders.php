@@ -9,7 +9,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
                 <h1 class="card-title">Liste de mes commandes</h1>
 
                 <?php if (!are_orders()): ?>
-                    <span class="text-danger">Aucun commande n'a été trouvée. Les articles sont présentés <a href="browse">ici</a>.</span>
+                    <span class="text-danger">Aucun commande n'a été trouvée. Vous pouvez constituer un panier avec les articles présentés <a href="browse">ici</a>.</span>
                 <?php else: ?>
                     <table class="table table-bordered table-striped text-center">
                         <thead>

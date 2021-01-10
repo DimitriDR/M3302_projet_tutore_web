@@ -19,6 +19,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
     ?>
         <div class="col">
             <div class="card">
+                <img src="/views/assets/images/products/<?= $product->get_file() ?>" class="card-img-top" alt="Image du produit « <?= htmlspecialchars($product->get_label()); ?> »">
                 <div class="card-body">
                     <h5 class="card-title"><?= trim(htmlspecialchars($product->get_label())) ?></h5>
                     <p class="text-muted card-text"><?= substr(htmlspecialchars($product->get_description()), 0, 100) ?>...</p>

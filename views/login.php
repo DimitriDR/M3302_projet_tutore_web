@@ -8,7 +8,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
     <div class="card shadow-sm">
         <div class="card-body">
             <h1 class="card-title">Connexion</h1>
-            <p>Vous n'avez pas de compte ? <a href="/register">Incrivez-vous</a>.</p>
+            <p>Vous n'avez pas de compte ? <a href="/register">Inscrivez-vous</a>.</p>
             <form method="POST" action="/controllers/login.php" class="row g-3">
 
                 <div class="col-6">

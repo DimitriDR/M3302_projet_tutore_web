@@ -21,16 +21,16 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         <li><strong>Nom du client</strong> : <?= htmlspecialchars(trim($customer->get_last_name())) ?></li>
                         <li><strong>Prénom du client</strong> : <?= htmlspecialchars(trim($customer->get_first_name())) ?></li>
                         <li><strong>Adresse du client</strong> : <?= htmlspecialchars(trim($customer->get_street_name())) ?>, <?= htmlspecialchars(trim($customer->get_zip_code())) ?> <?= htmlspecialchars(trim($customer->get_city())) ?></li>
-                        <li><strong>Date de commande</strong> : <?= htmlspecialchars(trim($order->get_date())) ?></li>
+                        <li><strong>Date de commande</strong> : <?= htmlspecialchars(trim($order->get_raw_date())) ?></li>
                     </ul>
                 </div>
             </div>
             </div>
             <div class="col-3">
-                <a href="" class="btn btn-success d-inline-block w-100 mb-2"><i class="fal fa-check fa-xs"></i> Confirmer la bonne réception</a>
-                <a href="" class="btn btn-primary d-inline-block w-100 mb-2"><i class="fal fa-truck fa-xs"></i> Je suis en train de livrer</a>
-                <a href="" class="btn btn-secondary d-inline-block w-100 mb-2"><i class="fal fa-truck fa-xs"></i> Confirmer la commande</a>
-                <a href="" class="btn btn-danger d-inline-block w-100"><i class="fal fa-truck fa-xs"></i> Annuler la commande</a>
+                <a href="backoffice_change_order_status?id=<?= intval($order->get_id_order()) ?>&status=1" class="btn btn-secondary d-inline-block w-100 mb-2 shadow-sm"><i class="fal fa-truck fa-xs"></i> Confirmer la commande</a>
+                <a href="backoffice_change_order_status?id=<?= intval($order->get_id_order()) ?>&status=3" class="btn btn-success d-inline-block w-100 mb-2 shadow-sm"><i class="fal fa-check fa-xs"></i> Confirmer la bonne réception</a>
+                <a href="backoffice_change_order_status?id=<?= intval($order->get_id_order()) ?>&status=2" class="btn btn-primary d-inline-block w-100 mb-2 shadow-sm"><i class="fal fa-truck fa-xs"></i> Je suis en train de livrer</a>
+                <a href="backoffice_change_order_status?id=<?= intval($order->get_id_order()) ?>&status=-1" class="btn btn-danger d-inline-block w-100 shadow-sm"><i class="fal fa-truck fa-xs"></i> Annuler la commande</a>
             </div>
         </section>
 

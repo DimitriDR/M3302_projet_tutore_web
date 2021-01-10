@@ -15,7 +15,7 @@ if (!isset($order)) {
         <div class="card shadow-sm py-2 my-3">
             <div class="card-body">
                 <ul>
-                    <li><strong>Date de commande</strong> : <?= $order->get_date() ?></li>
+                    <li><strong>Date de commande</strong> : <?= $order->get_raw_date() ?></li>
                     <li><strong>Statut</strong> : <?= $order->get_status(); ?></li>
                 </ul>
             </div>

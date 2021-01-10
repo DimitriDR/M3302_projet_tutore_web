@@ -1,2 +1,1 @@
-<?php
-require_once "views/track_my_order.php";
+<?php require_once "views/track_my_order.php";

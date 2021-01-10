@@ -59,5 +59,7 @@ Et probablement à d’autres aspects que vous pourrez proposer ! Par exemple pr
 Pour la partie programmation web, il faudra faire l’interface pour les clients.
 
 # Crédits images récupérées
+* [Page d'accueil](https://dribbble.com/shots/10864467-Picnic-basket/attachments/2519886?mode=media)
+* [Écran de connexion](https://unsplash.com/photos/xMh_ww8HN_Q)
 * [Carottes](https://unsplash.com/photos/uidpH617Fb8)
 * [Épinards](https://unsplash.com/photos/hlC6OwRSQFs)

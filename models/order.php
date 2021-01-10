@@ -37,8 +37,12 @@ class Order {
     /**
      * @return string La date de création de la commande
      */
-    public function get_date() : string {
+    public function get_raw_date() : string {
         return $this->date;
+    }
+
+    public function get_date() : string {
+        return date("d/m/Y à H:i", strtotime($this->date));
     }
 
     /**
@@ -67,15 +71,15 @@ class Order {
     function get_status() : string {
         switch ($this->status) {
             case -1:
-                return "<span class='text-danger'>Annulé par l'utilisateur</span>";
+                return "Annulée";
             case 0 :
-                return "<span class='text-warning'>Non confirmé</span>";
+                return "Non confirmée";
             case 1:
-                return "<span class='text-info'>Confirmé</span>";
+                return "Confirmée";
             case 2:
-                return "<span class='text-success'>En cours de livraison</span>";
+                return "En cours de livraison";
             case 3:
-                return "<span class='text-success'>Livré</span>";
+                return "Livrée";
             default:
                 return "Erreur";
         }
@@ -128,5 +132,40 @@ class Order {
         }
 
         return true;
+    }
+
+    /**
+     * Méthode pour annuler une commande.
+     */
+    public function cancel_order() : void {
+        $database_link = new DatabaseLink();
+        $database_link->make_query("UPDATE orders SET status = -1 WHERE id_order = ?", [$this->id_order]);
+    }
+
+    /**
+     * Méthode permettant d'avoir une couleur en fonction du statut de la commande
+     * @return string La couleur
+     */
+    public function status_color() : string {
+        switch ($this->status) {
+            case -1:
+                return "danger";
+            case 0:
+                return "secondary";
+            case 1:
+                return "primary";
+            case 2:
+                return "info";
+            case 3:
+                return "success";
+            default:
+                return "light";
+        }
+    }
+
+    public function list_of_products() : array {
+        $database_link = new DatabaseLink();
+        $query = $database_link->make_query("SELECT id_product FROM products_orders WHERE id_order = ?", [$this->id_order]);
+        return $query->fetchAll();
     }
 }

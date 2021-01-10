@@ -100,7 +100,7 @@ class Product {
     /**
      * @return string
      */
-    public function get_file_(): string {
+    public function get_file(): string {
         return $this->file;
     }
 
@@ -248,5 +248,16 @@ class Product {
         $file_name = strtolower($file_label) . pathinfo($file["name"], PATHINFO_EXTENSION);
 
         return move_uploaded_file($file["name"], dirname(__DIR__) . "/views/assets/images/products/$file_name");
+    }
+
+    /**
+     * Méthode permettant d'obtenir la quantité d'un produit.
+     * @param int $id_order Le numéro de la commande qui contient le produit dont on souhaite la quantité.
+     * @return int La quantité du produit dans la commande donnée.
+     */
+    public function get_quantity(int $id_order) : int {
+        $database_link = new DatabaseLink();
+        $query = $database_link->make_query("SELECT quantity FROM products_orders WHERE id_order = ? AND id_product = ?", [$id_order, $this->id_product]);
+        return $query->fetchColumn();
     }
 }

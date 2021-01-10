@@ -29,10 +29,10 @@ function display_all_orders() : void {
         $order->hydrate($order_line->id_order);
 
         echo "<tr>";
-        echo "<td>". date("d/m/Y à H:i:s", strtotime($order->get_date())) ."</td>";
+        echo "<td>". date("d/m/Y à H:i:s", strtotime($order->get_raw_date())) ."</td>";
         echo "<td>". $order->get_status() ."</td>";
         echo "<td>
-                <a href='/controllers/see_order?id=". $order_line->id_order ."' class='btn btn-outline-primary'><i class='fad fa-eye fa-xs'></i> Voir la commande</a>
+                <a href='/views/see_order?id=". $order_line->id_order ."' class='btn btn-outline-primary'><i class='fad fa-eye fa-xs'></i> Voir la commande</a>
                 <a href='/controllers/cancel_order?id=". $order_line->id_order ."' class='btn btn-outline-danger'><i class='fad fa-ban fa-xs'></i> Annuler la commande</a>
                 </td>";
         echo "</tr>";
