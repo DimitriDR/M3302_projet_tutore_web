@@ -1,7 +1,6 @@
 CREATE OR REPLACE TABLE baskets
 (
-    id_basket     int AUTO_INCREMENT
-        PRIMARY KEY,
+    id_basket     int AUTO_INCREMENT PRIMARY KEY,
     creation_date datetime    NULL,
     display_until datetime    NULL,
     season        varchar(13) NULL,
@@ -11,8 +10,7 @@ CREATE OR REPLACE TABLE baskets
 
 CREATE OR REPLACE TABLE products
 (
-    id_product     int AUTO_INCREMENT
-        PRIMARY KEY,
+    id_product     int AUTO_INCREMENT PRIMARY KEY,
     label          varchar(100) NOT NULL,
     type           varchar(7)   NULL,
     classification varchar(200) NULL,
@@ -49,8 +47,7 @@ CREATE OR REPLACE TABLE products_basket
 
 CREATE OR REPLACE TABLE users
 (
-    id_user       int AUTO_INCREMENT
-        PRIMARY KEY,
+    id_user       int AUTO_INCREMENT PRIMARY KEY,
     last_name     varchar(50)  NOT NULL,
     first_name    varchar(50)  NOT NULL,
     password      varchar(255) NULL,
@@ -65,8 +62,7 @@ CREATE OR REPLACE TABLE users
 
 CREATE OR REPLACE TABLE orders
 (
-    id_order int AUTO_INCREMENT
-        PRIMARY KEY,
+    id_order int AUTO_INCREMENT PRIMARY KEY,
     id_user  int      NOT NULL,
     date     datetime NULL,
     status   int      NULL,
@@ -78,8 +74,7 @@ CREATE OR REPLACE TABLE orders
 
 CREATE OR REPLACE TABLE deliveries
 (
-    id_delivery int AUTO_INCREMENT
-        PRIMARY KEY,
+    id_delivery int AUTO_INCREMENT PRIMARY KEY,
     id_order    int          NOT NULL,
     recurrence  varchar(255) NOT NULL,
     CONSTRAINT deliveries_orders_id_order_fk
@@ -114,8 +109,7 @@ CREATE OR REPLACE TABLE `users.payment`
 
 CREATE OR REPLACE TABLE `users.rights`
 (
-    id_right int AUTO_INCREMENT
-        PRIMARY KEY,
+    id_right int AUTO_INCREMENT PRIMARY KEY,
     id_user  int          NOT NULL,
     password varchar(255) NULL,
     CONSTRAINT `users.rights_id_user_uindex`
