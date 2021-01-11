@@ -21,20 +21,25 @@ class Cart {
      * Méthode pour ajouter des produits au panier
      * @param Product $product Le produit à ajouter
      */
-    public function add_item(Product $product): void {
+    public function add_item(Product $product, int $quantity) : void {
         $serialized_product = serialize($product);
+
+        // Si la quantité est négative, nulle, ou non renseignée, on ajoute 1 produit, sinon, le nombre désiré
+        if($quantity <= 0 || empty($quantity)) {
+            $quantity = 1;
+        }
 
         // On vérifie si l'article n'est pas déjà dans le panier (on vérifie sur les clés car le produit est stocké dans la clé)
         if (array_key_exists($serialized_product, $this->items)) {
             // Si c'est le cas, on va incrémenter la valeur du produit
             // Mais il faut d'abord récupérer la valeur correspondant à la bonne clé
-            $this->items[$serialized_product] = $this->items[$serialized_product]+1;
+            $this->items[$serialized_product] = $this->items[$serialized_product]+$quantity;
         } else {
             // Si ce n'est pas le cas, on va le mettre dans un tableau associatif et mettre une valeur correspondant à son occurence dans le panier
-            $this->items[$serialized_product] = 1;
+            $this->items[$serialized_product] = $quantity;
         }
-        // Dans tous les cas, on incrémente de 1
-        $this->number_of_items += 1;
+        // Dans tous les cas, on incrémente de $quantity
+        $this->number_of_items += $quantity;
     }
 
     /**

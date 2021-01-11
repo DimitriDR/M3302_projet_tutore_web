@@ -1,8 +1,7 @@
 <?php
-require_once "common.start.session.php";
-require_once "common.forwarding.php";
-
 // Fichiers nécessaires
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
 require_once dirname(__DIR__) . "/models/cart.php";
 require_once dirname(__DIR__) . "/models/product.php";
 
@@ -48,6 +47,9 @@ if(!empty($_POST)) {
 // Désérialisation du panier
 $cart = unserialize($_SESSION["cart"]);
 
+// On récupère la quantité désirée
+$quantity = intval($_POST["quantity"]);
+
 // On récupère toutes les informations du produit
 $this_product = new Product();
 $successfully_retrieved_product = $this_product->hydrate($id);
@@ -59,7 +61,7 @@ if(!$successfully_retrieved_product) {
     exit;
 }
 
-$cart->add_item($this_product);
+$cart->add_item($this_product, $quantity);
 
 // On doit résérialiser l'objet
 $_SESSION["cart"] = serialize($cart);
