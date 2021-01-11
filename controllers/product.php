@@ -1,17 +1,14 @@
 <?php
-// On démarre sur session, sauf si une est déjà ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Fichiers nécessaires
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
 require_once dirname(__DIR__) . "/models/databaselink.php";
 require_once dirname(__DIR__) . "/models/product.php";
 
 // On vérifie que l'ID envoyé dans l'URL soit bien un entier
 if(empty($_GET["id"]) || !is_numeric($_GET["id"])) {
     $_SESSION["flash"]["warning"] = "L'ID du produit est vide ou invalide.";
-    header("Location: ". $_SERVER["HTTP_REFERER"]);
+    header("Location: ". $GLOBALS["forwarding"]);
     exit;
 }
 

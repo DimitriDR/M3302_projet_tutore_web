@@ -43,8 +43,8 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                         <div class="input-group">
                             <span class="input-group-text"><i class="far fa-weight-hanging fs-xs"></i></span>
                             <select id="unit" name="unit" class="form-select">
-                                <option value="Le kilo">Au kilogr.</option>
-                                <option value="À la pièce">À la pièce</option>
+                                <option value="/ kg">Au kilogr.</option>
+                                <option value="la pièce">À la pièce</option>
                             </select>
                         </div>
                     </div>

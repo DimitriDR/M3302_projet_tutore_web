@@ -14,7 +14,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     <!-- Encodage en UTF-8 pour éviter les problèmes d'accents -->
     <meta charset="UTF-8">
     <!-- Titre de la page -->
-    <title>Charles Productions — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
+    <title>Wonka Productions — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
     <!-- Pour adapter le site au mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS de Bootstrap -->
@@ -28,7 +28,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     <div class="container-md">
         <!-- Logo -->
         <a class="navbar-brand" href="/">
-                Charles Productions
+                Wonka Productions
 <!--           <img src="" alt="Logo" height="30" width="17" class="d-inline-block">-->
         </a>
 

@@ -36,8 +36,9 @@ if(isset($_POST["submit"])) {
     if(empty($errors)) {
         $basket = new Basket();
         $basket->create($price, $products);
-
+        
         $_SESSION["flash"]["success"] = "Le panier a bien été créé";
+        header("Location: ../backoffice_index");
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;

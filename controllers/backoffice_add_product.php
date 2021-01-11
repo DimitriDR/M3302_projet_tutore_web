@@ -65,8 +65,8 @@ if (isset($_POST["submit"])) {
 
     // Traitement de l'unité
     $unit_list = array(
-        "Le kilo",
-        "À la pièce",
+        "/ kg",
+        "la pièce",
     );
 
     if (empty($unit)) {

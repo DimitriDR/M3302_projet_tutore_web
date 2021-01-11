@@ -55,6 +55,7 @@ require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
                     </ul>
                 </li>
                 <li class="nav-item"><a href="backoffice_list_orders" class="nav-link"><i class="fad fa-truck fa-xs"></i> Liste des commandes</a></li>
+                <li class="nav-item"><a href="backoffice_basket" class="nav-link"><i class="fad fa-shopping-basket fa-xs"></i> Créer un panier</a></li>
             </ul>
 
             <!-- Liens situés tout à droite -->
