@@ -7,12 +7,8 @@ require_once dirname(__DIR__) . "/models/product.php";
 
 // Si aucun n'argument, ni POST, ni GET n'a été donné, on ne peut rien faire, donc on redirige
 if (!isset($_POST["add"]) && !isset($_GET["id"])) {
-    $_SESSION["flash"]["danger"] = "Une erreur est survenue lors de l'ajout au panier.";
-    if(isset($_SERVER["HTTP_REFERER"])) {
-        header("Location: ". $GLOBALS["forwarding"]);
-    } else {
-        header("Location: /");
-    }
+    $_SESSION["flash"]["danger"] = "Une erreur est survenue lors de l'ajout du produit au panier.";
+    header("Location: ". $GLOBALS["forwarding"]);
     exit;
 }
 

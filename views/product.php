@@ -33,13 +33,13 @@ if (!isset($product) || empty($product)) {
                     </ul>
                 </div>
             </article>
-            
+
             <aside class="col-lg-3">
                 <div class="card h-100 shadow-sm mx-2 d-flex flex-column justify-content-center align-items-center">
                     <div class="card-img-top">
-                        <img src="/views/assets/images/products/<?= $product->get_file() ?>"  alt="Image du produit « <?= $product->get_label() ?> »" class="rounded-top" style="width: 100%"/>
+                        <img src="/views/assets/images/products/<?= $product->get_file() ?>"  alt="Image du produit « <?= $product->get_label() ?> »" class="rounded-top" style="width: 100%; height: 100%; object-fit: cover"/>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-4" style="border-radius: 100%">
                     <form method="POST" action="../controllers/add_product_to_cart.php" class="d-flex flex-column justify-content-center align-items-center">
                         <input type="hidden" id="id" name="id" value="<?= $_GET['id'] ?>">
                         <label for="quantity" class="form-label">Saisir la quantité souhaitée</label><input type="number" id="quantity" min="0" step="1" name="quantity" placeholder="1" class="form-control">

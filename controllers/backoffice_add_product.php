@@ -138,7 +138,7 @@ if (isset($_POST["submit"])) {
         $product_id = $product->change($label, $type, $season, $classification, $description, $price, $unit, $image);
 
         // On peut mettre l'image sur le serveur
-        move_uploaded_file($_FILES["image"]["tmp_name"], dirname(__DIR__) . "/views/assets/images/products/$label.$file_extension");
+        move_uploaded_file($_FILES["image"]["tmp_name"], dirname(__DIR__) . "/views/assets/images/products/" . strtolower($label) . $file_extension);
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès. <strong>Néanmoins, il faut aller sur <a href='../backoffice_edit_product_inventory?id=" . $product_id . "'>cette page</a> pour saisir le stock, sans quoi, votre produit sera caché.</strong>";

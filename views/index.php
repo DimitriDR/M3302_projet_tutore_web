@@ -53,7 +53,7 @@ require_once dirname(__DIR__) . "/models/product.php";
             <h2 class="py-4">Livré chez vous, sans frais.</h2>
             <h4 class="py-2">Profitez d'un panier composé par Willy Wonka, avec des produits garantis pendant une période donnée !</h4>
             <h2 class="py-4">Produits de qualité à prix abordable</h2>
-            <button class="btn btn-lg btn-primary">Découvrir le panier du moment</button>
+            <a href="/basket" class="btn btn-lg btn-primary">Découvrir le panier du moment</a>
         </div>
     </section>
 </main>

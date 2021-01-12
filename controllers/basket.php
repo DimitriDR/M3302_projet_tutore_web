@@ -1,9 +1,17 @@
 <?php
 // Fichiers nécessaires
+
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
+require_once dirname(__DIR__) . "/models/basket.php";
 require_once dirname(__DIR__) . "/models/databaselink.php";
-require_once dirname(__DIR__) . "/models/product.php";
 
 // On récupère tous les produits disponibles
 $database_link = new DatabaseLink();
-$product_query = $database_link->make_query("SELECT `id_product` FROM `products` NATURAL JOIN `products.inventory` WHERE quantity > 0");
-$products = $product_query->fetchALl();
+$basket = new Basket();
+
+if(!$basket->initialization()) {
+    $_SESSION["flash"]["warning"] = "Une erreur s'est produite lors de la récupération du panier.";
+    header("Location: " . $GLOBALS["forwarding"]);
+    exit;
+}

@@ -20,6 +20,7 @@ class Cart {
     /**
      * Méthode pour ajouter des produits au panier
      * @param Product $product Le produit à ajouter
+     * @param int $quantity
      */
     public function add_item(Product $product, int $quantity) : void {
         $serialized_product = serialize($product);
@@ -47,7 +48,7 @@ class Cart {
      * @return int Le nombre d'items dans le panier
      */
     public function get_number_of_items() : int {
-        return $this->number_of_items;
+        return count($this->items);
     }
 
     /**
@@ -81,7 +82,11 @@ class Cart {
 
         // On parcourt tous les articles ainsi que leur prix
         foreach ($this->items as $item => $quantity) {
-            $total += unserialize($item)->get_price() * $quantity;
+            if($item instanceof Product) {
+                $total += unserialize($item)->get_price() * $quantity;
+            } else if($item instanceof Basket) {
+                $total += unserialize($item)->get_price();
+            }
         }
 
         return $total;
@@ -125,5 +130,14 @@ class Cart {
 
     public function enough_supply() {
         return true;
+    }
+
+    /**
+     * Méthode pour ajouter un panier au chariot
+     * @param Basket $basket Panier composé
+     * @return int Nombre de lignes insérées dans le chariot (normalement une)
+     */
+    public function add_basket(Basket $basket) : int {
+        return array_push($this->items, $basket);
     }
 }

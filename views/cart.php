@@ -12,19 +12,7 @@ $user_info = unserialize($_SESSION["user_information"]);
         <article class="row mt-5">
             <!-- La partie située à gauche -->
             <section class="row col-8">
-                <h2><i class="fad fa-shopping-bag fa-xs"></i> Résumé</h2>
-                <hr>
-                    <ul>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                        <li>Lorem Ipsum Dolor Sit Amet</li>
-                    </ul>
+                <h2><i class="fad fa-shopping-bag fa-xs"></i> Vos informations</h2>
                 <hr>
                 <!-- Le début de l'accordéon -->
                 <div class="accordion" id="accordion">

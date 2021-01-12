@@ -43,6 +43,9 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
                 <li class="nav-item">
                     <a href="/browse" class="nav-link"><i class="fad fa-th-list fa-xs"></i> Parcourir les articles</a>
                 </li>
+                <li class="nav-item">
+                    <a href="/basket" class="nav-link"><i class="fad fa-shopping-bag fa-xs"></i> Panier du moment</a>
+                </li>
             </ul>
 
             <!-- Liens situés tout à droite -->

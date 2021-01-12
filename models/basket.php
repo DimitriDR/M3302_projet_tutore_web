@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__) . "/models/databaselink.php";
+require_once dirname(__DIR__) . "/models/product.php";
 
 /**
  * Classe Basket modélisant un panier composé par le producteur
@@ -20,21 +21,21 @@ class Basket {
     /**
      * @return int Identifiant unique du panier
      */
-    public function get_id_basket(): int {
+    public function get_id_basket() : int {
         return $this->id_basket;
     }
 
     /**
      * @return float
      */
-    public function get_price(): float {
+    public function get_price() : float {
         return $this->price;
     }
 
     /**
      * @return array
      */
-    public function get_list_of_products(): array {
+    public function get_list_of_products() : array {
         return $this->list_of_products;
     }
 
@@ -54,5 +55,41 @@ class Basket {
             $product_id = $query->fetchColumn();
             $database_link->make_query("INSERT INTO `products_basket` (id_product, id_basket, quantity) VALUES (?, ?, 1)", [$product_id, $id_basket]);
         }
+    }
+
+    /**
+     * Méthode qui va hydrater l'objet, c'est-à-dire mettre les données de la BDD dans les attributs.
+     * On récupère toujours les données du dernier panier.
+     */
+    public function initialization() : bool {
+        $database_link = new DatabaseLink();
+        
+        // On récupère toutes les informations sur le panier
+        $query_basket_info = $database_link->make_query("SELECT * FROM baskets ORDER BY id_basket DESC LIMIT 1");
+
+        // Si on n'y arrive pas, on renvoie faux
+        if(!$query_basket_info) {
+            return false;
+        }
+
+        $fetch_basket_info = $query_basket_info->fetchObject();
+
+        $this->id_basket = $fetch_basket_info->id_basket;
+        $this->price = $fetch_basket_info->price;
+        
+        // Il ne manque plus qu'à rajouter les produits inclus
+        $query_products = $database_link->make_query("SELECT id_product, quantity FROM products_basket WHERE id_basket = ?", [$this->id_basket]);
+        $fetch_products = $query_products->fetchAll();
+
+        $this->list_of_products = [];
+
+        foreach ($fetch_products as $row) {
+            $product = new Product();
+            $product->hydrate($row->id_product);
+
+            array_push($this->list_of_products, $product);
+        }
+
+        return true;
     }
 }

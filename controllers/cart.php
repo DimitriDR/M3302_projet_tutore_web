@@ -4,6 +4,7 @@ require_once "common.forwarding.php";
 
 // Fichiers nécessaires
 require_once dirname(__DIR__) . "/models/cart.php";
+require_once dirname(__DIR__) . "/models/basket.php";
 require_once dirname(__DIR__) . "/models/order.php";
 require_once dirname(__DIR__) . "/models/product.php";
 require_once dirname(__DIR__) . "/models/user.php";
@@ -27,17 +28,25 @@ if (unserialize($_SESSION["cart"])->get_number_of_items() === 0) {
  */
 function display_all_items(): void {
     foreach (unserialize($_SESSION["cart"])->get_items() as $item => $quantity) {
-        echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-        echo unserialize($item)->get_label() . " (" . $quantity . ")";
-        echo "<span>" . unserialize($item)->get_price() * $quantity . "€ (unit. " . unserialize($item)->get_price() . " €)</span>";
-        echo "</li>";
+
+        // Si c'est un panier, on oublie
+        if($item instanceof Product) {
+            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
+            echo unserialize($item)->get_label() . " (" . $quantity . ")";
+            echo "<span>" . unserialize($item)->get_price() * $quantity . "€ (unit. " . unserialize($item)->get_price() . " €)</span>";
+            echo "</li>";
+        } else {
+            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
+            echo "Panier composé";
+            echo "</li>";
+        }
     }
 }
 
 /**
  * Fonction affichant le nombre total d'articles dans le panier et affiche ou non un "s" ;)
  */
-function display_number_of_items(): string {
+function display_number_of_items() : string {
     $number_of_items = unserialize($_SESSION["cart"])->get_number_of_items();
 
     if ($number_of_items <= 1) {
