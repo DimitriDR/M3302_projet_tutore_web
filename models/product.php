@@ -255,9 +255,27 @@ class Product {
      * @param int $id_order Le numéro de la commande qui contient le produit dont on souhaite la quantité.
      * @return int La quantité du produit dans la commande donnée.
      */
-    public function get_quantity(int $id_order) : int {
+    public function get_quantity_in_order(int $id_order) : int {
         $database_link = new DatabaseLink();
         $query = $database_link->make_query("SELECT quantity FROM products_orders WHERE id_order = ? AND id_product = ?", [$id_order, $this->id_product]);
         return $query->fetchColumn();
+    }
+
+    public function get_quantity_in_inventory() : int {
+        $database_link = new DatabaseLink();
+        $query = $database_link->make_query("SELECT quantity FROM `products.inventory` WHERE id_product = ?", [$this->id_product]);
+        return $query->fetchColumn();
+    }
+
+    /**
+     * Méthode permettant de retirer du stock selon la quantité qui a été prise lors d'une commande.
+     * @param int $quantity_in_order Quantité du produit actuel qui a été retirée d'une commande.
+     */
+    public function remove_quantity_from_inventory(int $quantity_in_order) {
+        $database_link = new DatabaseLink();
+        // On calcule la quantité restante si on enlève la quantité de la commande
+        $remaining_quantity = $this->get_quantity_in_inventory() - $quantity_in_order;
+
+        $database_link->make_query("UPDATE `products.inventory` SET quantity = ? WHERE id_product = ?", [$remaining_quantity, $this->id_product]);
     }
 }

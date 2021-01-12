@@ -44,7 +44,7 @@ if (!isset($order)) {
                 <div class="card mx-1 shadow-sm">
                     <div class="d-flex align-items-center">
                         <img src="/views/assets/images/products/<?= $product->get_file() ?>" class="rounded-start" style="height: 100px; width: 100px; object-fit: cover" alt="Image de <?= htmlspecialchars($product->get_label()) ?>">
-                        <h3 class="m-lg-3"><?= $product->get_label() ?> (x<?= $product->get_quantity($_GET["id"]) ?>)</h3>
+                        <h3 class="m-lg-3"><?= $product->get_label() ?> (x<?= $product->get_quantity_in_order($_GET["id"]) ?>)</h3>
                     </div>
                 </div>
                 <?php endforeach; ?>

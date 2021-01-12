@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__DIR__) . "/models/product.php";
 
 /**
  * Classe Order représentant une commande
@@ -41,6 +42,10 @@ class Order {
         return $this->date;
     }
 
+    /**
+     * Méthode qui retourne une date sous un format plus lisible
+     * @return string La date
+     */
     public function get_date() : string {
         return date("d/m/Y à H:i", strtotime($this->date));
     }
@@ -135,14 +140,6 @@ class Order {
     }
 
     /**
-     * Méthode pour annuler une commande.
-     */
-    public function cancel_order() : void {
-        $database_link = new DatabaseLink();
-        $database_link->make_query("UPDATE orders SET status = -1 WHERE id_order = ?", [$this->id_order]);
-    }
-
-    /**
      * Méthode permettant d'avoir une couleur en fonction du statut de la commande
      * @return string La couleur
      */
@@ -167,5 +164,26 @@ class Order {
         $database_link = new DatabaseLink();
         $query = $database_link->make_query("SELECT id_product FROM products_orders WHERE id_order = ?", [$this->id_order]);
         return $query->fetchAll();
+    }
+
+    /**
+     * Méthode qui se charge de changer le status d'une commande selon le statut reçu en paramètre.
+     * @param int $status Le nouveau statut
+     */
+    public function change_status(int $status) : void {
+        $database_link = new DatabaseLink();
+        $database_link->make_query("UPDATE orders SET status = ? WHERE id_order = ?", [$status ,$this->id_order]);
+    }
+
+    public function remove_inventory() {
+        $database_link = new DatabaseLink();
+        $query = $database_link->make_query("SELECT id_product, quantity FROM products_orders WHERE id_order = ?", [$this->id_order]);
+        $fetch = $query->fetchAll();
+
+        foreach ($fetch as $row) {
+            $product = new Product();
+            $product->hydrate($row->id_product);
+            $product->remove_quantity_from_inventory($row->quantity);
+        }
     }
 }

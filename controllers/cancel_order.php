@@ -25,7 +25,7 @@ if ($order->get_id_user() != unserialize($_SESSION["user_information"])->get_id_
     exit;
 }
 
-$order->cancel_order();
+$order->change_status(-1);
 
 // Une fois que tout est fini, on redirige
 $_SESSION["flash"]["success"] = "Votre commande a bien été annulée.";
