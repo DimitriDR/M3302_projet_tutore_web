@@ -54,7 +54,15 @@ require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
                         <li><a href="backoffice_list_products" class="dropdown-item"><i class="fal fa-list-ul fa-xs"></i> Liste des produits</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a href="backoffice_list_orders" class="nav-link"><i class="fad fa-truck fa-xs"></i> Liste des commandes</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toogle" id="product_dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fal fa-truck fa-xs"></i> Livraisons
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="product_dropdown">
+                        <li><a href="backoffice_list_orders" class="dropdown-item"><i class="fal fa-list-ul fa-xs"></i> Liste de toutes les commandes</a></li>
+                        <li><a href="backoffice_list_incoming_orders" class="dropdown-item"><i class="fal fa-list-ul fa-xs"></i> Liste des commandes à livrer</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a href="backoffice_basket" class="nav-link"><i class="fad fa-shopping-basket fa-xs"></i> Créer un panier</a></li>
             </ul>
 

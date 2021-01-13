@@ -42,7 +42,7 @@ if (!isset($product) || empty($product)) {
                     <div class="card-body p-4" style="border-radius: 100%">
                     <form method="POST" action="../controllers/add_product_to_cart.php" class="d-flex flex-column justify-content-center align-items-center">
                         <input type="hidden" id="id" name="id" value="<?= $_GET['id'] ?>">
-                        <label for="quantity" class="form-label">Saisir la quantité souhaitée</label><input type="number" id="quantity" min="0" step="1" name="quantity" placeholder="1" class="form-control">
+                        <label for="quantity" class="form-label">Saisir la quantité souhaitée</label><input type="number" id="quantity" min="1" step="1" name="quantity" placeholder="1" class="form-control">
                         <button id="add" name="add" class="btn btn-large btn-primary w-100 my-2"><i class="fad fa-cart-plus fa-xs"></i> Ajouter au panier</button>
                     </form>
                     </div>

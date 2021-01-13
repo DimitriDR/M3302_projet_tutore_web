@@ -30,16 +30,17 @@ function display_all_items(): void {
     foreach (unserialize($_SESSION["cart"])->get_items() as $item => $quantity) {
 
         // Si c'est un panier, on oublie
-        if($item instanceof Product) {
+
             echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
             echo unserialize($item)->get_label() . " (" . $quantity . ")";
             echo "<span>" . unserialize($item)->get_price() * $quantity . "€ (unit. " . unserialize($item)->get_price() . " €)</span>";
             echo "</li>";
-        } else {
-            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-            echo "Panier composé";
-            echo "</li>";
-        }
+
+//        } else {
+//            echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
+//            echo "Panier composé";
+//            echo "</li>";
+//        }
     }
 }
 
