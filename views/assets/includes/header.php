@@ -24,7 +24,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
 </head>
 <body class="bg-light">
 <!-- Barre de navigation -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
     <div class="container-md">
         <!-- Logo -->
         <a class="navbar-brand" href="/">Wonka Productions</a>
