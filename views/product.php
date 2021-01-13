@@ -23,7 +23,8 @@ if (!isset($product) || empty($product)) {
         <div class="row">
             <article class="col-lg-9 card shadow-sm">
                 <div class="card-body">
-                    <h1 class="card-title"><?= htmlspecialchars($product->get_label()); ?> <span class="text-muted">(<?= (float)$product->get_price(); ?> € <?= $product->get_unit() ?>)</span></h1>
+                    <h1 class="card-title"><?= htmlspecialchars($product->get_label()); ?> <span class="text-muted"><?= (float) $product->get_price(); ?> € <?= $product->get_unit() ?>)</span></h1>
+                    <?php if($product->get_discounted_price() != $product->get_price()): ?><h2 class="text-danger">Promotion : <?= (float) $product->get_discounted_price(); ?> € <?= $product->get_unit() ?>, -<?= $product->get_discount_rate() ?>%)</h2><?php endif; ?>
                     <p><?= htmlspecialchars($product->get_description()); ?></p>
 
                     <h2 class="py-2">Autres informations</h2>

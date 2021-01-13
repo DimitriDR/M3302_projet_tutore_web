@@ -33,7 +33,7 @@ function display_all_items(): void {
 
             echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
             echo unserialize($item)->get_label() . " (" . $quantity . ")";
-            echo "<span>" . unserialize($item)->get_price() * $quantity . "€ (unit. " . unserialize($item)->get_price() . " €)</span>";
+            echo "<span>" . unserialize($item)->get_discounted_price() * $quantity . "€ (unit. " . unserialize($item)->get_discounted_price() . " €)</span>";
             echo "</li>";
 
 //        } else {

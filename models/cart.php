@@ -83,7 +83,7 @@ class Cart {
         // On parcourt tous les articles ainsi que leur prix
         foreach ($this->items as $item => $quantity) {
             //if($item instanceof Product) {
-                $total += unserialize($item)->get_price() * $quantity;
+                $total += unserialize($item)->get_discounted_price() * $quantity;
            // } else if($item instanceof Basket) {
              //   $total += unserialize($item)->get_price();
            // }

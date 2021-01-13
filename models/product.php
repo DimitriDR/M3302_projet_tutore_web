@@ -20,6 +20,8 @@ class Product {
     private int $number_in_inventory;
     private float $discount_rate;
     private string $file;
+    /** @var float Le nouveau prix si une promotion est applicable */
+    private float $discounted_price;
 
     /**
      * Getter permettant de récupérer l'ID
@@ -104,6 +106,12 @@ class Product {
         return $this->file;
     }
 
+    /**
+     * @return float
+     */
+    public function get_discounted_price(): float {
+        return $this->discounted_price;
+    }
 
     /**
      * Se charge d'hydrater l'objet, c'est-à-dire que l'on prend les données de la base de données et qu'on les met dans les attributs de l'objet
@@ -131,6 +139,7 @@ class Product {
             $this->number_in_inventory = $result_view->quantity;
             $this->discount_rate = $result_view->discount_rate;
             $this->file = $result_table->file_name;
+            $this->discounted_price = $this->price * (1-($this->discount_rate/100));
             return true;
         }
     }
