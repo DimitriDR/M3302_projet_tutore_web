@@ -18,7 +18,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     <!-- Pour adapter le site au mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS de Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="/views/assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/views/assets/scss/bootstrap.css">
     <!-- CSS personnalisée -->
     <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
 </head>
@@ -27,10 +27,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
     <div class="container-md">
         <!-- Logo -->
-        <a class="navbar-brand" href="/">
-                Wonka Productions
-<!--           <img src="" alt="Logo" height="30" width="17" class="d-inline-block">-->
-        </a>
+        <a class="navbar-brand" href="/">Wonka Productions</a>
 
         <!-- Le bouton pour activer le menu sur mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbar" aria-controls="topbar" aria-expanded="false" aria-label="Afficher le menu">
@@ -74,4 +71,3 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     </div>
 </nav>
 <?php require_once "common_header.php"; ?>
-<!-- <?php // echo "<pre>"; print_r(unserialize($_SESSION["user_information"])); echo "</pre>"; ?> -->

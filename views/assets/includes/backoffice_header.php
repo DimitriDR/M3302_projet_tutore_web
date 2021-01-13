@@ -21,7 +21,7 @@ require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
     <!-- Titre de la page -->
     <title>Charles Productions — Administration — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
     <!-- CSS de Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="/views/assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/views/assets/scss/bootstrap.css">
     <!-- CSS personnalisée -->
     <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
 </head>
