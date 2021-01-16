@@ -22,7 +22,7 @@ require_once dirname(dirname(dirname(__DIR__))) ."/models/user.php";
     <!-- CSS personnalisée -->
     <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
 </head>
-<body class="bg-light">
+<body class="bg-light pb-5">
 <!-- Barre de navigation -->
 <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
     <div class="container-md">

@@ -1,12 +1,13 @@
 <?php
 /**
- * @var Search $search L'objet Search
+ * @var Search $search L'objet Search instancié
  */
+
 require_once dirname(__DIR__) . "/controllers/search.php";
 require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 ?>
 <main class="container">
-<h1 class="display-3 text-center my-5">Recherche de « <?= trim(htmlspecialchars($_GET["search"])) ?> »</h1>
+<h1 class="display-3 text-center my-5">Recherche de « <?= trim(htmlspecialchars($_GET["q"])) ?> »</h1>
 <?php if(empty($search->get_results())): ?>
     <div class="alert alert-warning text-center">Aucun résultat n'a été trouvé pour votre recherche.</div>
 <?php else: ?>

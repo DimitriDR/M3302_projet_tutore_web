@@ -1,4 +1,7 @@
 <?php
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
 require_once dirname(__DIR__) . "/models/user.php";
 
 // On vérifie que le paramètre du token soit bien présent

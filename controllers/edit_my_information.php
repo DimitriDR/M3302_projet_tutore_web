@@ -1,8 +1,6 @@
 <?php
-// On vérifie qu'une session soit ouverte
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
 
 if(empty($_SESSION["user_information"])) {
     $_SESSION["flash"]["warning"] = "Vous devez être connecté pour accéder à cette page.";
@@ -98,7 +96,7 @@ if (isset($_POST["submit"])) {
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: " . $_SERVER["HTTP_REFERER"]);
+        header("location: " . $GLOBALS["forwarding"]);
         exit;
     }
 }

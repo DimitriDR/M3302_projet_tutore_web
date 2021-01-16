@@ -1,4 +1,7 @@
 <?php
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
 // Fichiers nécessaires
 require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
 require_once dirname(__DIR__) . "/controllers/common.start.session.php";

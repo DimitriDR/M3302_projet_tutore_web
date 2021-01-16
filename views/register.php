@@ -1,4 +1,8 @@
 <?php
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
+
 $page_title = "Inscription";
 
 require_once dirname(__DIR__) . "/controllers/register.php";
@@ -7,7 +11,6 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 <main class="container">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h1 class="card-title">Inscription chez Willy</h1>
             <h1 class="card-title">Inscription chez Willy</h1>
             <p>Vous avez déjà un compte ? <a href="login">Connectez-vous</a>.</p>
             <form method="POST" action="/controllers/register.php" class="row g-3">

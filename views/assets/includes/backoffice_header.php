@@ -3,6 +3,7 @@
 ob_start();
 
 require_once dirname(dirname(dirname(__DIR__))) . "/controllers/common.start.session.php";
+require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
 
 // Accès uniqueent aux administrateurs connectés
 if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
@@ -10,8 +11,6 @@ if(!isset($_SESSION["administrator"]) || !$_SESSION["administrator"]) {
     header("Location: ../");
     exit;
 }
-
-require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,25 +18,23 @@ require_once dirname(dirname(dirname(__DIR__))) . "/models/user.php";
     <!-- Encodage en UTF-8 pour éviter les problèmes d'accents -->
     <meta charset="UTF-8">
     <!-- Titre de la page -->
-    <title>Charles Productions — Administration — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
+    <title>Wonka Productions — Administration — <?= isset($page_title) ? htmlspecialchars(trim($page_title)) : "Page sans nom" ?></title>
+    <!-- Pour adapter le site au mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS de Bootstrap -->
     <link rel="stylesheet" type="text/css" href="/views/assets/scss/bootstrap.css">
     <!-- CSS personnalisée -->
     <link rel="stylesheet" type="text/css" href="/views/assets/css/common.css">
 </head>
-<body class="bg-light">
+<body class="bg-light pb-5">
 <!-- Barre de navigation -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container-md">
         <!-- Logo -->
-        <a class="navbar-brand" href="/">
-            Administration
-            <!-- test <img src="" alt="Logo" height="30" width="17" class="d-inline-block"> -->
-        </a>
+        <a class="navbar-brand" href="/backoffice_index">Administration</a>
 
         <!-- Le bouton pour activer le menu sur mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExampleDefault" aria-controls="topbar"
-                aria-expanded="false" aria-label="Afficher le menu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbar" aria-controls="topbar" aria-expanded="false" aria-label="Afficher le menu">
             <span class="navbar-toggler-icon"></span>
         </button>
 

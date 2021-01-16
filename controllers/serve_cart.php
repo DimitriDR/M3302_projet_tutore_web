@@ -1,7 +1,8 @@
 <?php
-require_once "common.start.session.php";
-
-// Fichiers nécessaires
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
 require_once dirname(__DIR__) . "/models/cart.php";
 require_once dirname(__DIR__) . "/models/user.php";
 
@@ -18,10 +19,8 @@ if(!isset($_SESSION["cart"]) || empty($_SESSION["cart"])) {
     header("Location: /");
     exit();
 }
-
 unset($_SESSION["cart"]);
 $_SESSION["cart"] = serialize(new Cart());
 
 $_SESSION["flash"]["success"] = "Le panier a bien été vidé.";
 header("Location: /");
-exit;

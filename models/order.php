@@ -175,13 +175,18 @@ class Order {
         $database_link->make_query("UPDATE orders SET status = ? WHERE id_order = ?", [$status ,$this->id_order]);
     }
 
-    public function remove_inventory() {
+    /**
+     * Méthode permettant de supprimer une quantité de produit lors de la confirmation d'une commande.
+     */
+    public function remove_inventory() : void {
         $database_link = new DatabaseLink();
-        $query = $database_link->make_query("SELECT id_product, quantity FROM products_orders WHERE id_order = ?", [$this->id_order]);
+
+        $query = $database_link->make_query("SELECT `id_product`, `quantity` FROM `products_orders` WHERE `id_order` = ?", [$this->id_order]);
         $fetch = $query->fetchAll();
 
         foreach ($fetch as $row) {
             $product = new Product();
+
             $product->hydrate($row->id_product);
             $product->remove_quantity_from_inventory($row->quantity);
         }

@@ -1,7 +1,7 @@
 <?php
-require_once "common.start.session.php";
-require_once "common.forwarding.php";
 require_once dirname(__DIR__) . "/models/product.php";
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
 
 /***********************************/
 /**** Soumissions du formulaire ****/
@@ -135,10 +135,7 @@ if (isset($_POST["submit"])) {
         // On créé un nouveau produit afin d'utiliser la méthode d'ajout intégrée
         $product = new Product();
 
-        $product_id = $product->change($label, $type, $season, $classification, $description, $price, $unit, $image);
-
-        // On peut mettre l'image sur le serveur
-        move_uploaded_file($_FILES["image"]["tmp_name"], dirname(__DIR__) . "/views/assets/images/products/" . strtolower($label) . $file_extension);
+        $product_id = $product->add($label, $type, $season, $classification, $description, $price, $unit, $image);
 
         // On finalise
         $_SESSION["flash"]["success"] = "Le produit a été ajouté avec succès. <strong>Néanmoins, il faut aller sur <a href='../backoffice_edit_product_inventory?id=" . $product_id . "'>cette page</a> pour saisir le stock, sans quoi, votre produit sera caché.</strong>";

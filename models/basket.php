@@ -63,20 +63,21 @@ class Basket {
      */
     public function initialization() : bool {
         $database_link = new DatabaseLink();
-        
+
         // On récupère toutes les informations sur le panier
-        $query_basket_info = $database_link->make_query("SELECT * FROM baskets ORDER BY id_basket DESC LIMIT 1");
+        $query_basket_info = $database_link->make_query("SELECT * FROM `baskets` ORDER BY `id_basket` DESC LIMIT 1");
 
         // Si on n'y arrive pas, on renvoie faux
-        if(!$query_basket_info) {
+        if ($database_link->number_of_returned_rows($query_basket_info) <= 0) {
             return false;
         }
+
 
         $fetch_basket_info = $query_basket_info->fetchObject();
 
         $this->id_basket = $fetch_basket_info->id_basket;
         $this->price = $fetch_basket_info->price;
-        
+
         // Il ne manque plus qu'à rajouter les produits inclus
         $query_products = $database_link->make_query("SELECT id_product, quantity FROM products_basket WHERE id_basket = ?", [$this->id_basket]);
         $fetch_products = $query_products->fetchAll();

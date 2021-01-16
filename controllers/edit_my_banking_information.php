@@ -1,10 +1,12 @@
 <?php
-require_once "common.start.session.php";
-
-// Fichiers nécessaires
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
 require_once dirname(__DIR__) . "/models/user.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
 
-// Traitement du formulaire d'inscription
+// Traitement du formulaire d'édition des informations bancaires
 if (isset($_POST["submit"])) {
     // On initialise un tableau contenant les erreurs
     $errors = array();
@@ -45,8 +47,6 @@ if (isset($_POST["submit"])) {
 
     // Si le tableau des erreurs est vide, alors on peut commencer l'insertion
     if (empty($errors)) {
-        require_once "../models/user.php";
-
         // La valeur du CCV dépend s'il est déjà stocké en BDD (donc dans la session)
         if(!empty(unserialize($_SESSION["user_information"])->get_credit_card_security_number()) && empty($credit_card_security_number)) {
             $credit_card_security_number = unserialize($_SESSION["user_information"])->get_credit_card_security_number();
@@ -71,7 +71,7 @@ if (isset($_POST["submit"])) {
         exit;
     } else {
         $_SESSION["flash"]["danger"] = $errors;
-        header("location: " . $_SERVER["HTTP_REFERER"]);
+        header("location: " . $GLOBALS["forwarding"]);
         exit;
     }
 }

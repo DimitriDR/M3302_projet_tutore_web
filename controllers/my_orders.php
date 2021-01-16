@@ -1,7 +1,5 @@
 <?php
-require_once "common.start.session.php";
-
-// On inclut le fichier contenant le modèle du produit
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
 require_once dirname(__DIR__) . "/models/order.php";
 
 function are_orders() : bool {

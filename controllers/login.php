@@ -1,19 +1,22 @@
 <?php
-require_once "common.start.session.php";
-require_once "common.forwarding.php";
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
 
-// Fichiers nécessaires
-require_once dirname(__DIR__) ."/models/cart.php";
-require_once dirname(__DIR__) ."/models/databaselink.php";
-require_once dirname(__DIR__) ."/models/user.php";
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
+require_once dirname(__DIR__) . "/models/cart.php";
+require_once dirname(__DIR__) . "/models/databaselink.php";
+require_once dirname(__DIR__) . "/models/user.php";
 
+// Si on a déjà une session utilisateur, on redirige
 if(!empty($_SESSION["user_information"])) {
     $_SESSION["flash"]["info"] = "Vous êtes déjà connecté";
     header("Location: /");
     exit;
 }
 
-// Traitement du formulaire d'inscription
+// Traitement du formulaire de connexion
 if (isset($_POST["submit"])) {
     // On initialise un tableau contenant les erreurs
     $errors = array();

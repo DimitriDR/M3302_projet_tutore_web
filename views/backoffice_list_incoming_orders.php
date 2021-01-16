@@ -1,6 +1,7 @@
 <?php
 /**
  * @var array $fetch Tableau contenant les résultats de la requête pour récupérer l'ensemble des commandes
+ * @version 1.0 Reviewed and compliant file
  */
 require_once dirname(__DIR__) . "/controllers/backoffice_list_incoming_orders.php";
 require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";

@@ -2,7 +2,9 @@
 /**
  * @var array $fetch Les résultats de la requête effectuée sur le contrôleur
  * @var string $page_title Le titre de la page
+ * @version 1.0 Reviewed and compliant file
  */
+
 $page_title = "Production locale et de saison";
 require_once dirname(__DIR__) . "/controllers/index.php";
 require_once dirname(__DIR__) . "/views/assets/includes/header.php";
@@ -13,11 +15,8 @@ require_once dirname(__DIR__) . "/models/product.php";
         <form method="GET" action="/search" class="w-75">
             <div class="input-group input-group-lg">
                 <span class="input-group-text"><i class="fad fa-search fs-xs"></i></span>
-                <label for="search"></label>
-                <input type="search" id="search" name="search" class="form-control shadow-sm rounded-end" list="data_list_options" placeholder="Rechercher un fruit, un légume, ..." autofocus>
-                <datalist id="data_list_options">
-                    <option value="Carottes">
-                </datalist>
+                <label for="q"></label>
+                <input type="search" id="q" name="q" class="form-control shadow-sm rounded-end" placeholder="Rechercher un fruit, un légume, ..." autofocus>
             </div>
         </form>
     </section>
@@ -26,7 +25,6 @@ require_once dirname(__DIR__) . "/models/product.php";
         <h1 class="text-center display-4 my-4">Produits proposés</h1>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
             <?php
             foreach ($fetch as $row):
             $product = new Product();
@@ -51,8 +49,8 @@ require_once dirname(__DIR__) . "/models/product.php";
         <div class="container d-flex flex-column align-items-center justify-content-around">
             <h1 class="display-4 my-4">Votre panier hebdomadaire</h1>
             <h2 class="py-4">Livré chez vous, sans frais.</h2>
-            <h4 class="py-2">Profitez d'un panier composé par Willy Wonka, avec des produits garantis pendant une période donnée !</h4>
-            <h2 class="py-4">Produits de qualité à prix abordable</h2>
+            <h4 class="py-2">Profitez d'un panier fait par Willy Wonka, récemment reconverti, avec des produits de saison !</h4>
+            <h2 class="py-4">Produits de qualité à prix abordable !</h2>
             <a href="/basket" class="btn btn-lg btn-primary">Découvrir le panier du moment</a>
         </div>
     </section>

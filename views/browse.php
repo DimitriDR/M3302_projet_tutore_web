@@ -6,7 +6,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
 <main class="container">
     <h1 class="text-center display-5 mb-5">Liste de nos produits</h1>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3">
         <?php
         if (!empty($products)):
             foreach ($products as $product_row):
@@ -20,7 +20,7 @@ require_once dirname(__DIR__) . "/views/assets/includes/header.php";
                             <h5 class="card-title"><?= htmlspecialchars($product->get_label()) ?></h5>
                             <p class="text-muted card-text"><?= substr(htmlspecialchars($product->get_description()), 0, 100) ?>...</p>
                             <a href="/controllers/add_product_to_cart.php?id=<?= $product->get_id_product() ?>" class="btn btn-primary"> Ajouter au panier</a>
-                            <a href="/product/<?= $product->get_id_product() ?>" class="btn btn-outline-primary"> Voir le détail</a>
+                            <a href="/product/<?= $product->get_id_product() ?>" class="btn btn-outline-primary"> Voir les détails</a>
                         </div>
                     </div>
                 </div>

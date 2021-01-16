@@ -4,6 +4,7 @@
  */
 require_once dirname(__DIR__) . "/controllers/backoffice_list_orders.php";
 require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
+require_once dirname(__DIR__) . "/models/order.php";
 ?>
 <main class="container">
     <div class="card shadow-sm p-2">
@@ -22,12 +23,14 @@ require_once dirname(__DIR__) . "/views/assets/includes/backoffice_header.php";
                 <tbody>
                 <?php
                 foreach ($fetch as $result):
+                $order = new Order();
+                $order->hydrate($result->id_order);
                 ?>
                     <tr>
                         <td><strong><?= htmlspecialchars($result->last_name) ?></strong> <?= htmlspecialchars($result->first_name) ?></td>
                         <td><?= htmlspecialchars($result->street_name) ?>, <?= htmlspecialchars($result->city) ?></td>
-                        <td><?= htmlspecialchars($result->date) ?></td>
-                        <td><?= htmlspecialchars($result->status) ?></td>
+                        <td><?= htmlspecialchars($order->get_date()) ?></td>
+                        <td><?= htmlspecialchars($order->get_status()) ?></td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a href="backoffice_see_order?id=<?= intval($result->id_order) ?>" class="btn btn-primary">Voir en détails</a>

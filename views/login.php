@@ -1,4 +1,7 @@
 <?php
+/**
+ * @version 1.0 Reviewed and compliant file
+ */
 $page_title = "Connexion";
 
 require_once dirname(__DIR__) . "/controllers/login.php";

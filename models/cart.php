@@ -1,32 +1,30 @@
 <?php
-
+/**
+ * Class Cart modélise un panier
+ * @version 1.0 Reviewed and compliant file.
+ */
 class Cart {
+    /* Attributs */
+    /** @var array Tableau contenant les produits */
     private array $items = array();
-    private int $number_of_items;
 
     /** @var float Les frais d'une commande représente sont de 24,75% de son total */
     private const SHIPPING_PERCENTAGE = 24.75;
+
     /** @var int Taux de TVA, pour l'alimentaire, il est de 10% */
     private const VAT_PERCENTAGE = 10;
 
-    /**
-     * Constructeur de Cart
-     * Initialise simplement le nombre d'articles à zéro
-     */
-    public function __construct() {
-        $this->number_of_items = count($this->items);
-    }
-
+    /* Méthodes */
     /**
      * Méthode pour ajouter des produits au panier
      * @param Product $product Le produit à ajouter
-     * @param int $quantity
+     * @param int $quantity La quantité du produit à ajouter dans le panier
      */
     public function add_item(Product $product, int $quantity) : void {
         $serialized_product = serialize($product);
 
         // Si la quantité est négative, nulle, ou non renseignée, on ajoute 1 produit, sinon, le nombre désiré
-        if($quantity <= 0 || empty($quantity)) {
+        if ($quantity <= 0 || empty($quantity)) {
             $quantity = 1;
         }
 
@@ -34,18 +32,16 @@ class Cart {
         if (array_key_exists($serialized_product, $this->items)) {
             // Si c'est le cas, on va incrémenter la valeur du produit
             // Mais il faut d'abord récupérer la valeur correspondant à la bonne clé
-            $this->items[$serialized_product] = $this->items[$serialized_product]+$quantity;
+            $this->items[$serialized_product] = $this->items[$serialized_product] + $quantity;
         } else {
             // Si ce n'est pas le cas, on va le mettre dans un tableau associatif et mettre une valeur correspondant à son occurence dans le panier
             $this->items[$serialized_product] = $quantity;
         }
-        // Dans tous les cas, on incrémente de $quantity
-        $this->number_of_items += $quantity;
     }
 
     /**
-     * Méthode permettant de renvoyer le nombre d'items contenus dans le panier
-     * @return int Le nombre d'items dans le panier
+     * Méthode permettant de récupérer le nombre d'articles contenus dans le panier
+     * @return int Le nombre d'articles dans le panier
      */
     public function get_number_of_items() : int {
         return count($this->items);
@@ -53,7 +49,7 @@ class Cart {
 
     /**
      * Récupère le tableau contenant les produits dans le panier
-     * @return array Le tableau en question
+     * @return array Le tableau contenant les produits
      */
     public function get_items() : array {
         return $this->items;
@@ -68,37 +64,33 @@ class Cart {
         $database_link = new DatabaseLink();
 
         foreach (unserialize($cart)->get_items() as $item => $quantity) {
-           $database_link->make_query("INSERT INTO `products_orders` (id_product, id_order, quantity) VALUES (?, ?, ?)", [unserialize($item)->get_id_product(), $last_id_order, $quantity]);
+           $database_link->make_query("INSERT INTO `products_orders` (`id_product`, `id_order`, `quantity`) VALUES (?, ?, ?)", [unserialize($item)->get_id_product(), $last_id_order, $quantity]);
         }
     }
 
     /**
      * Méthode permettant de calculer le prix total d'un panier
-     * @return float Le prix total des produits
+     * @return float Le prix total des produits, arrondi au dixième
      */
-    public function get_all_article_cost() : float {
+    public function get_total_cost_of_items() : float {
         // On déclare la variable qui contiendra la somme totale
         $total = 0;
 
         // On parcourt tous les articles ainsi que leur prix
         foreach ($this->items as $item => $quantity) {
-            //if($item instanceof Product) {
                 $total += unserialize($item)->get_discounted_price() * $quantity;
-           // } else if($item instanceof Basket) {
-             //   $total += unserialize($item)->get_price();
-           // }
         }
 
-        return $total;
+        return round($total, 2);
     }
 
     /**
-     * Méthode permettant d'obtenir le coût de la livraison, si elle est inférieure à 29 euros
+     * Méthode permettant d'obtenir le coût de la livraison, si elle est inférieure à 29 euros, c'est payant, sinon c'est gratuit
      * @return float Le coût de livraison
      */
     public function get_delivery_fees() : float {
-        if($this->get_all_article_cost() < 29.0) {
-            return round($this->get_all_article_cost() * (Cart::SHIPPING_PERCENTAGE/100), 2);
+        if($this->get_total_cost_of_items() < 29) {
+            return round($this->get_total_cost_of_items() * (Cart::SHIPPING_PERCENTAGE/100), 2);
         } else {
             return 0;
         }
@@ -110,7 +102,7 @@ class Cart {
      * @return float TVA applicable sur une commande.
      */
     public function get_vat() : float {
-        return round($this->get_all_article_cost() * (Cart::VAT_PERCENTAGE/100), 2) + (round($this->get_delivery_fees() * (Cart::VAT_PERCENTAGE/100), 2));
+        return round($this->get_total_cost_of_items() * (Cart::VAT_PERCENTAGE/100), 2) + (round($this->get_delivery_fees() * (Cart::VAT_PERCENTAGE/100), 2));
     }
 
     /**
@@ -121,14 +113,24 @@ class Cart {
     public function get_final_amount() : float {
         $amount = 0;
 
-        $amount += $this->get_all_article_cost();
+        $amount += $this->get_total_cost_of_items();
         $amount += $this->get_delivery_fees();
         $amount += $this->get_vat();
 
         return $amount;
     }
 
-    public function enough_supply() {
+    /**
+     * Méthode qui vérifie s'il y a assez de stock pour les produits souhaités
+     * @return bool Vrai : le panier peut être confirmé car il y a assez de stock, faux : un article manque.
+     */
+    public function enough_supply() : bool {
+        foreach ($this->items as $item => $quantity) {
+            if(unserialize($item)->get_number_in_inventory() <= 0) {
+                return false;
+            }
+        }
+
         return true;
     }
 

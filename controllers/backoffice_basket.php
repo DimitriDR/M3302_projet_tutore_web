@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . "/models/databaselink.php";
 /* Récupération de tous les produits que l'on peut ajouter */
 /***********************************************************/
 $database_link = new DatabaseLink();
-$query = $database_link->make_query("SELECT id_product FROM products");
+$query = $database_link->make_query("SELECT `id_product` FROM `products`");
 $fetch = $query->fetchAll();
 
 /****************************/
@@ -37,7 +37,7 @@ if(isset($_POST["submit"])) {
         $basket = new Basket();
         $basket->create($price, $products);
         
-        $_SESSION["flash"]["success"] = "Le panier a bien été créé";
+        $_SESSION["flash"]["success"] = "Le panier a bien été créé.";
         header("Location: ../backoffice_index");
         exit;
     } else {

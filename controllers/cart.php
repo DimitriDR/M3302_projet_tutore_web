@@ -79,14 +79,11 @@ if (isset($_POST["submit"])) {
     // On vérifie qu'il soit possible d'enregistrer une nouvelle commande.
     // C'est impossible si une commande est en attente avec le même numéro utilisateur
     if (!$order->is_possible($user->get_id_user())) {
-        $errors["unconfirmed_order_exists"] = "Il semblerait que vous ayez déjà une commande encore non validée par le producteur.";
+        $errors["unconfirmed_order_exists"] = "Il semblerait que vous ayez déjà une commande encore non validée par le producteur";
     }
 
-    // Une fois cette étape passée, on peut créer un nouvel objet Cart
-    $cart = new Cart();
-
     // On doit vérifier s'il y a assez de stock
-    if(!$cart->enough_supply()) {
+    if(!unserialize($_SESSION["cart"])->enough_supply()) {
         $errors["not_enough"] = "Il semblerait que l'un des articles que vous souhaitez n'ait pas assez de stock. Veuillez ajuster la quantité.";
     }
 
@@ -94,6 +91,9 @@ if (isset($_POST["submit"])) {
     if(empty($errors)) {
         // On enregistre la commande avec l'ID de l'utilisateur donné et en retour, cela nous donne l'ID de la commande qui vient d'être inséré
         $last_id_order = $order->register($user->get_id_user(), unserialize($_SESSION["cart"])->get_final_amount());
+
+        // Une fois cette étape passée, on peut créer un nouvel objet Cart
+        $cart = new Cart();
 
         // On enregistre tous les produits
         $cart->save_products_in_DB($_SESSION["cart"], $last_id_order);

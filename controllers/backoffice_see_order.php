@@ -2,15 +2,12 @@
 /**
  * Ce fichier permet de récupérer les informations nécessaires pour afficher le commande en détails.
  * @param string ID d'une commande donné grâce à la méthode GET
+ * @version 1.0 Reviewed and compliant file
  */
 
-// Démarrage de la session si ce n'est pas déjà fait
-require_once "common.start.session.php";
-// Pour rediriger proprement
-require_once "common.forwarding.php";
-
-// Fichiers nécessaires
 require_once dirname(__DIR__) . "/models/databaselink.php";
+require_once dirname(__DIR__) . "/controllers/common.forwarding.php";
+require_once dirname(__DIR__) . "/controllers/common.start.session.php";
 require_once dirname(__DIR__) . "/models/order.php";
 require_once dirname(__DIR__) . "/models/user.php";
 
@@ -31,12 +28,12 @@ if(!$has_successfully_hydrate) {
 }
 
 $database_link = new DatabaseLink();
-$customer_query = $database_link->make_query("SELECT `email_address` FROM users WHERE id_user = ?", [$order->get_id_user()]);
+$customer_query = $database_link->make_query("SELECT `email_address` FROM `users` WHERE `id_user` = ?", [$order->get_id_user()]);
 
 // On récupère indirectement tout ce qui concerne l'utilisateur
 $customer = new User();
 $customer->login($customer_query->fetchColumn());
 
 // On récupère aussi les produits dans la commande
-$product_query = $database_link->make_query("SELECT `id_product`, `quantity` FROM products_orders WHERE id_order = ?", [$_GET["id"]]);
+$product_query = $database_link->make_query("SELECT `id_product`, `quantity` FROM `products_orders` WHERE `id_order` = ?", [$_GET["id"]]);
 $all_products = $product_query->fetchAll();
